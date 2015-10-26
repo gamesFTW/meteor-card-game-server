@@ -1,23 +1,23 @@
+Units = new Mongo.Collection("units");
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+    Units.find().observe({
+        added: function (unit) {
+            //console.log('added', unit);
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+            //console.log(main);
+            //addUnit(unit.number, unit.x, unit.y, unit._id);
+        },
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
+        changed: function (newUnit, oldUnit) {
+            //console.log('new ', newUnit);
+            //console.log('old ', oldUnit);
+            //units.forEach(function (u) {
+            //  if (u.userData._id == newUnit._id) {
+            //    u.x = newUnit.x;
+            //    u.y = newUnit.y;
+            //  }
+            //});
+        }
+    });
 }
