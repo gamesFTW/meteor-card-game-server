@@ -1,6 +1,8 @@
 .idea/*
 public/
 .DS_Store
+.idea
+.idea/jsLibraryMappings.xml
 
 .meteor/local
 .meteor/meteorite
