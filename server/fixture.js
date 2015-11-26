@@ -1,7 +1,7 @@
-var Creature = MeteorApp.lib.field.creature.CreatureCollection;
+var Card = MeteorApp.Card;
 
-if (Creature.find().count() == 0) {
-    Creature.insert({x: 0, y: 0});
-    Creature.insert({x: 0, y: 1});
-    Creature.insert({x: 0, y: 2});
+if (Card.find().count() == 0) {
+    Card.insert({x: 0, y: 0});
+    Card.insert({x: 0, y: 1});
+    Card.insert({x: 0, y: 2});
 }
