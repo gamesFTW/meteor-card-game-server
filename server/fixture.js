@@ -12,7 +12,8 @@ if (Card.find().count() == 0) {
             health: _.sample([1, 3, 4]),
             img: [1, 2, 3].map(i => 'card/orc' + i),
             cardGroup: _.sample(['hand', 'deck', 'table']),
-            ownerId: '1'
+            ownerId: '1',
+            isTapped: false
         };
 
         Card.insert(data);
@@ -28,7 +29,8 @@ if (Card.find().count() == 0) {
             health: _.sample([1, 3, 4]),
             img: [1, 2, 3].map(i => 'card/orc' + i),
             cardGroup: 'table',
-            ownerId: '1'
+            ownerId: '1',
+            isTapped: false
     };
 
     Card.insert(data);
