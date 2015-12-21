@@ -1,7 +1,7 @@
 var Card = MeteorApp.Card;
 
 if (Card.find().count() == 0) {
-    for(var i = 0; i < 6; i++) {
+    for(var i = 0; i < 35; i++) {
         var data = {
             title: _.sample(['Жирный орк', 'Тонкий орк', 'Средний орк']),
             type: 'creature',
@@ -12,7 +12,7 @@ if (Card.find().count() == 0) {
             health: _.sample([1, 3, 4]),
             img: [1, 2, 3].map(i => 'card/orc' + i),
             cardGroup: _.sample(['hand', 'deck', 'table']),
-            ownerId: '1',
+            ownerId: _.sample(['1', '2']),
             isTapped: false
         };
 
