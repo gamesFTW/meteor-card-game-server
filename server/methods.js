@@ -1,3 +1,6 @@
+var red = '0xffaaaa';
+var blue = '0xaaaaff';
+
 Meteor.methods({
     dropBase: function() {
         MeteorApp.Card.remove({});
@@ -10,26 +13,30 @@ Meteor.methods({
         for (var i = 0; i < 8; i++) {
             Meteor.call('createCard', {
                 ownerId: '1',
-                cardGroup: 'hand'
+                cardGroup: 'hand',
+                color: red
             });
         }
         for (i = 0; i < 8; i++) {
             Meteor.call('createCard', {
                 ownerId: '2',
-                cardGroup: 'hand'
+                cardGroup: 'hand',
+                color: blue
             });
         }
         //decks
         for (i = 0; i < 5; i++) {
             Meteor.call('createCard', {
                 ownerId: '1',
-                cardGroup: 'deck'
+                cardGroup: 'deck',
+                color: red
             });
         }
         for (i = 0; i < 5; i++) {
             Meteor.call('createCard', {
                 ownerId: '2',
-                cardGroup: 'deck'
+                cardGroup: 'deck',
+                color: blue
             });
         }
     },
@@ -45,7 +52,8 @@ Meteor.methods({
             img: [1, 2, 3].map(i => 'card/orc' + i),
             cardGroup: _.sample(['hand', 'deck', 'table']),
             ownerId: _.sample(['1', '2']),
-            isTapped: false
+            isTapped: false,
+            color: _.sample([red, blue])
         });
 
         MeteorApp.Card.insert(data);
