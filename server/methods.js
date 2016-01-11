@@ -7,13 +7,13 @@ Meteor.methods({
         Meteor.call('dropBase');
 
         //hands
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 8; i++) {
             Meteor.call('createCard', {
                 ownerId: '1',
                 cardGroup: 'hand'
             });
         }
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 8; i++) {
             Meteor.call('createCard', {
                 ownerId: '2',
                 cardGroup: 'hand'
