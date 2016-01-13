@@ -1,5 +1,5 @@
-var red = '0xffaaaa';
-var blue = '0xaaaaff';
+var red = '0xff0000';
+var blue = '0x0000ff';
 
 Meteor.methods({
     dropBase: function() {
