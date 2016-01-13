@@ -41,6 +41,8 @@ Meteor.methods({
         }
     },
     createCard: function(params) {
+        var hp = _.sample([1, 3, 4]);
+
         var data = _.defaults(params, {
             title: _.sample(['Жирный орк', 'Тонкий орк', 'Средний орк']),
             type: 'creature',
@@ -48,7 +50,8 @@ Meteor.methods({
             x: _.sample([1, 2, 3]),
             y: _.sample([1, 2, 3]),
             dmg: _.sample([1, 2, 3]),
-            health: _.sample([1, 3, 4]),
+            health: hp,
+            maxHealth: hp,
             img: [1, 2, 3].map(i => 'card/orc' + i),
             cardGroup: _.sample(['hand', 'deck', 'table']),
             ownerId: _.sample(['1', '2']),
