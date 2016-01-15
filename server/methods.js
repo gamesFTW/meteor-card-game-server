@@ -6,6 +6,8 @@ Meteor.methods({
         MeteorApp.Card.remove({});
         MeteorApp.Action.remove({});
     },
+
+
     load: function() {
         Meteor.call('dropBase');
 
@@ -39,7 +41,24 @@ Meteor.methods({
                 color: blue
             });
         }
+        //mana
+        for (i = 0; i < 1; i++) {
+            Meteor.call('createCard', {
+                ownerId: '1',
+                cardGroup: 'manaPool',
+                color: blue
+            });
+        }
+        for (i = 0; i < 1; i++) {
+            Meteor.call('createCard', {
+                ownerId: '2',
+                cardGroup: 'manaPool',
+                color: red
+            });
+        }
     },
+
+
     createCard: function(params) {
         var hp = _.sample([1, 3, 4]);
 
