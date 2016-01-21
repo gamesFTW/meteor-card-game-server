@@ -1,5 +1,7 @@
-var red = '0xff0000';
-var blue = '0x0000ff';
+var red = '0xff8888';
+var blue = '0x8888ff';
+
+
 
 Meteor.methods({
     dropBase: function() {
@@ -71,7 +73,7 @@ Meteor.methods({
             dmg: _.sample([1, 2, 3]),
             health: hp,
             maxHealth: hp,
-            img: [1, 2, 3].map(i => 'card/orc' + i),
+            imageName: _.sample(MeteorApp.imageFileNames),
             cardGroup: _.sample(['hand', 'deck', 'table']),
             ownerId: _.sample(['1', '2']),
             isTapped: false,
