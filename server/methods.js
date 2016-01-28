@@ -67,10 +67,11 @@ Meteor.methods({
         var data = _.defaults(params, {
             title: _.sample(['Жирный орк', 'Тонкий орк', 'Средний орк']),
             type: 'creature',
-            text: 'Любит есть',
+            text: 'Любит есть и танцы. А еще футбол.\nА еще он любит заниматся спортом.',
             x: _.sample([1, 2, 3]),
             y: _.sample([1, 2, 3]),
             dmg: _.sample([1, 2, 3]),
+            mana: _.sample([1, 2, 3]),
             health: hp,
             maxHealth: hp,
             imageName: _.sample(MeteorApp.imageFileNames),
