@@ -29,14 +29,14 @@ Meteor.methods({
             });
         }
         //decks
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 40; i++) {
             Meteor.call('createCard', {
                 ownerId: '1',
                 cardGroup: 'deck',
                 color: red
             });
         }
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 40; i++) {
             Meteor.call('createCard', {
                 ownerId: '2',
                 cardGroup: 'deck',
