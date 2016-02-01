@@ -72,6 +72,7 @@ Meteor.methods({
             y: _.sample([1, 2, 3]),
             dmg: _.sample([1, 2, 3]),
             mana: _.sample([1, 2, 3]),
+            counter: 5,
             health: hp,
             maxHealth: hp,
             imageName: _.sample(MeteorApp.imageFileNames),
