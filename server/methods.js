@@ -14,21 +14,19 @@ Meteor.methods({
 
         function addCardsToPlayer(ownerId, color, handCards, deckCards) {
             //hand heroes
-            for (var i = 0; i < 4; i++) {
-                Meteor.call('createCardFromData', cards.heroes[i], ownerId, 'hand', color);
+            for (var i = 0; i < 3; i++) {
+                Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
             }
             //hand creatures
-            //for (i = 0; i < handCards; i++) {
-            //    Meteor.call(
-            //        'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
-            //    );
-            //}
-            //deck
-            //for (i = 0; i < deckCards; i++) {
-            for (i = 0; i < 24; i++) {
+            for (i = 0; i < handCards; i++) {
                 Meteor.call(
-                    //'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
-                    'createCardFromData', cards.creatures[i], ownerId, 'deck', color
+                    'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
+                );
+            }
+            //deck
+            for (i = 0; i < deckCards; i++) {
+                Meteor.call(
+                    'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
                 );
             }
         }
@@ -119,6 +117,7 @@ Meteor.methods({
         cardData.cardGroup = cardGroup;
         cardData.color = color;
 
+        cardData.counter = cardData.counter || 0;
         cardData.maxHealth = cardData.health;
 
         MeteorApp.Card.insert(cardData);
