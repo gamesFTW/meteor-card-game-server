@@ -2,9 +2,18 @@ cards ={};
 
 
 cards.heroes = [
+    //{
+    //    "title": "Герой воин",
+    //    "imageName": "shadow_walkerfemale",
+    //    "type": "creature - hero",
+    //    "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
+    //    "dmg": 1,
+    //    "health": 5,
+    //    "mana": 8
+    //},
     {
-        "title": "Герой воин",
-        "imageName": "shadow_walkerfemale",
+        "title": "Герой Гор",
+        "imageName": "u_gor",
         "type": "creature - hero",
         "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
         "dmg": 1,
