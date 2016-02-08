@@ -21,6 +21,15 @@ cards.heroes = [
         "mana": 8
     },
     {
+        "title": "Герой рейнджер U",
+        "imageName": "u_master_archer",
+        "type": "creature - hero",
+        "text": "Вызов 1, Дальнобойный 10, Хист, Снижение лечения 1",
+        "dmg": 1,
+        "health": 4,
+        "mana": 8
+    },
+    {
         "title": "Герой маг",
         "imageName": "witch",
         "type": "creature - hero",
