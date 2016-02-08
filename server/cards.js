@@ -12,6 +12,15 @@ cards.heroes = [
         "mana": 8
     },
     {
+        "title": "Герой кентавр",
+        "imageName": "u_kentavr",
+        "type": "creature - hero",
+        "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
+        "dmg": 1,
+        "health": 5,
+        "mana": 8
+    },
+    {
         "title": "Герой рейнджер",
         "imageName": "master_archer",
         "type": "creature - hero",
@@ -21,7 +30,7 @@ cards.heroes = [
         "mana": 8
     },
     {
-        "title": "Герой рейнджер U",
+        "title": "Герой лучник",
         "imageName": "u_master_archer",
         "type": "creature - hero",
         "text": "Вызов 1, Дальнобойный 10, Хист, Снижение лечения 1",
