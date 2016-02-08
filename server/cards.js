@@ -49,7 +49,7 @@ cards.heroes = [
     },
     {
         "title": "Герой маг",
-        "imageName": "witch",
+        "imageName": "u_mage",
         "type": "creature - hero",
         "text": "Вызов 5, Снижение лечения 1. Тап, потожите 1 каунтер, не более 2. Тап, за X манны, на расстоянии 6 нанесите X повреждений",
         "counter": 2,
@@ -57,6 +57,16 @@ cards.heroes = [
         "health": 4,
         "mana": 8
     },
+    //{
+    //    "title": "Герой маг",
+    //    "imageName": "witch",
+    //    "type": "creature - hero",
+    //    "text": "Вызов 5, Снижение лечения 1. Тап, потожите 1 каунтер, не более 2. Тап, за X манны, на расстоянии 6 нанесите X повреждений",
+    //    "counter": 2,
+    //    "dmg": 0,
+    //    "health": 4,
+    //    "mana": 8
+    //},
     {
         "title": "Герой священник",
         "imageName": "rebel",
