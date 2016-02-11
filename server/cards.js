@@ -14,7 +14,7 @@ cards.heroes = [
     {
         "title": "Герой Гор",
         "imageName": "u_gor",
-        "type": "creature - hero",
+        "type": "hero",
         "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
         "dmg": 1,
         "health": 5,
@@ -32,7 +32,7 @@ cards.heroes = [
     {
         "title": "Герой кентавр",
         "imageName": "u_kentavr",
-        "type": "creature - hero",
+        "type": "hero",
         "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
         "dmg": 1,
         "health": 5,
@@ -41,7 +41,7 @@ cards.heroes = [
     {
         "title": "Герой рейнджер",
         "imageName": "master_archer",
-        "type": "creature - hero",
+        "type": "hero",
         "text": "Вызов 1, Дальнобойный 10, Хист, Снижение лечения 1",
         "dmg": 1,
         "health": 4,
@@ -50,7 +50,7 @@ cards.heroes = [
     {
         "title": "Герой лучник",
         "imageName": "u_master_archer",
-        "type": "creature - hero",
+        "type": "hero",
         "text": "Вызов 1, Дальнобойный 10, Хист, Снижение лечения 1",
         "dmg": 1,
         "health": 4,
@@ -59,7 +59,7 @@ cards.heroes = [
     {
         "title": "Герой маг",
         "imageName": "u_mage",
-        "type": "creature - hero",
+        "type": "hero",
         "text": "Вызов 5, Снижение лечения 1. Тап, потожите 1 каунтер, не более 2. Тап, за X манны, на расстоянии 6 нанесите X повреждений",
         "counter": 2,
         "dmg": 0,
@@ -79,7 +79,7 @@ cards.heroes = [
     {
         "title": "Герой священник",
         "imageName": "rebel",
-        "type": "creature - hero",
+        "type": "hero",
         "text": "Вызов 3, Снижение лечения 1. Тап, положите 1 каунтер, не более 3. Тап, снемите X каунтеров, и восстановите X жизней у существа или существ вплотную",
         "counter": 3,
         "dmg": 1,
@@ -90,6 +90,13 @@ cards.heroes = [
 
 
 cards.creatures = [
+    {
+        "title": "Лес",
+        "type": "area",
+        "text": "Нельзя стрелять в лес и сквозь лес. Передвижение по клетке леса стоит 2 передвижения.",
+        "health": 1,
+        "mana": 1
+    },
     {
         "title": "Нищеброд",
         "imageName": "citizen",

@@ -69,51 +69,33 @@ Meteor.methods({
     gameForDev: function() {
         Meteor.call('dropBase');
 
-        //hands
-        for (var i = 0; i < 8; i++) {
-            Meteor.call('createRandomCard', {
-                ownerId: '1',
-                cardGroup: 'hand',
-                color: red
-            });
+        function addCardsToPlayer(ownerId, color, handCards, deckCards) {
+            //hand heroes
+            for (var i = 0; i < 3; i++) {
+                Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
+            }
+            //hand creatures
+            for (i = 0; i < handCards; i++) {
+                Meteor.call(
+                    'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
+                );
+            }
+            //hand areas
+            for (i = 0; i < 4; i++) {
+                Meteor.call(
+                    'createCardFromData', cards.creatures[0], ownerId, 'hand', color
+                );
+            }
+            //deck
+            for (i = 0; i < deckCards; i++) {
+                Meteor.call(
+                    'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
+                );
+            }
         }
-        for (i = 0; i < 8; i++) {
-            Meteor.call('createRandomCard', {
-                ownerId: '2',
-                cardGroup: 'hand',
-                color: blue
-            });
-        }
-        //decks
-        for (i = 0; i < 40; i++) {
-            Meteor.call('createRandomCard', {
-                ownerId: '1',
-                cardGroup: 'deck',
-                color: red
-            });
-        }
-        for (i = 0; i < 40; i++) {
-            Meteor.call('createRandomCard', {
-                ownerId: '2',
-                cardGroup: 'deck',
-                color: blue
-            });
-        }
-        //mana
-        for (i = 0; i < 1; i++) {
-            Meteor.call('createRandomCard', {
-                ownerId: '1',
-                cardGroup: 'manaPool',
-                color: blue
-            });
-        }
-        for (i = 0; i < 1; i++) {
-            Meteor.call('createRandomCard', {
-                ownerId: '2',
-                cardGroup: 'manaPool',
-                color: red
-            });
-        }
+
+        addCardsToPlayer('1', red, 8, 42);
+        addCardsToPlayer('2', blue, 10, 40);
     },
 
 
@@ -149,6 +131,7 @@ Meteor.methods({
 
         cardData.counter = cardData.counter || 0;
         cardData.maxHealth = cardData.health;
+        cardData.loadedCards = [];
 
         MeteorApp.Card.insert(cardData);
     }
