@@ -8,7 +8,22 @@ Meteor.methods({
         MeteorApp.Action.remove({});
     },
 
+    gameForTestImg: function() {
+        Meteor.call('dropBase');
+        var cardsDeal = [].concat(cards.heroes, cards.creatures);
+        _.range(24).forEach(function(x) {
+            _.range(24).forEach(function(y) {
+                var card = cardsDeal ? cardsDeal.pop() : null;
 
+                if (card) {
+                    card.x = x;
+                    card.y = y;
+                    Meteor.call('createCardFromData', card, 1, 'table', red);
+                }
+            });
+        });
+
+    },
     gameForTest: function() {
         Meteor.call('dropBase');
 
