@@ -11,8 +11,8 @@ Meteor.methods({
     gameForTestImg: function() {
         Meteor.call('dropBase');
         var cardsDeal = [].concat(cards.heroes, cards.creatures);
-        _.range(24).forEach(function(x) {
-            _.range(24).forEach(function(y) {
+        _.range(6, 15).forEach(function(x) {
+            _.range(6, 15).forEach(function(y) {
                 var card = cardsDeal ? cardsDeal.pop() : null;
 
                 if (card) {
