@@ -30,24 +30,6 @@ cards.heroes = [
         "mana": 8
     },
     {
-        "title": "Герой Лабиринта 2",
-        "imageName": "u_mino48",
-        "type": "creature - hero",
-        "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
-        "dmg": 1,
-        "health": 5,
-        "mana": 8
-    },
-    {
-        "title": "Герой Лабиринта 3",
-        "imageName": "u_mino58",
-        "type": "creature - hero",
-        "text": "Вызов 1, Первый удар, Блок щитом 1, Защитная стойка 1, Снижение лечения 1",
-        "dmg": 1,
-        "health": 5,
-        "mana": 8
-    },
-    {
         "title": "Герой кентавр",
         "imageName": "u_kentavr",
         "type": "creature - hero",
