@@ -1,5 +1,27 @@
 var red = '0xff8888';
+var yellow = '0xffff88';
 var blue = '0x8888ff';
+var green = '0x88ff88';
+
+
+function addCardsToPlayer(ownerId, color, handCards, deckCards) {
+    //hand heroes
+    for (var i = 0; i < 3; i++) {
+        Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
+    }
+    //hand creatures
+    for (i = 0; i < handCards; i++) {
+        Meteor.call(
+            'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
+        );
+    }
+    //deck
+    for (i = 0; i < deckCards; i++) {
+        Meteor.call(
+            'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
+        );
+    }
+}
 
 
 Meteor.methods({
@@ -24,30 +46,19 @@ Meteor.methods({
         });
 
     },
-    gameForTest: function() {
+    solo: function() {
         Meteor.call('dropBase');
-
-        function addCardsToPlayer(ownerId, color, handCards, deckCards) {
-            //hand heroes
-            for (var i = 0; i < 3; i++) {
-                Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
-            }
-            //hand creatures
-            for (i = 0; i < handCards; i++) {
-                Meteor.call(
-                    'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
-                );
-            }
-            //deck
-            for (i = 0; i < deckCards; i++) {
-                Meteor.call(
-                    'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
-                );
-            }
-        }
 
         addCardsToPlayer('1', red, 8, 42);
         addCardsToPlayer('2', blue, 10, 40);
+    },
+    ogre: function() {
+        Meteor.call('dropBase');
+
+        addCardsToPlayer('1', red, 8, 42);
+        addCardsToPlayer('2', blue, 10, 40);
+        addCardsToPlayer('3', yellow, 8, 42);
+        addCardsToPlayer('4', green, 10, 40);
     },
 
 

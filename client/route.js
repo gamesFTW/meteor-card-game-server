@@ -1,5 +1,4 @@
-Router.route('/game/:playerId', function () {
-    MeteorApp.data.playerId = this.params.playerId;
-
-    //this.render('index');
+Router.route('/game/:gameType/:playerId', function () {
+    MeteorApp.data.playerId = String(this.params.playerId);
+    MeteorApp.data.gameType = this.params.gameType;
 });
