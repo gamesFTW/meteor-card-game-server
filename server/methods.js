@@ -46,12 +46,16 @@ Meteor.methods({
         });
 
     },
+
+
     solo: function() {
         Meteor.call('dropBase');
 
         addCardsToPlayer('1', red, 8, 42);
         addCardsToPlayer('2', blue, 10, 40);
     },
+
+
     ogre: function() {
         Meteor.call('dropBase');
 
