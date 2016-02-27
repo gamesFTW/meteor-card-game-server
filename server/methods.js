@@ -130,7 +130,7 @@ Meteor.methods({
             imageName: _.sample(MeteorApp.imageFileNames),
             cardGroup: _.sample(['hand', 'deck', 'table']),
             ownerId: _.sample(['1', '2']),
-            isTapped: false,
+            tapped: false,
             color: _.sample([red, blue])
         });
 
