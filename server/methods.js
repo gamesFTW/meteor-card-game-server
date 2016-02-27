@@ -9,12 +9,21 @@ function addCardsToPlayer(ownerId, color, handCards, deckCards) {
     for (var i = 0; i < 3; i++) {
         Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
     }
+
     //hand creatures
     for (i = 0; i < handCards; i++) {
         Meteor.call(
             'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
         );
     }
+
+    //hand areas
+    for (i = 0; i < 4; i++) {
+        Meteor.call(
+            'createCardFromData', cards.creatures[0], ownerId, 'hand', color
+        );
+    }
+
     //deck
     for (i = 0; i < deckCards; i++) {
         Meteor.call(
@@ -66,39 +75,6 @@ Meteor.methods({
     },
 
 
-    gameForDev: function() {
-        Meteor.call('dropBase');
-
-        function addCardsToPlayer(ownerId, color, handCards, deckCards) {
-            //hand heroes
-            for (var i = 0; i < 3; i++) {
-                Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
-            }
-            //hand creatures
-            for (i = 0; i < handCards; i++) {
-                Meteor.call(
-                    'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
-                );
-            }
-            //hand areas
-            for (i = 0; i < 4; i++) {
-                Meteor.call(
-                    'createCardFromData', cards.creatures[0], ownerId, 'hand', color
-                );
-            }
-            //deck
-            for (i = 0; i < deckCards; i++) {
-                Meteor.call(
-                    'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
-                );
-            }
-        }
-
-        addCardsToPlayer('1', red, 8, 42);
-        addCardsToPlayer('2', blue, 10, 40);
-    },
-
-
     createRandomCard: function(params) {
         var hp = _.sample([1, 3, 4]);
 
@@ -131,7 +107,7 @@ Meteor.methods({
 
         cardData.counter = cardData.counter || 0;
         cardData.maxHealth = cardData.health;
-        cardData.loadedCards = [];
+        cardData.attachedCards = [];
 
         MeteorApp.Card.insert(cardData);
     }
