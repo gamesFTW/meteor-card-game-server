@@ -92,7 +92,8 @@ cards.heroes = [
 cards.creatures = [
     {
         "title": "Лес",
-        "type": "spell",
+        "type": "area",
+        "imageName": "area_forest",
         "text": "Нельзя стрелять в лес и сквозь лес. Передвижение по клетке леса стоит 2 передвижения.",
         "health": 1,
         "mana": 1

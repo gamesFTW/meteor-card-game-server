@@ -75,37 +75,13 @@ Meteor.methods({
     },
 
 
-    createRandomCard: function(params) {
-        var hp = _.sample([1, 3, 4]);
-
-        var data = _.defaults(params, {
-            title: _.sample(['Жирный орк', 'Тонкий орк', 'Средний орк']),
-            type: 'creature',
-            text: 'Любит есть и танцы. А еще футбол.\nА еще он любит заниматся спортом.',
-            x: _.sample([1, 2, 3]),
-            y: _.sample([1, 2, 3]),
-            dmg: _.sample([1, 2, 3]),
-            mana: _.sample([1, 2, 3]),
-            counter: 0,
-            health: hp,
-            maxHealth: hp,
-            imageName: _.sample(MeteorApp.imageFileNames),
-            cardGroup: _.sample(['hand', 'deck', 'table']),
-            ownerId: _.sample(['1', '2']),
-            tapped: false,
-            color: _.sample([red, blue])
-        });
-
-        MeteorApp.Card.insert(data);
-    },
-
-
     createCardFromData: function(cardData, ownerId, cardGroup, color) {
         cardData.ownerId = ownerId;
         cardData.cardGroup = cardGroup;
         cardData.color = color;
 
         cardData.counter = cardData.counter || 0;
+        cardData.attachable = _.contains(['spell', 'area'], cardData.type);
         cardData.maxHealth = cardData.health;
         cardData.attachedCards = [];
 
