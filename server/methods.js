@@ -84,6 +84,7 @@ Meteor.methods({
         cardData.attachable = _.contains(['spell', 'area'], cardData.type);
         cardData.maxHealth = cardData.health;
         cardData.attachedCards = [];
+        cardData.rotated = false;
 
         MeteorApp.Card.insert(cardData);
     }
