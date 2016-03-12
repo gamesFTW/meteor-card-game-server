@@ -10,24 +10,23 @@ function addCardsToPlayer(ownerId, color, handCards, deckCards) {
         Meteor.call('createCardFromData', _.sample(cards.heroes), ownerId, 'hand', color);
     }
 
+    var nonHeroesCards = cards.creatures
+        .concat(cards.areas)
+        .concat(cards.spells)
+        .concat(cards.areas)
+        .concat(cards.spells);
+
     //hand creatures
     for (i = 0; i < handCards; i++) {
         Meteor.call(
-            'createCardFromData', _.sample(cards.creatures), ownerId, 'hand', color
-        );
-    }
-
-    //hand areas
-    for (i = 0; i < 4; i++) {
-        Meteor.call(
-            'createCardFromData', cards.creatures[0], ownerId, 'hand', color
+            'createCardFromData', _.sample(nonHeroesCards), ownerId, 'hand', color
         );
     }
 
     //deck
     for (i = 0; i < deckCards; i++) {
         Meteor.call(
-            'createCardFromData', _.sample(cards.creatures), ownerId, 'deck', color
+            'createCardFromData', _.sample(nonHeroesCards), ownerId, 'deck', color
         );
     }
 }

@@ -85,11 +85,48 @@ cards.heroes = [
         "dmg": 1,
         "health": 5,
         "mana": 8
+
     }
 ];
 
 
-cards.creatures = [
+cards.spells = [
+    {
+        "title": "Сторм болт",
+        "type": "spell",
+        "imageName": "",
+        "text": "На расстоянии 8 производит дистанционную атаку на 2 урона.",
+        "health": 1,
+        "mana": 1
+    },
+    {
+        "title": "Хил",
+        "type": "spell",
+        "imageName": "",
+        "text": "На расстоянии 8 исцеляет 2 жизни целевому существу.",
+        "health": 1,
+        "mana": 1
+    },
+    {
+        "title": "Телекинез",
+        "type": "spell",
+        "imageName": "",
+        "text": "На расстоянии 4, передвиньте существо на 4 клеток.",
+        "health": 1,
+        "mana": 1
+    },
+    {
+        "title": "Огненный шар",
+        "type": "spell",
+        "imageName": "",
+        "text": "На расстоянии 8 наносит 1 урон с большим АОЕ.",
+        "health": 1,
+        "mana": 2
+    }
+];
+
+
+cards.areas = [
     {
         "title": "Лес",
         "type": "area",
@@ -98,6 +135,34 @@ cards.creatures = [
         "health": 1,
         "mana": 1
     },
+    {
+        "title": "Огненная стена",
+        "type": "area",
+        "imageName": "area_firewall",
+        "text": "При входе на стену огня существо получает 1 урон. В начале каждого хода все существа в стене огня получают один урон.",
+        "health": 1,
+        "mana": 1
+    },
+    {
+        "title": "Стена ветра",
+        "type": "area",
+        "imageName": "area_windwall",
+        "text": "Нельзя стрелять в, из и сквозь стену ветра.",
+        "health": 1,
+        "mana": 2
+    },
+    {
+        "title": "Озеро",
+        "type": "area",
+        "imageName": "area_lake",
+        "text": "По озеру нельзя ходить.",
+        "health": 1,
+        "mana": 2
+    }
+];
+
+
+cards.creatures = [
     {
         "title": "Нищеброд",
         "imageName": "citizen",
@@ -426,7 +491,7 @@ cards.creatures = [
         "title": "Тысячерук",
         "imageName": "archer",
         "type": "creature",
-        "text": "Дальнобойный 6 АОЕ +",
+        "text": "Дальнобойный 6, малое АОЕ",
         "dmg": 1,
         "health": 4,
         "mana": 5
@@ -498,7 +563,7 @@ cards.creatures = [
         "title": "Кентавр тысячерук",
         "imageName": "u_kentavr",
         "type": "creature",
-        "text": "Дальнобойный 6 АОЕ []",
+        "text": "Дальнобойный 6, большое АОЕ",
         "dmg": 1,
         "health": 6,
         "mana": 8
