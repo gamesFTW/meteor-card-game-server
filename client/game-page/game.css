@@ -1,0 +1,7 @@
+body{
+    background-color: black;
+}
+
+.center canvas{
+    margin: 0 auto;
+}
