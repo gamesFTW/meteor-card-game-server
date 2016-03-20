@@ -12,8 +12,6 @@ function addCardsToPlayer(ownerId, color, handCards, deckCards) {
 
     var nonHeroesCards = cards.creatures
         .concat(cards.areas)
-        .concat(cards.spells)
-        .concat(cards.areas)
         .concat(cards.spells);
 
     //hand creatures
@@ -59,7 +57,7 @@ Meteor.methods({
     solo: function() {
         Meteor.call('dropBase');
 
-        addCardsToPlayer('1', red, 8, 42);
+        addCardsToPlayer('1', red, 9, 41);
         addCardsToPlayer('2', blue, 10, 40);
     },
 
@@ -67,9 +65,9 @@ Meteor.methods({
     ogre: function() {
         Meteor.call('dropBase');
 
-        addCardsToPlayer('1', red, 8, 42);
+        addCardsToPlayer('1', red, 9, 41);
         addCardsToPlayer('2', blue, 10, 40);
-        addCardsToPlayer('3', yellow, 8, 42);
+        addCardsToPlayer('3', yellow, 9, 41);
         addCardsToPlayer('4', green, 10, 40);
     },
 
