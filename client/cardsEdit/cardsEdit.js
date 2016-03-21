@@ -1,5 +1,5 @@
 Template.cardsEdit.helpers({
-    cards: MeteorApp.Cards.find({})
+    cards: MeteorApp.Cards.find({}, {sort: {type: 1}})
 });
 
 Template.cardsEdit.events({
