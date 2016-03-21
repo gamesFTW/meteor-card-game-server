@@ -72,6 +72,19 @@ Meteor.methods({
     },
 
 
+    loadDefaultCards: function() {
+        function addCard(card) {
+            MeteorApp.Cards.insert(card);
+        }
+
+        cards.heroes.forEach(addCard);
+        cards.areas.forEach(addCard);
+        cards.creatures.forEach(addCard);
+        cards.spells.forEach(addCard);
+
+    },
+
+
     createCardFromData: function(cardData, ownerId, cardGroup, color) {
         cardData.ownerId = ownerId;
         cardData.cardGroup = cardGroup;

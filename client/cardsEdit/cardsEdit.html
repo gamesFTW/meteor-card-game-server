@@ -1,0 +1,24 @@
+<template name="cardsEdit">
+    <div class="cards-editor">
+        {{#each cards}}
+            {{> cardEdit}}
+        {{/each}}
+
+        <hr/>
+        <button class="add-card">Add</button>
+    </div>
+</template>
+
+<template name="cardEdit">
+    <form class="cardEdit">
+        <input type="text" name="title" value="{{title}}" />
+        <input type="text" name="mana" value="{{mana}}" />
+        <input type="text" name="imageName" value="{{imageName}}" />
+        <input type="text" name="dmg" value="{{dmg}}" />
+        <input type="text" name="health" value="{{health}}" />
+        <input type="text" name="type" value="{{type}}" />
+        <textarea name="text" >{{text}}</textarea>
+        <input type="submit" value="Save" />
+        <button class="card-remove">Remove</button>
+    </form>
+</template>

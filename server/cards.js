@@ -1,4 +1,4 @@
-cards ={};
+cards = {};
 
 
 cards.heroes = [

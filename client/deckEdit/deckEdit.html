@@ -1,0 +1,17 @@
+<template name="deckEdit">
+    {{#each cardsIdsInDeck}}
+        {{>cardView (getCardById this)}}
+    {{/each}}
+    <hr>
+    {{#each cards}}
+       {{>cardView}}
+    {{/each}}
+</template>
+
+<template name="cardView">
+     <div class="card-view">
+            <h4>{{this.title}}</h4>
+            <button class="card-add-btn">+</button>
+            <button class="card-remove-btn">-</button>
+     </div>
+</template>
