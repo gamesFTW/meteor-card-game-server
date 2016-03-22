@@ -1,23 +1,31 @@
 <template name="cardsEdit">
     <div class="cards-editor">
-        {{#each cards}}
-            {{> cardEdit}}
-        {{/each}}
+        <div>
+            <button class="btn add-card-btn">Добавить карту</button>
+            <input class="card-search" type="text" placeholder="Поиск">
+        </div>
 
         <hr/>
-        <button class="add-card">Add</button>
+
+        <div>
+            {{#each cards}}
+                {{> cardEdit}}
+            {{/each}}
+        </div>
+
     </div>
 </template>
 
 <template name="cardEdit">
     <form class="cardEdit">
-        <input type="text" name="title" value="{{title}}" />
-        <input type="text" name="mana" value="{{mana}}" />
+        <input class="cardEdit__mana" type="text" name="mana" value="{{mana}}" />
+        <input class="cardEdit__title" type="text" name="title" value="{{title}}" />
         <input type="text" name="imageName" value="{{imageName}}" />
-        <input type="text" name="dmg" value="{{dmg}}" />
-        <input type="text" name="health" value="{{health}}" />
         <input type="text" name="type" value="{{type}}" />
-        <textarea name="text" >{{text}}</textarea>
+        <textarea class="cardEdit__text" name="text" >{{text}}</textarea>
+        <input class="cardEdit__dmg" type="text" name="dmg" value="{{dmg}}" />
+        <input class="cardEdit__health" type="text" name="health" value="{{health}}" />
+
         <input type="submit" value="Save" />
         <button class="card-remove">Remove</button>
     </form>
