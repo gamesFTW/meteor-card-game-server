@@ -13,8 +13,24 @@ var createDeck = function() {
     return MeteorApp.Decks.findOne(deckId);
 };
 
+var getCards = function() {
+    var title = Session.get('searchCardTitle') || '';
+    var titleRe = new RegExp(title, 'i');
+    return MeteorApp.Cards.find(
+        { title: titleRe },
+        { sort: { date: -1, type: 1, hero: 1, mana: -1 } }
+    );
+};
+
+
 Template.deckEdit.helpers({
-    cards: MeteorApp.Cards.find({}),
+    deckLength: function() {
+        return getDeck().cards.length;
+    },
+    cards: getCards,
+    playerId: function() {
+        return MeteorApp.data.playerId
+    },
     cardsIdsInDeck: function() {
         return getDeck().cards;
     },
@@ -23,6 +39,11 @@ Template.deckEdit.helpers({
     }
 });
 
+Template.deckEdit.events({
+    'keyup .card-search': function(e) {
+        Session.set('searchCardTitle', e.target.value);
+    }
+});
 
 Template.cardView.events({
     "click .card-add-btn": function(e) {

@@ -1,12 +1,18 @@
-Template.cardsEdit.helpers({
-    cards: function() {
-        var title = Session.get('searchCardTitle') || '';
+var getCards = function() {
+    var title = Session.get('searchCardTitle') || '';
         var titleRe = new RegExp(title, 'i');
         return MeteorApp.Cards.find(
             { title: titleRe },
             { sort: { date: -1, type: 1, hero: 1, mana: -1 } }
         );
-    }
+};
+
+
+Template.cardsEdit.helpers({
+    quantity: function() {
+        return getCards().count();
+    },
+    cards: getCards
 });
 
 Template.cardsEdit.events({

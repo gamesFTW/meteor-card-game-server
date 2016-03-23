@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+}
+
+.deckEdit {
+    font-family: Arial;
+}
+
+.deckEdit__your-deck {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    width: 100%;
+}
+
+.deckEdit__your-deck-list {
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.deckEdit__all-cards {
+    margin-top: 360px;
+}
+
+.card-view {
+    font-size: 13px;
+    box-shadow: 0 0 2px 1px rgba(0,0,0,0.6);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 6px;
+    width: 150px;
+    height: 220px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: normal;
+}
+
+.card-view__title {
+    font-weight: bold;
+}
+
+.card-view__text {
+    margin: 6px 0;
+    height: 140px;
+}
+
+.card-view__mana {
+    color: blue;
+    font-weight: bold;
+    width: 14px;
+    display: inline-block;
+}
+
+.card-view__dmg {
+    color: red;
+    font-weight: bold;
+    width: 14px;
+    display: inline-block;
+}
+
+.card-view__health {
+    color: green;
+    font-weight: bold;
+    width: 14px;
+    display: inline-block;
+}
+
+.card-add-btn, .card-remove-btn {
+    padding: 10px;
+    width: 40px;
+}

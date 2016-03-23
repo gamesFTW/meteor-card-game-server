@@ -8,34 +8,53 @@
     height: 220px;
     border-radius: 10px;
     background: #fff;
-    -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
-    box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
-}
-
-.cardEdit__health {
-    color: green;
-    width: 1em;
-    display: inline-block;
-}
-
-.cardEdit__dmg {
-    color: red;
-    width: 1em;
-    display: inline-block;
-}
-
-.cardEdit__mana {
-    width: 1em;
-    color: blue;
-    display: inline-block;
+    box-shadow: 0 0 2px 1px rgba(0,0,0,0.6);
 }
 
 .cardEdit__title {
     font-weight: bold;
     display: inline-block;
     width: 11em;
+    padding: 1px;
+}
+
+.cardEdit__type {
+    width: 11em;
+    padding: 1px;
+}
+
+.cardEdit__image-name {
+    width: 11em;
+    padding: 1px;
+}
+
+.cardEdit__mana {
+    width: 1em;
+    color: blue;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cardEdit__dmg {
+    color: red;
+    width: 1em;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cardEdit__health {
+    color: green;
+    width: 1em;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
 }
 
 .cardEdit__text {
-    height: 12em;
+    height: 10em;
+    width: 11em;
+    resize: none;
+    font-family: Arial;
 }
