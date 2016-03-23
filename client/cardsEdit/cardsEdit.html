@@ -21,6 +21,7 @@
     <form class="cardEdit">
         <input class="cardEdit__title" type="text" name="title" value="{{title}}" />
         <input class="cardEdit__type" type="text" name="type" value="{{type}}" />
+        <input name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
         <input class="cardEdit__image-name" type="text" name="imageName" value="{{imageName}}" />
         <textarea class="cardEdit__text" name="text" >{{text}}</textarea>
         <input class="cardEdit__mana" type="text" name="mana" value="{{mana}}" />

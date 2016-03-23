@@ -23,7 +23,12 @@
 <template name="cardView">
     <div class="card-view">
         <div class="card-view__title">{{this.title}}</div>
-        <div>{{this.type}}</div>
+        <div>
+            {{this.type}}
+            {{#if this.hero}}
+                (герой)
+            {{/if}}
+        </div>
         <div class="card-view__text">{{this.text}}</div>
         <div>
             <span class="card-view__mana">{{this.mana}}</span>

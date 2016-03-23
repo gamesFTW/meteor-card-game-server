@@ -3,7 +3,7 @@ var getCards = function() {
         var titleRe = new RegExp(title, 'i');
         return MeteorApp.Cards.find(
             { title: titleRe },
-            { sort: { date: -1, type: 1, hero: 1, mana: -1 } }
+            { sort: {date: -1}}
         );
 };
 
@@ -25,7 +25,8 @@ Template.cardsEdit.events({
             type: 'creature',
             imageName: 'ninja',
             text: 'Описание',
-            date: new Date()
+            date: new Date(),
+            hero: false
         });
     },
     'keyup .card-search': function(e) {
@@ -43,22 +44,25 @@ Template.cardEdit.helpers({
 Template.cardEdit.events({
     "click .card-remove": function(e) {
         e.preventDefault();
-        MeteorApp.Cards.remove(this._id);
+        if (confirm("Точно точно удалить " + this.title + "?")) {
+            MeteorApp.Cards.remove(this._id);
+        }
     },
 
 
-    "submit .cardEdit": function(e) {
-        e.preventDefault();
+    "submit .cardEdit": function(event) {
+        event.preventDefault();
+
         var card = lodash.assign(this, {
             title: event.target.title.value,
-            health: event.target.health.value,
+            health: Number(event.target.health.value),
             text: event.target.text.value,
             imageName: event.target.imageName.value,
-            dmg: event.target.dmg.value,
-            mana: event.target.mana.value,
-            type: event.target.type.value
+            dmg: Number(event.target.dmg.value),
+            mana: Number(event.target.mana.value),
+            type: event.target.type.value,
+            hero: Boolean(event.target.hero.checked)
         });
-
 
         MeteorApp.Cards.update(this._id, card);
     }
