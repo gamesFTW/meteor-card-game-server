@@ -1,0 +1,34 @@
+<template name="cardsEdit">
+    <div class="cards-editor">
+        <div>
+            <button class="btn add-card-btn">Add card</button>
+            <input class="card-search" type="text" placeholder="Filter">
+        </div>
+
+        <hr/>
+
+        <h3>{{quantity}} cards</h3>
+        <div>
+            {{#each cards}}
+                {{> cardEdit}}
+            {{/each}}
+        </div>
+
+    </div>
+</template>
+
+<template name="cardEdit">
+    <form class="cardEdit">
+        <input class="cardEdit__title" type="text" name="title" value="{{title}}" />
+        <input class="cardEdit__type" type="text" name="type" value="{{type}}" />
+        <input name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
+        <input class="cardEdit__image-name" type="text" name="imageName" value="{{imageName}}" />
+        <textarea class="cardEdit__text" name="text" >{{text}}</textarea>
+        <input class="cardEdit__mana" type="text" name="mana" value="{{mana}}" />
+        <input class="cardEdit__dmg" type="text" name="dmg" value="{{dmg}}" />
+        <input class="cardEdit__health" type="text" name="health" value="{{health}}" />
+
+        <input type="submit" value="Save" />
+        <button class="card-remove">Del</button>
+    </form>
+</template>

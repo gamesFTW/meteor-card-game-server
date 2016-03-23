@@ -1,0 +1,41 @@
+<template name="deckEdit">
+    <div class="deckEdit">
+        <div class="deckEdit__your-deck">
+            <h2>{{playerId}}'s deck ({{deckLength}})</h2>
+            <div class="deckEdit__your-deck-list">
+                {{#each cardsIdsInDeck}}
+                    {{>cardView (getCardById this)}}
+                {{/each}}
+            </div>
+        </div>
+        <div class="deckEdit__all-cards">
+            <h2>All cards</h2>
+            <div>
+                <input class="card-search" type="text" placeholder="Filter">
+            </div>
+            {{#each cards}}
+               {{>cardView}}
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="cardView">
+    <div class="card-view">
+        <div class="card-view__title">{{this.title}}</div>
+        <div>
+            {{this.type}}
+            {{#if this.hero}}
+                (герой)
+            {{/if}}
+        </div>
+        <div class="card-view__text">{{this.text}}</div>
+        <div>
+            <span class="card-view__mana">{{this.mana}}</span>
+            <span class="card-view__dmg">{{this.dmg}}</span>
+            <span class="card-view__health">{{this.health}}</span>
+            <button class="card-add-btn">+</button>
+            <button class="card-remove-btn">-</button>
+        </div>
+    </div>
+</template>
