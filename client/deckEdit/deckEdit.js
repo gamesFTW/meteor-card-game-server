@@ -18,7 +18,7 @@ var getCards = function() {
     var titleRe = new RegExp(title, 'i');
     return MeteorApp.Cards.find(
         { title: titleRe },
-        { sort: { date: -1, type: 1, hero: 1, mana: -1 } }
+        { sort: { type: 1, hero: -1, mana: 1 } }
     );
 };
 
