@@ -49,6 +49,13 @@ Template.cardEdit.events({
         }
     },
 
+    'blur .cardEdit__blurSave': function(e) {
+        $(e.target).parent('.cardEdit').submit();
+    },
+
+    'click t .cardEdit__clickSave': function(e) {
+        $(e.target).parent('.cardEdit').submit();
+    },
 
     "submit .cardEdit": function(event) {
         event.preventDefault();
@@ -65,5 +72,24 @@ Template.cardEdit.events({
         });
 
         MeteorApp.Cards.update(this._id, card);
+
+        var $form = $(event.target);
+
+        blinkGreenBorder($form);
     }
 });
+
+
+var blinkGreenBorder = function($selector) {
+    $selector
+        .delay(1)
+        .queue(function (next) {
+            $(this).css({'borderColor': 'green'});
+            next();
+        })
+        .delay(2000)
+        .queue(function (next) {
+            $(this).removeAttr('style');
+            next();
+        });
+};
