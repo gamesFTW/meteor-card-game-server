@@ -42,6 +42,7 @@ body {
 .card-view__text {
     margin: 6px 0;
     height: 140px;
+    white-space: pre-line;
 }
 
 .card-view__mana {

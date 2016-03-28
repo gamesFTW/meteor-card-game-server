@@ -19,9 +19,10 @@ Template.cardsEdit.events({
     'click .add-card-btn': function() {
         MeteorApp.Cards.insert({
             title: 'Новая карта',
-            health: 0,
+            health: 1,
             dmg: 0,
-            mana: 0,
+            mana: 1,
+            counter: 0,
             type: 'creature',
             imageName: 'ninja',
             text: 'Описание',
@@ -67,9 +68,13 @@ Template.cardEdit.events({
             imageName: event.target.imageName.value,
             dmg: Number(event.target.dmg.value),
             mana: Number(event.target.mana.value),
+            counter: Number(event.target.counter.value),
             type: event.target.type.value,
             hero: Boolean(event.target.hero.checked)
         });
+
+        // for old cards
+        card.date = card.date || new Date();
 
         MeteorApp.Cards.update(this._id, card);
 

@@ -57,6 +57,14 @@
     text-align: center;
 }
 
+.cardEdit__couter {
+    color: orange;
+    width: 1em;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+}
+
 .cardEdit__text {
     height: 10em;
     width: 11em;

@@ -81,6 +81,7 @@ Meteor.methods({
 
     loadDefaultCards: function() {
         function addCard(card) {
+            card.date = new Date();
             MeteorApp.Cards.insert(card);
         }
 

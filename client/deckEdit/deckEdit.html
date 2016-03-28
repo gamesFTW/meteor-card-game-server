@@ -3,15 +3,23 @@
         <div class="deckEdit__your-deck">
             <h2>{{playerId}}'s deck ({{deckLength}})</h2>
             <div class="deckEdit__your-deck-list">
-                {{#each cardsIdsInDeck}}
-                    {{>cardView (getCardById this)}}
+                {{#each cardsInDeck}}
+                    {{>cardView this}}
                 {{/each}}
             </div>
         </div>
         <div class="deckEdit__all-cards">
             <h2>All cards</h2>
             <div>
-                <input class="card-search" type="text" placeholder="Filter">
+                <input class="card-search" type="text" placeholder="Название карты">
+                <input class="card-text-search" type="text" placeholder="Текст карты">
+                <span>
+                    <label class="filter-type"><input type="radio" name="gender" value="all" checked> Все</label>
+                    <label class="filter-type"><input type="radio" name="gender" value="heroes"> Герои</label>
+                    <label class="filter-type"><input type="radio" name="gender" value="creatures"> Существа</label>
+                    <label class="filter-type"><input type="radio" name="gender" value="areas"> Арии</label>
+                    <label class="filter-type"><input type="radio" name="gender" value="spells"> Спелы</label>
+                </span>
             </div>
             {{#each cards}}
                {{>cardView}}
@@ -22,18 +30,18 @@
 
 <template name="cardView">
     <div class="card-view">
-        <div class="card-view__title">{{this.title}}</div>
+        <div class="card-view__title">{{title}} {{#if quantity}} ({{quantity}}){{/if}}</div>
         <div>
-            {{this.type}}
-            {{#if this.hero}}
+            {{type}}
+            {{#if hero}}
                 (герой)
             {{/if}}
         </div>
-        <div class="card-view__text">{{this.text}}</div>
+        <div class="card-view__text">{{text}}</div>
         <div>
-            <span class="card-view__mana">{{this.mana}}</span>
-            <span class="card-view__dmg">{{this.dmg}}</span>
-            <span class="card-view__health">{{this.health}}</span>
+            <span class="card-view__mana">{{mana}}</span>
+            <span class="card-view__dmg">{{dmg}}</span>
+            <span class="card-view__health">{{health}}</span>
             <button class="card-add-btn">+</button>
             <button class="card-remove-btn">-</button>
         </div>

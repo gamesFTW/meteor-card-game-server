@@ -21,12 +21,13 @@
     <form class="cardEdit">
         <input class="cardEdit__title cardEdit__blurSave" type="text" name="title" value="{{title}}" />
         <input class="cardEdit__type cardEdit__blurSave" type="text" name="type" value="{{type}}" />
-        <input class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
-        <input class="cardEdit__image-name cardEdit__blurSave" type="text" name="imageName" value="{{imageName}}" />
+        <input title="Является ли героем" class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
+        <input title="Картинка" class="cardEdit__image-name cardEdit__blurSave" type="text" name="imageName" value="{{imageName}}" />
         <textarea class="cardEdit__text cardEdit__blurSave" name="text" >{{text}}</textarea>
-        <input class="cardEdit__mana cardEdit__blurSave" type="text" name="mana" value="{{mana}}" />
-        <input class="cardEdit__dmg cardEdit__blurSave" type="text" name="dmg" value="{{dmg}}" />
-        <input class="cardEdit__health cardEdit__blurSave" type="text" name="health" value="{{health}}" />
+        <input title="Мана" class="cardEdit__mana cardEdit__blurSave" type="text" name="mana" value="{{mana}}" />
+        <input title="Урон" class="cardEdit__dmg cardEdit__blurSave" type="text" name="dmg" value="{{dmg}}" />
+        <input title="Жизни" class="cardEdit__health cardEdit__blurSave" type="text" name="health" value="{{health}}" />
+        <input title="Стартовые каунтеры" class="cardEdit__couter cardEdit__blurSave" type="text" name="counter" value="{{counter}}" />
 
         <button class="card-remove">Del</button>
     </form>
