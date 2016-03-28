@@ -1,6 +1,6 @@
 var getDeck = function() {
     var playerId = MeteorApp.data.playerId;
-    var deck = MeteorApp.Decks.findOne({ playerId: playerId });
+    var deck = MeteorApp.Decks.findOne({ name: playerId });
     if (!deck) {
         return createDeck();
     }
@@ -9,7 +9,7 @@ var getDeck = function() {
 
 var createDeck = function() {
     var playerId = MeteorApp.data.playerId;
-    var deckId = MeteorApp.Decks.insert({ playerId: playerId, cards: [] });
+    var deckId = MeteorApp.Decks.insert({ name: playerId, cards: [] });
     return MeteorApp.Decks.findOne(deckId);
 };
 

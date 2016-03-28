@@ -1,0 +1,47 @@
+<template name="lobby">
+    <h1>Lobby</h1>
+
+    <h2>Games</h2>
+    <button class="create-game-button">Create game</button>
+    <div>
+        {{#each games}}
+           {{>gameView}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="gameView">
+    <div>
+        <span>{{_id}}</span>
+        <select class="game-type-selector">
+            <option value="solo" selected="{{#if equals type 'solo'}}selected{{/if}}">Соло</option>
+            <option value="ogre" selected="{{#if equals type 'ogre'}}selected{{/if}}">Огр</option>
+        </select>
+
+        <select class="game-deck-selector" name="player1">
+            {{#each decks}}
+                <option value="{{_id}}" selected="{{#if equals _id ../player1}}selected{{/if}}">{{name}}</option>
+            {{/each}}
+        </select>
+
+        <select class="game-deck-selector" name="player2">
+            {{#each decks}}
+                <option value="{{_id}}" selected="{{#if equals _id ../player2}}selected{{/if}}">{{name}}</option>
+            {{/each}}
+        </select>
+
+        {{#if equals type 'ogre'}}
+            <select class="game-deck-selector" name="player3">
+                {{#each decks}}
+                    <option value="{{_id}}" selected="{{#if equals _id ../player3}}selected{{/if}}">{{name}}</option>
+                {{/each}}
+            </select>
+
+            <select class="game-deck-selector" name="player4">
+                {{#each decks}}
+                    <option value="{{_id}}" selected="{{#if equals _id ../player4}}selected{{/if}}">{{name}}</option>
+                {{/each}}
+            </select>
+        {{/if}}
+    </div>
+</template>
