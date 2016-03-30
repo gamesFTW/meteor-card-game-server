@@ -4,8 +4,8 @@ var blue = '0x8888ff';
 var green = '0x88ff88';
 
 
-function addCardsToPlayer(ownerId, color, handCardsNumber) {
-    var allCards = MeteorApp.Decks.findOne({playerId: ownerId}).cards.map(
+function addCardsToPlayer(gameId, ownerId, color, handCardsNumber) {
+    var allCards = MeteorApp.Decks.findOne(ownerId).cards.map(
         function(cardId) {
             return MeteorApp.Cards.findOne(cardId);
     });
@@ -18,20 +18,20 @@ function addCardsToPlayer(ownerId, color, handCardsNumber) {
 
     //hand heroes
     for (var i = 0; i < heroesCards.length; i++) {
-        Meteor.call('createCardFromData', heroesCards[i], ownerId, 'hand', color);
+        Meteor.call('createCardFromData', gameId, heroesCards[i], ownerId, 'hand', color);
     }
 
     //hand creatures
     for (i = 0; i < handCards.length; i++) {
         Meteor.call(
-            'createCardFromData', handCards[i], ownerId, 'hand', color
+            'createCardFromData', gameId, handCards[i], ownerId, 'hand', color
         );
     }
 
     //deck
     for (i = 0; i < deckCards.length; i++) {
         Meteor.call(
-            'createCardFromData', deckCards[i], ownerId, 'deck', color
+            'createCardFromData', gameId, deckCards[i], ownerId, 'deck', color
         );
     }
 }
@@ -43,8 +43,20 @@ Meteor.methods({
         MeteorApp.Actions.remove({});
     },
 
+
+    removeGameById: function(gameId) {
+        MeteorApp.Games.remove(gameId);
+        MeteorApp.CardsInGame.remove({gameId: gameId});
+        MeteorApp.Actions.remove({});
+    },
+
+
+    createDeck: function(name) {
+        return MeteorApp.Decks.insert({ name: name, cards: [] });
+    },
+
+
     gameForTestImg: function() {
-        Meteor.call('dropBase');
         var cardsDeal = [].concat(cards.heroes, cards.creatures);
         _.range(6, 15).forEach(function(x) {
             _.range(6, 15).forEach(function(y) {
@@ -61,17 +73,24 @@ Meteor.methods({
     },
 
 
-    solo: function() {
-        Meteor.call('dropBase');
+    startGame: function(game) {
+        addCardsToPlayer(game._id, game.playerId1, red, 9);
+        addCardsToPlayer(game._id, game.playerId2, blue, 10);
 
+        if (game.type == 'ogre') {
+            addCardsToPlayer(game._id, game.playerId3, yellow, 9);
+            addCardsToPlayer(game._id, game.playerId4, green, 10);
+        }
+    },
+
+
+    solo: function() {
         addCardsToPlayer('1', red, 9);
         addCardsToPlayer('2', blue, 10);
     },
 
 
     ogre: function() {
-        Meteor.call('dropBase');
-
         addCardsToPlayer('1', red, 9);
         addCardsToPlayer('2', blue, 10);
         addCardsToPlayer('3', yellow, 9);
@@ -93,8 +112,9 @@ Meteor.methods({
     },
 
 
-    createCardFromData: function(cardData, ownerId, cardGroup, color) {
+    createCardFromData: function(gameId, cardData, ownerId, cardGroup, color) {
         delete cardData._id;
+        cardData.gameId = gameId;
         cardData.ownerId = ownerId;
         cardData.cardGroup = cardGroup;
         cardData.color = color;
