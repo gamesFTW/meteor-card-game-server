@@ -51,7 +51,7 @@ cards.heroes = [
         "title": "Герой лучник",
         "imageName": "u_master_archer",
         "type": "creature",
-        "text": "Дальнобойный 7, Скорость 6, Снижение лечения 1",
+        "text": "Дальнобойный 7, Скорость 6, Снижение лечения 1.\nМожет стретлять сквозь врагов.",
         "dmg": 1,
         "health": 4,
         "mana": 8
@@ -132,7 +132,7 @@ cards.areas = [
         "imageName": "area_forest",
         "text": "Нельзя стрелять в лес и сквозь лес. Передвижение по клетке леса стоит 2 передвижения.",
         "health": 1,
-        "mana": 2
+        "mana": 1
     },
     {
         "title": "Огненная стена",
@@ -140,7 +140,7 @@ cards.areas = [
         "imageName": "area_firewall",
         "text": "При входе на стену огня существо получает 1 урон. В начале каждого хода все существа в стене огня получают один урон.",
         "health": 1,
-        "mana": 2
+        "mana": 1
     },
     {
         "title": "Стена ветра",
@@ -148,7 +148,7 @@ cards.areas = [
         "imageName": "area_windwall",
         "text": "Нельзя стрелять в, из и сквозь стену ветра.",
         "health": 1,
-        "mana": 3
+        "mana": 1
     },
     {
         "title": "Озеро",
@@ -156,7 +156,7 @@ cards.areas = [
         "imageName": "area_lake",
         "text": "По озеру нельзя ходить.",
         "health": 1,
-        "mana": 3
+        "mana": 1
     }
 ];
 
@@ -166,7 +166,7 @@ cards.creatures = [
         "title": "Нищеброд",
         "imageName": "citizen",
         "type": "creature",
-        "text": "Фланкирование 1",
+        "text": "Фланкирование 1, Пенетрация",
         "dmg": 1,
         "health": 3,
         "mana": 2
@@ -184,9 +184,9 @@ cards.creatures = [
         "title": "Боевой клирик",
         "imageName": "adopt",
         "type": "creature",
-        "text": "Хил 1",
+        "text": "Хил 1, Блок щитом",
         "dmg": 1,
-        "health": 2,
+        "health": 3,
         "mana": 2
     },
     {
@@ -195,7 +195,7 @@ cards.creatures = [
         "type": "creature",
         "text": "Буллраш",
         "dmg": 1,
-        "health": 3,
+        "health": 4,
         "mana": 2
     },
     //{
@@ -213,7 +213,7 @@ cards.creatures = [
         "type": "creature",
         "text": "Скорость 8, Удар на бегу",
         "dmg": 1,
-        "health": 2,
+        "health": 4,
         "mana": 2
     },
     {
@@ -268,7 +268,7 @@ cards.creatures = [
         "text": "Если атакует, то тапает вражескую кричу.",
         "dmg": 1,
         "health": 3,
-        "mana": 2
+        "mana": 3
     },
     {
         "title": "Толстокожая",
@@ -328,7 +328,7 @@ cards.creatures = [
         "title": "Блинкер",
         "imageName": "rogue",
         "type": "creature",
-        "text": "Летает, Скорость 8",
+        "text": "Летает, Скорость 8, Защитная стойка",
         "dmg": 1,
         "health": 4,
         "mana": 3
@@ -373,7 +373,7 @@ cards.creatures = [
         "title": "Старый капитан",
         "imageName": "ninjafemale",
         "type": "creature",
-        "text": "Тап, 2 крича в радиусе 6 получает Фланкирование 1 или Скорость 6 или Защитная стойка 1.",
+        "text": "Тап, выберите одно: крича в радиусе 6 получает Фланкирование 1; 2 кричи в радиусе 6 получают Скорость 6; 2 кричи в радиусе 6 Защитная стойка 1.",
         "dmg": 0,
         "health": 4,
         "mana": 3
@@ -511,7 +511,7 @@ cards.creatures = [
         "text": "Буллраш, Снижение повреждений 1, Снижение лечения 1, Скорость 6",
         "dmg": 2,
         "health": 4,
-        "mana": 6
+        "mana": 7
     },
     {
         "title": "Вампир",
@@ -520,7 +520,7 @@ cards.creatures = [
         "text": "Лайфлинк, Летает, Скорость 6, Быстрый удар",
         "dmg": 1,
         "health": 5,
-        "mana": 6
+        "mana": 5
     },
     {
         "title": "Мастер скорости",
