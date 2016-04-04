@@ -2,7 +2,7 @@
     position: relative;
     float: left;
     width: 150px;
-    height: 220px;
+    /*height: 220px;*/
 
     margin-right: 10px;
     margin-bottom: 10px;
@@ -70,4 +70,13 @@
     width: 11em;
     resize: none;
     font-family: Arial;
+}
+
+.cardEdit__image-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.cardEdit__image {
+    border: 1px solid lightgray;
 }

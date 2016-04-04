@@ -41,6 +41,7 @@ Meteor.methods({
     dropBase: function() {
         MeteorApp.CardsInGame.remove({});
         MeteorApp.Actions.remove({});
+        MeteorApp.Cards.remove({});
     },
 
 
