@@ -12,7 +12,10 @@ Template.cardsEdit.helpers({
     quantity: function() {
         return getCards().count();
     },
-    cards: getCards
+    cards: getCards,
+    getSearchCardTitle: function () {
+        return Session.get('searchCardTitle') || '';
+    }
 });
 
 

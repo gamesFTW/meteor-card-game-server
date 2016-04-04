@@ -1,8 +1,13 @@
 <template name="cardsEdit">
     <div class="cards-editor">
         <div>
+            <label>
+                Filter:
+                <input class="card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Filter">
+            </label>
+        </div>
+        <div>
             <button class="btn add-card-btn">Add card</button>
-            <input class="card-search" type="text" placeholder="Filter">
         </div>
 
         <hr/>
