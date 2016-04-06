@@ -75,8 +75,14 @@
 .cardEdit__image-container {
     margin-top: 10px;
     text-align: center;
+    height: 60px;
+    overflow: auto;
 }
 
 .cardEdit__image {
     border: 1px solid lightgray;
+}
+
+.cardEdit__images {
+    width: 153px;
 }
