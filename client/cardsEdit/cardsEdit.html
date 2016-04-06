@@ -1,8 +1,13 @@
 <template name="cardsEdit">
     <div class="cards-editor">
         <div>
+            <label>
+                Filter:
+                <input class="card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Filter">
+            </label>
+        </div>
+        <div>
             <button class="btn add-card-btn">Add card</button>
-            <input class="card-search" type="text" placeholder="Filter">
         </div>
 
         <hr/>
@@ -13,9 +18,9 @@
                 {{> cardEdit}}
             {{/each}}
         </div>
-
     </div>
 </template>
+
 
 <template name="cardEdit">
     <form class="cardEdit">
@@ -23,6 +28,12 @@
         <input class="cardEdit__type cardEdit__blurSave" type="text" name="type" value="{{type}}" />
         <input title="Является ли героем" class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
         <input title="Картинка" class="cardEdit__image-name cardEdit__blurSave" type="text" name="imageName" value="{{imageName}}" />
+        <select class="cardEdit__images" name="">
+            {{#each images}}
+                <option value="{{_id}}" selected="{{#if equals _id ../imageId}}selected{{/if}}">{{original.name}}</option>
+            {{/each}}
+        </select>
+
         <textarea class="cardEdit__text cardEdit__blurSave" name="text" >{{text}}</textarea>
         <input title="Мана" class="cardEdit__mana cardEdit__blurSave" type="text" name="mana" value="{{mana}}" />
         <input title="Урон" class="cardEdit__dmg cardEdit__blurSave" type="text" name="dmg" value="{{dmg}}" />
@@ -30,5 +41,11 @@
         <input title="Стартовые каунтеры" class="cardEdit__couter cardEdit__blurSave" type="text" name="counter" value="{{counter}}" />
 
         <button class="card-remove">Del</button>
+
+        {{#if image}}
+            <div class="cardEdit__image-container">
+                <img class="cardEdit__image" src="{{image.url store='Images'}}"/>
+            </div>
+        {{/if}}
     </form>
 </template>

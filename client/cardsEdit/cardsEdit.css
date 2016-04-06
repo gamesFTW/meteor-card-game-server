@@ -2,7 +2,7 @@
     position: relative;
     float: left;
     width: 150px;
-    height: 220px;
+    /*height: 220px;*/
 
     margin-right: 10px;
     margin-bottom: 10px;
@@ -24,7 +24,7 @@
 }
 
 .cardEdit__type {
-    width: 9em;
+    width: 118px;
     padding: 1px;
 }
 
@@ -70,4 +70,19 @@
     width: 11em;
     resize: none;
     font-family: Arial;
+}
+
+.cardEdit__image-container {
+    margin-top: 10px;
+    text-align: center;
+    height: 60px;
+    overflow: auto;
+}
+
+.cardEdit__image {
+    border: 1px solid lightgray;
+}
+
+.cardEdit__images {
+    width: 153px;
 }

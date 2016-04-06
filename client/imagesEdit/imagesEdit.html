@@ -1,0 +1,23 @@
+<template name="imagesEdit">
+    <div class="imagesEdit">
+        <h1>Заливка картинок</h1>
+        <div>
+        <input title="Картинка" multiple class="image-upload" type="file"/>
+        </div>
+        <br>
+
+        {{#each images}}
+            <div title="{{original.name}}" class="imagesEdit__image-container">
+                <div class="imagesEdit__name">
+                    {{original.name}}
+                </div>
+                <div>
+                    <img class="imagesEdit__image" src="{{url store='Images'}}" alt=""/>
+                </div>
+                <div>
+                    <button class="delete-image">Delete</button>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</template>

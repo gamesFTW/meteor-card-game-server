@@ -12,8 +12,12 @@ Template.cardsEdit.helpers({
     quantity: function() {
         return getCards().count();
     },
-    cards: getCards
+    cards: getCards,
+    getSearchCardTitle: function () {
+        return Session.get('searchCardTitle') || '';
+    }
 });
+
 
 Template.cardsEdit.events({
     'click .add-card-btn': function() {
@@ -27,7 +31,8 @@ Template.cardsEdit.events({
             imageName: 'ninja',
             text: 'Описание',
             date: new Date(),
-            hero: false
+            hero: false,
+            imageId: MeteorApp.Images.findOne()._id
         });
     },
     'keyup .card-search': function(e) {
@@ -38,11 +43,22 @@ Template.cardsEdit.events({
 
 
 Template.cardEdit.helpers({
-    cardTypes: ['creature', 'area', 'spell']
-
+    cardTypes: ['creature', 'area', 'spell'],
+    image: function () {
+        return MeteorApp.Images.findOne({_id: this.imageId});
+    },
+    images: function() {
+        return MeteorApp.Images.find({});
+    }
 });
 
+
 Template.cardEdit.events({
+    "change .cardEdit__images": function(e) {
+        this.imageId = e.target.value;
+        MeteorApp.Cards.update(this._id, this);
+    },
+
     "click .card-remove": function(e) {
         e.preventDefault();
         if (confirm("Точно точно удалить " + this.title + "?")) {

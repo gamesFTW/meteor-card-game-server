@@ -1,16 +1,14 @@
-body {
-    margin: 0;
-}
-
 .deckEdit {
     font-family: Arial;
 }
 
 .deckEdit__your-deck {
     position: fixed;
-    top: 0;
+    top: 31px;
     background: #fff;
     width: 100%;
+    left: 0;
+    border-bottom: 1px solid;
 }
 
 .deckEdit__your-deck-list {
@@ -19,7 +17,7 @@ body {
 }
 
 .deckEdit__all-cards {
-    margin-top: 360px;
+    margin-top: 400px;
 }
 
 .card-view {
