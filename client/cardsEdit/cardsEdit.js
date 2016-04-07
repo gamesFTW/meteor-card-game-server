@@ -49,7 +49,11 @@ Template.cardEdit.helpers({
     },
     images: function() {
         return MeteorApp.Images.find({});
+    },
+    itMustHaveImage: function () {
+        return this.type !== 'spell';
     }
+    
 });
 
 

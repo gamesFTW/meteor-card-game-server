@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .cardEdit {
     position: relative;
     float: left;
