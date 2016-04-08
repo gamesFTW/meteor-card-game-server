@@ -53,6 +53,10 @@ Template.deckEdit.helpers({
         return lodash.uniq(cardsIds)
             .map(function(cardId) {
                 var card = MeteorApp.Cards.findOne(cardId);
+                if (!card) { 
+                    console.warn('There is no card', cardId)
+                } 
+                
                 card.quantity = cardsIds.filter(
                     function(number) {return number === cardId}
                 ).length;
