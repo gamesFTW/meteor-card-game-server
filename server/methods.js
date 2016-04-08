@@ -12,9 +12,11 @@ function addCardsToPlayer(gameId, ownerId, color, handCardsNumber) {
     var heroesCards = lodash.filter(allCards, 'hero');
     var nonHeroesCards = lodash.shuffle(lodash.reject(allCards, 'hero'));
 
-    var chunks = lodash.chunk(nonHeroesCards, handCardsNumber);
-    var handCards = chunks[0];
-    var deckCards = chunks[1];
+    var handCards = lodash.take(nonHeroesCards, handCardsNumber);
+    var deckCards = lodash.drop(nonHeroesCards, handCardsNumber);
+    
+    console.log('hand', ownerId, handCards.length);
+    console.log('deck', ownerId, deckCards.length);
 
     //hand heroes
     for (var i = 0; i < heroesCards.length; i++) {
