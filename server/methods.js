@@ -15,9 +15,6 @@ function addCardsToPlayer(gameId, ownerId, color, handCardsNumber) {
     var handCards = lodash.take(nonHeroesCards, handCardsNumber);
     var deckCards = lodash.drop(nonHeroesCards, handCardsNumber);
     
-    console.log('hand', ownerId, handCards.length);
-    console.log('deck', ownerId, deckCards.length);
-
     //hand heroes
     for (var i = 0; i < heroesCards.length; i++) {
         Meteor.call('createCardFromData', gameId, heroesCards[i], ownerId, 'hand', color);

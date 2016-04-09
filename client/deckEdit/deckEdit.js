@@ -49,17 +49,24 @@ Template.deckEdit.helpers({
         return MeteorApp.data.playerId
     },
     cardsInDeck: function() {
-        var cardsIds = getDeck().cards;
+        var deck = getDeck();
+        var cardsIds = deck.cards;
         return lodash.uniq(cardsIds)
             .map(function(cardId) {
                 var card = MeteorApp.Cards.findOne(cardId);
                 if (!card) { 
-                    console.warn('There is no card', cardId)
+                    console.warn('There is no card', cardId, 'It will be deleted from deck.');
+                    
+                    var index = deck.cards.lastIndexOf(cardId);
+                    index !== -1 && deck.cards.splice(index, 1);
+
+                    MeteorApp.Decks.update(deck._id, deck);           
+                } else {
+                    card.quantity = cardsIds.filter(
+                        function(number) {return number === cardId}
+                    ).length;    
                 } 
                 
-                card.quantity = cardsIds.filter(
-                    function(number) {return number === cardId}
-                ).length;
                 return card;
             });
     }
