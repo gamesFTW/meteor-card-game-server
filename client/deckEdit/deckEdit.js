@@ -26,6 +26,12 @@ MeteorApp.addCardToDeck = function(playerId, cardId) {
     
 };
 
+MeteorApp.clearDeck = function (playerId) {
+    var deck = MeteorApp.Decks.findOne({name: playerId});
+    deck.cards = [];
+    MeteorApp.Decks.update(deck._id, deck);
+};
+
 var getCards = function() {
     var title = Session.get('searchCardTitle') || '';
     var titleRe = new RegExp(title, 'i');

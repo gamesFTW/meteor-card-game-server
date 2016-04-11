@@ -144,8 +144,14 @@ Template.cardEdit.events({
         var playerId = 'test_images';
         
         var deck = MeteorApp.getDeck(playerId);
-        
+
+        MeteorApp.clearDeck(playerId);
         MeteorApp.addCardToDeck(playerId, card._id);
+        
+        // Создаем героя для теста арий
+        var heroCard = MeteorApp.Cards.findOne({hero: true});
+        MeteorApp.addCardToDeck(playerId, heroCard._id);
+        
         var gameId = MeteorApp.createLobbyGame(deck._id);
         MeteorApp.startLobbyGame(gameId);
         window.location = '/game/' + gameId + '/' + deck._id;
