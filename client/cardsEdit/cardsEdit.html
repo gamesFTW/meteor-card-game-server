@@ -1,19 +1,19 @@
 <template name="cardsEdit">
     <div class="cards-editor">
-        <div>
+        <div class="cards-editor__search-container">
             <label>
-                Filter:
-                <input class="card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Filter">
+                <input class="cards-editor__card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Фильтр по названию">
             </label>
         </div>
+        <br>
         <div>
-            <button class="btn add-card-btn">Add card</button>
+            <button class="btn add-card-btn">Добавить карту</button>
         </div>
 
         <hr/>
 
         <h3>{{quantity}} cards</h3>
-        <div>
+        <div class="cards-editor__cards-container">
             {{#each cards}}
                 {{> cardEdit}}
             {{/each}}

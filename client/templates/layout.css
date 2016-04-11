@@ -17,3 +17,9 @@ body {
     margin-top: 40px;
     padding: 0 30px;
 }
+
+@media only screen and (max-width: 1000px)  {
+    .row-fluid {
+        padding: 0 4px;
+    }
+}

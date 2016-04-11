@@ -35,7 +35,7 @@ Template.cardsEdit.events({
             imageId: MeteorApp.Images.findOne()._id
         });
     },
-    'keyup .card-search': function(e) {
+    'keyup .cards-editor__card-search': function(e) {
         Session.set('searchCardTitle', e.target.value);
     }
 
