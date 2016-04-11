@@ -1,6 +1,6 @@
 Template.lobby.helpers({
     games: function() {
-        return MeteorApp.Games.find({});
+        return MeteorApp.Games.find({}, { sort: { date: -1 } });
     }
 });
 
@@ -12,6 +12,7 @@ Template.lobby.events({
         MeteorApp.Games.insert({
             type: 'solo',
             started: false,
+            date: new Date(),
             playerId1: defaultDeckId,
             playerId2: defaultDeckId,
             playerId3: undefined,
@@ -37,7 +38,7 @@ Template.gameView.events({
 
         MeteorApp.Games.update(this._id, game);
     },
-    "change .map-size": function(e) {
+    "change .lobby__deck-size": function(e) {
         var game = MeteorApp.Games.findOne(this._id);
         // set map size
         game[e.target.name] = e.target.value;
