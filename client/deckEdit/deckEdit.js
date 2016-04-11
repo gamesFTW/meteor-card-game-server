@@ -2,13 +2,18 @@ var getDeck = function() {
     var playerId = MeteorApp.data.playerId;
     var deck = MeteorApp.Decks.findOne({ name: playerId });
     if (!deck) {
-        return createDeck();
+        return MeteorApp.createDeck();
     }
     return deck;
 };
 
-var createDeck = function() {
-    var playerId = MeteorApp.data.playerId;
+/**
+ * 
+ * @param {[String]} playerId
+ * @returns {Object} deck 
+ */
+MeteorApp.createDeck = function(playerId = null) {
+    playerId = playerId || MeteorApp.data.playerId;
     var deckId = Meteor.call('createDeck', playerId);
     return MeteorApp.Decks.findOne(deckId);
 };

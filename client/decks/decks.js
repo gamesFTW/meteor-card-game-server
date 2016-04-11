@@ -8,8 +8,7 @@ Template.decks.helpers({
 Template.decks.events({
     "submit .deck-name": function(e) {
         e.preventDefault();
-
-        Meteor.call('createDeck', e.target.deckName.value);
+        MeteorApp.createDeck(e.target.deckName.value);
     },
     "click .remove-deck": function(e) {
         if (confirm('Точно удалить?!')) {

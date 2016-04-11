@@ -1,3 +1,29 @@
+/**
+ * 
+ * @param {[Event]} e
+ * @param {[BlazeTemplate]} template
+ * @param {[String]} playerId1
+ * @param {[String]} playerId2
+ * @returns {string} - game ID
+ */
+MeteorApp.createLobbyGame = function(e = null, template = null, playerId1 = null, playerId2 = null) {
+    var defaultDeckId = MeteorApp.Decks.findOne()._id;
+    playerId1 = playerId1 || defaultDeckId;
+    playerId2 = playerId2 || defaultDeckId;
+
+    return MeteorApp.Games.insert({
+        type: 'solo',
+        started: false,
+        date: new Date(),
+        playerId1: playerId1,
+        playerId2: playerId2,
+        playerId3: undefined,
+        playerId4: undefined,
+        mapWidth: 10,
+        mapHeight: 10
+    });
+}
+
 Template.lobby.helpers({
     games: function() {
         return MeteorApp.Games.find({}, { sort: { date: -1 } });
@@ -6,21 +32,7 @@ Template.lobby.helpers({
 
 
 Template.lobby.events({
-    "click .create-game-button": function(e) {
-        var defaultDeckId = MeteorApp.Decks.findOne()._id;
-
-        MeteorApp.Games.insert({
-            type: 'solo',
-            started: false,
-            date: new Date(),
-            playerId1: defaultDeckId,
-            playerId2: defaultDeckId,
-            playerId3: undefined,
-            playerId4: undefined,
-            mapWidth: 10,
-            mapHeight: 10
-        });
-    },
+    "click .create-game-button": MeteorApp.createLobbyGame,
     "change .game-type-selector": function(e) {
         var game = MeteorApp.Games.findOne(this._id);
         game.type = e.target.value;
