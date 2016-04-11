@@ -16,8 +16,8 @@ Template.lobby.events({
             playerId2: defaultDeckId,
             playerId3: undefined,
             playerId4: undefined,
-            mapWidth: 16,
-            mapHeight: 16
+            mapWidth: 10,
+            mapHeight: 10
         });
     },
     "change .game-type-selector": function(e) {
