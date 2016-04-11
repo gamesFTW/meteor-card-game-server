@@ -51,11 +51,6 @@ Meteor.methods({
     },
 
 
-    createDeck: function(name) {
-        return MeteorApp.Decks.insert({ name: name, cards: [] });
-    },
-
-
     gameForTestImg: function() {
         var cardsDeal = [].concat(cards.heroes, cards.creatures);
         _.range(6, 15).forEach(function(x) {

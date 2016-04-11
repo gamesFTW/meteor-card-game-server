@@ -135,6 +135,20 @@ Template.cardEdit.events({
         var $form = $(event.target);
 
         blinkGreenBorder($form);
+    },
+    
+    //TODO удалить так как решение в лоб
+    "click .cardEdit__createTestGame": function (e) {
+        var card = this;
+        
+        var playerId = 'test_images';
+        
+        var deck = MeteorApp.getDeck(playerId);
+        
+        MeteorApp.addCardToDeck(playerId, card._id);
+        var gameId = MeteorApp.createLobbyGame(deck._id);
+        MeteorApp.startLobbyGame(gameId);
+        window.location = '/game/' + gameId + '/' + deck._id;
     }
 });
 

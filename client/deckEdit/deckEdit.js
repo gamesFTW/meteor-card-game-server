@@ -1,21 +1,29 @@
-var getDeck = function() {
-    var playerId = MeteorApp.data.playerId;
+MeteorApp.getDeck = function(playerId) {
+    playerId = playerId || MeteorApp.data.playerId;
     var deck = MeteorApp.Decks.findOne({ name: playerId });
     if (!deck) {
-        return MeteorApp.createDeck();
+        var deckId = MeteorApp.createDeck(playerId);
+        return MeteorApp.Decks.findOne(deckId);
     }
     return deck;
 };
 
 /**
  * 
- * @param {[String]} playerId
- * @returns {Object} deck 
+ * @param {String} playerId
+ * @returns {} 
  */
-MeteorApp.createDeck = function(playerId = null) {
-    playerId = playerId || MeteorApp.data.playerId;
-    var deckId = Meteor.call('createDeck', playerId);
-    return MeteorApp.Decks.findOne(deckId);
+MeteorApp.createDeck = function(playerId) {
+    return MeteorApp.Decks.insert({ name: playerId, cards: [] });
+};
+
+MeteorApp.addCardToDeck = function(playerId, cardId) {
+    var deck = MeteorApp.Decks.findOne({name: playerId});
+    
+    deck.cards.push(cardId);
+    
+    MeteorApp.Decks.update(deck._id, deck);
+    
 };
 
 var getCards = function() {
@@ -47,14 +55,14 @@ var getCards = function() {
 
 Template.deckEdit.helpers({
     deckLength: function() {
-        return getDeck().cards.length;
+        return MeteorApp.getDeck().cards.length;
     },
     cards: getCards,
     playerId: function() {
         return MeteorApp.data.playerId
     },
     cardsInDeck: function() {
-        var deck = getDeck();
+        var deck = MeteorApp.getDeck();
         var cardsIds = deck.cards;
         return lodash.uniq(cardsIds)
             .map(function(cardId) {
@@ -92,16 +100,17 @@ Template.deckEdit.events({
 Template.cardView.events({
     "click .card-add-btn": function(e) {
         var card = this;
-        var deck = getDeck();
-        deck.cards.push(card._id);
-        MeteorApp.Decks.update(deck._id, deck);
+       
+        MeteorApp.addCardToDeck(MeteorApp.data.playerId, card._id);
     },
     "click .card-remove-btn": function(e) {
         var card = this;
-        var deck = getDeck();
+        var deck = MeteorApp.getDeck(MeteorApp.data.playerId);
+        
         var index = deck.cards.lastIndexOf(card._id);
         index !== -1 && deck.cards.splice(index, 1);
 
         MeteorApp.Decks.update(deck._id, deck);
+        
     }
 });

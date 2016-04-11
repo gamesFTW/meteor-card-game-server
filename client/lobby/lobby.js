@@ -1,12 +1,10 @@
 /**
  * 
- * @param {[Event]} e
- * @param {[BlazeTemplate]} template
  * @param {[String]} playerId1
  * @param {[String]} playerId2
  * @returns {string} - game ID
  */
-MeteorApp.createLobbyGame = function(e = null, template = null, playerId1 = null, playerId2 = null) {
+MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
     var defaultDeckId = MeteorApp.Decks.findOne()._id;
     playerId1 = playerId1 || defaultDeckId;
     playerId2 = playerId2 || defaultDeckId;
@@ -22,7 +20,16 @@ MeteorApp.createLobbyGame = function(e = null, template = null, playerId1 = null
         mapWidth: 10,
         mapHeight: 10
     });
-}
+};
+
+MeteorApp.startLobbyGame = function (gameId) {
+    var game = MeteorApp.Games.findOne(gameId);
+    game.started = true;
+
+    MeteorApp.Games.update(gameId, game);
+
+    Meteor.call('startGame', game);
+};
 
 Template.lobby.helpers({
     games: function() {
@@ -32,7 +39,9 @@ Template.lobby.helpers({
 
 
 Template.lobby.events({
-    "click .create-game-button": MeteorApp.createLobbyGame,
+    "click .create-game-button": function() { 
+        return MeteorApp.createLobbyGame();
+    },
     "change .game-type-selector": function(e) {
         var game = MeteorApp.Games.findOne(this._id);
         game.type = e.target.value;
@@ -57,12 +66,7 @@ Template.gameView.events({
         MeteorApp.Games.update(this._id, game);
     },
     "click .start-game-button": function(e) {
-        var game = MeteorApp.Games.findOne(this._id);
-        game.started = true;
-
-        MeteorApp.Games.update(this._id, game);
-
-        Meteor.call('startGame', game);
+       MeteorApp.startLobbyGame(this._id);
     },
     "click .delete-game-button": function(e) {
         if (confirm('Удалить игру?!')) {
