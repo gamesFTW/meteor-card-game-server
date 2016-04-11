@@ -1,10 +1,36 @@
 var getCards = function() {
     var title = Session.get('searchCardTitle') || '';
-        var titleRe = new RegExp(title, 'i');
-        return MeteorApp.Cards.find(
-            { title: titleRe },
-            { sort: {date: -1}}
-        );
+    var titleRe = new RegExp(title, 'i');
+
+    var text = Session.get('searchCardText') || '';
+    var textRe = new RegExp(text, 'i');
+
+    var filter = { title: titleRe, text: textRe };
+
+    var order = Session.get('order') || 'date';
+    var sort = {};
+
+    if (order == "date") {
+        sort[order] = -1;
+    } else {
+        sort[order] = 1;
+    }
+
+    var filterType = Session.get('filterType');
+    if (filterType === 'heroes') {
+        filter = lodash.assign(filter, { hero: true , type: 'creature'});
+    } else if (filterType === 'creatures') {
+        filter = lodash.assign(filter, { hero: false , type: 'creature'});
+    } else if (filterType === 'spells') {
+        filter = lodash.assign(filter, { type: 'spell'});
+    } else if (filterType === 'areas') {
+        filter = lodash.assign(filter, { type: 'area'});
+    }
+
+    return MeteorApp.Cards.find(
+        filter,
+        { sort }
+    );
 };
 
 
@@ -37,8 +63,16 @@ Template.cardsEdit.events({
     },
     'keyup .cards-editor__card-search': function(e) {
         Session.set('searchCardTitle', e.target.value);
+    },
+    'click .filter-type': function(e) {
+        Session.set('filterType', e.target.value);
+    },
+    'keyup .cards-editor__card-text-search': function(e) {
+        Session.set('searchCardText', e.target.value);
+    },
+    'click .cardsEdit__order': function(e) {
+        Session.set('order', e.target.value);
     }
-
 });
 
 

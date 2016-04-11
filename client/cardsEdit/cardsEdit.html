@@ -1,9 +1,23 @@
 <template name="cardsEdit">
     <div class="cards-editor">
         <div class="cards-editor__search-container">
-            <label>
-                <input class="cards-editor__card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Фильтр по названию">
-            </label>
+            <input class="cards-editor__card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Название карты">
+            <input class="cards-editor__card-text-search" type="text" placeholder="Текст карты">
+            <br>
+            <span>
+                <label class="filter-type"><input type="radio" name="gender" value="all" checked> Все</label>
+                <label class="filter-type"><input type="radio" name="gender" value="heroes"> Герои</label>
+                <label class="filter-type"><input type="radio" name="gender" value="creatures"> Существа</label>
+                <label class="filter-type"><input type="radio" name="gender" value="areas"> Арии</label>
+                <label class="filter-type"><input type="radio" name="gender" value="spells"> Спелы</label>
+            </span>
+            <br>
+            <span>
+                <label class="cardsEdit__order"><input type="radio" name="order" value="date" checked> Дата создания</label>
+                <label class="cardsEdit__order"><input type="radio" name="order" value="mana"> Манна</label>
+                <label class="cardsEdit__order"><input type="radio" name="order" value="dmg"> Урон</label>
+                <label class="cardsEdit__order"><input type="radio" name="order" value="health"> Жизни</label>
+            </span>
         </div>
         <br>
         <div>
