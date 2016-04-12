@@ -54,7 +54,6 @@ Template.cardsEdit.events({
             mana: 1,
             counter: 0,
             type: 'creature',
-            imageName: 'ninja',
             text: 'Описание',
             date: new Date(),
             hero: false,
@@ -92,11 +91,6 @@ Template.cardEdit.helpers({
 
 
 Template.cardEdit.events({
-    "change .cardEdit__images": function(e) {
-        this.imageId = e.target.value;
-        MeteorApp.Cards.update(this._id, this);
-    },
-
     "click .card-remove": function(e) {
         e.preventDefault();
         if (confirm("Точно точно удалить " + this.title + "?")) {
@@ -105,11 +99,15 @@ Template.cardEdit.events({
     },
 
     'blur .cardEdit__blurSave': function(e) {
-        $(e.target).parent('.cardEdit').submit();
+        $(e.target).closest('.cardEdit').submit();
     },
 
-    'click t .cardEdit__clickSave': function(e) {
-        $(e.target).parent('.cardEdit').submit();
+    'click .cardEdit__clickSave': function(e) {
+        $(e.target).closest('.cardEdit').submit();
+    },
+    
+    'change .cardEdit__changeSave': function(e) {
+        $(e.target).closest('.cardEdit').submit();
     },
 
     "submit .cardEdit": function(event) {
@@ -119,12 +117,12 @@ Template.cardEdit.events({
             title: event.target.title.value,
             health: Number(event.target.health.value),
             text: event.target.text.value,
-            imageName: event.target.imageName.value,
             dmg: Number(event.target.dmg.value),
             mana: Number(event.target.mana.value),
             counter: Number(event.target.counter.value),
             type: event.target.type.value,
-            hero: Boolean(event.target.hero.checked)
+            hero: Boolean(event.target.hero.checked),
+            imageId: event.target.imageId.value
         });
 
         // for old cards

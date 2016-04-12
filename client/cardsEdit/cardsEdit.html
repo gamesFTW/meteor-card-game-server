@@ -44,8 +44,7 @@
         <input class="cardEdit__type cardEdit__blurSave" type="text" name="type" value="{{type}}" />
         <input title="Является ли героем" class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
         <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
-            <input title="Картинка" class="cardEdit__image-name cardEdit__blurSave" type="text" name="imageName" value="{{imageName}}" />
-            <select class="cardEdit__images" name="">
+            <select class="cardEdit__images cardEdit__changeSave" name="imageId">
                 {{#each images}}
                     <option value="{{_id}}" selected="{{#if equals _id ../imageId}}selected{{/if}}">{{original.name}}</option>
                 {{/each}}
