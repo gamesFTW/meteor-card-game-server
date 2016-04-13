@@ -54,7 +54,7 @@ var getCards = function() {
 
     return MeteorApp.Cards.find(
         filter,
-        { sort: { type: 1, hero: -1, mana: 1 } }
+        { sort: {  mana: 1 } }
     );
 };
 
