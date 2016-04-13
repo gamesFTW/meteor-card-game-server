@@ -50,7 +50,7 @@
     padding: 1px;
 }
 
-.cardEdit__image-name {
+.cardEdit__imageId {
     width: 11em;
     padding: 1px;
 }
@@ -104,10 +104,6 @@
 .cardEdit__image {
     border: 1px solid lightgray;
     background: white;
-}
-
-.cardEdit__images {
-    width: 153px;
 }
 
 @media only screen and (max-width: 1000px)  {

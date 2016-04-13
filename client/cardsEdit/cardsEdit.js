@@ -33,6 +33,8 @@ var getCards = function() {
     );
 };
 
+Meteor.typeahead.inject();
+
 
 Template.cardsEdit.helpers({
     quantity: function() {
@@ -77,18 +79,35 @@ Template.cardsEdit.events({
 
 Template.cardEdit.helpers({
     cardTypes: ['creature', 'area', 'spell'],
+
     image: function () {
-        return MeteorApp.Images.findOne({_id: this.imageId});
+        return MeteorApp.Images.findOne(this.imageId);
     },
+
+    imageName: function () {
+        var image = MeteorApp.Images.findOne(this.imageId);
+        return image ? image.original.name : '';
+    },
+
     images: function() {
-        return MeteorApp.Images.find({});
+        return MeteorApp.Images.find().map(i => ({id: i._id, value: i.original.name}));
     },
+    
+    imageSelected: function (e, suggestion) {
+        $(e.target).closest('.cardEdit').find('input[name="imageId"]').val(suggestion.id);
+        
+        $(e.target).closest('.cardEdit').submit();
+    },
+    
     itMustHaveImage: function () {
         return this.type !== 'spell';
     }
     
 });
 
+Template.cardEdit.rendered = function () {
+    Meteor.typeahead.inject();
+};
 
 Template.cardEdit.events({
     "click .card-remove": function(e) {
