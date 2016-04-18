@@ -6,11 +6,12 @@
             <br>
             <span>
                 Фильтр:
-                <label class="filter-type"><input type="radio" name="gender" value="all" checked> Все</label>
-                <label class="filter-type"><input type="radio" name="gender" value="heroes"> Герои</label>
-                <label class="filter-type"><input type="radio" name="gender" value="creatures"> Существа</label>
-                <label class="filter-type"><input type="radio" name="gender" value="areas"> Арии</label>
-                <label class="filter-type"><input type="radio" name="gender" value="spells"> Спелы</label>
+                <label class="filter-type"><input type="radio" name="gender" value="all" checked>Все</label>
+                <label class="filter-type"><input type="radio" name="gender" value="heroes">Герои</label>
+                <label class="filter-type"><input type="radio" name="gender" value="creatures">Существа</label>
+                <label class="filter-type"><input type="radio" name="gender" value="areas">Арии</label>
+                <label class="filter-type"><input type="radio" name="gender" value="spells">Спелы</label>
+                <label class="filter-type"><input type="radio" name="gender" value="drafts">Драфты</label>
             </span>
             <br>
             <span>
@@ -43,8 +44,11 @@
     <form class="cardEdit">
         <input class="cardEdit__title cardEdit__blurSave" type="text" name="title" value="{{title}}" />
         <input class="cardEdit__type cardEdit__blurSave" type="text" name="type" value="{{type}}" />
-        <input title="Является ли героем" class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox">
-        <input title="Является ли существо большим" class="cardEdit__clickSave" name="big" checked="{{#if big}}checked{{/if}}" type="checkbox">
+        <div class="cardEdit__checkboxes">
+            <label title="Является ли героем">H:<input  class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox"></label>
+            <label title="Является ли существо большим">Big: <input class="cardEdit__clickSave" name="big" checked="{{#if big}}checked{{/if}}" type="checkbox"></label>
+            <label title="Является ли драфтом">D: <input class="cardEdit__clickSave" name="draft" checked="{{#if draft}}checked{{/if}}" type="checkbox"></label>
+        </div>
         <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
             <input class="typeahead cardEdit__imageId" name="imageIdSelect" type="text"
                    placeholder="имя картинки" value="{{imageName}}"

@@ -5,7 +5,7 @@ var getCards = function() {
     var text = Session.get('searchCardText') || '';
     var textRe = new RegExp(text, 'i');
 
-    var filter = { title: titleRe, text: textRe };
+    var filter = { title: titleRe, text: textRe, draft: false };
 
     var order = Session.get('order') || 'date';
     var sort = {};
@@ -18,20 +18,23 @@ var getCards = function() {
 
     var filterType = Session.get('filterType');
     if (filterType === 'heroes') {
-        filter = lodash.assign(filter, { hero: true , type: 'creature'});
+        filter = lodash.assign(filter, { hero: true , type: 'creature' });
     } else if (filterType === 'creatures') {
-        filter = lodash.assign(filter, { hero: false , type: 'creature'});
+        filter = lodash.assign(filter, { hero: false , type: 'creature' });
     } else if (filterType === 'spells') {
-        filter = lodash.assign(filter, { type: 'spell'});
+        filter = lodash.assign(filter, { type: 'spell' });
     } else if (filterType === 'areas') {
-        filter = lodash.assign(filter, { type: 'area'});
-    }
+        filter = lodash.assign(filter, { type: 'area' });
+    } else if (filterType === 'drafts') {
+        filter = lodash.assign(filter, { draft: true });
+    } 
 
     return MeteorApp.Cards.find(
         filter,
         { sort }
     );
 };
+
 
 Meteor.typeahead.inject();
 
@@ -60,6 +63,7 @@ Template.cardsEdit.events({
             date: new Date(),                       // дата-время создания
             hero: false,                            // гейро ли?
             big: false,                             // большая крича 2х2?
+            draft: false,                           // в разработке? драфт?
             imageId: MeteorApp.Images.findOne()._id // id картинки
         });
     },
@@ -143,6 +147,7 @@ Template.cardEdit.events({
             type: event.target.type.value,
             hero: Boolean(event.target.hero.checked),
             big: Boolean(event.target.big.checked),
+            draft: Boolean(event.target.draft.checked),
             imageId: event.target.imageId.value
         });
 
