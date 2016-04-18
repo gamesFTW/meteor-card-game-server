@@ -50,16 +50,17 @@ Template.cardsEdit.helpers({
 Template.cardsEdit.events({
     'click .add-card-btn': function() {
         MeteorApp.Cards.insert({
-            title: 'Новая карта',
-            health: 1,
-            dmg: 0,
-            mana: 1,
-            counter: 0,
-            type: 'creature',
-            text: 'Описание',
-            date: new Date(),
-            hero: false,
-            imageId: MeteorApp.Images.findOne()._id
+            title: 'Новая карта',                   // название
+            health: 1,                              // здоровье
+            dmg: 0,                                 // урон
+            mana: 1,                                // мана
+            counter: 0,                             // счетчик на карте(монетка)
+            type: 'creature',                       // area/spell/creature
+            text: 'Описание',                       // Описание карты
+            date: new Date(),                       // дата-время создания
+            hero: false,                            // гейро ли?
+            big: false,                             // большая крича 2х2?
+            imageId: MeteorApp.Images.findOne()._id // id картинки
         });
     },
     'keyup .cards-editor__card-search': function(e) {
@@ -141,6 +142,7 @@ Template.cardEdit.events({
             counter: Number(event.target.counter.value),
             type: event.target.type.value,
             hero: Boolean(event.target.hero.checked),
+            big: Boolean(event.target.big.checked),
             imageId: event.target.imageId.value
         });
 
@@ -163,11 +165,11 @@ Template.cardEdit.events({
         var deck = MeteorApp.getDeck(playerId);
 
         MeteorApp.clearDeck(playerId);
-        MeteorApp.addCardToDeck(playerId, card._id);
+        MeteorApp.addCardToHandDeck(playerId, card._id);
         
         // Создаем героя для теста арий
         var heroCard = MeteorApp.Cards.findOne({hero: true});
-        MeteorApp.addCardToDeck(playerId, heroCard._id);
+        MeteorApp.addCardToHandDeck(playerId, heroCard._id);
         
         var gameId = MeteorApp.createLobbyGame(deck._id);
         MeteorApp.startLobbyGame(gameId);

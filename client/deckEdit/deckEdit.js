@@ -46,6 +46,7 @@ MeteorApp.addCardToHandDeck = function(name, cardId) {
 MeteorApp.clearDeck = (name) => {
     var deck = MeteorApp.Decks.findOne({ name: name });
     deck.cards = [];
+    deck.handCards = [];
     MeteorApp.Decks.update(deck._id, deck);
 };
 
