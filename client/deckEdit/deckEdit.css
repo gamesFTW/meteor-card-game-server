@@ -11,6 +11,23 @@
     border-bottom: 1px solid;
 }
 
+.deckEdit__cards-in-hand-deck {
+    border-right: 1px black solid;
+    background-color: snow;
+}
+
+.deckEdit__cards-in-deck,.deckEdit__cards-in-hand-deck {
+    display: inline-block;
+}
+
+.deckEdit__cards-in-deck .cardView__deck-hand-buttons {
+    display: none;
+}
+
+.deckEdit__cards-in-hand-deck .cardView__deck-buttons {
+    display: none;
+}
+
 .deckEdit__your-deck-list {
     white-space: nowrap;
     overflow: auto;
@@ -20,45 +37,48 @@
     margin-top: 400px;
 }
 
-.card-view {
+.cardView {
     font-size: 13px;
     box-shadow: 0 0 2px 1px rgba(0,0,0,0.6);
+
+    background-color: white;
+
     border-radius: 10px;
     margin: 10px;
     padding: 6px;
     width: 150px;
-    height: 220px;
+    height: 260px;
     display: inline-block;
     overflow: hidden;
     white-space: normal;
 }
 
-.card-view__title {
+.cardView__title {
     font-weight: bold;
 }
 
-.card-view__text {
+.cardView__text {
     margin: 6px 0;
     height: 140px;
     white-space: pre-line;
     overflow: auto;
 }
 
-.card-view__mana {
+.cardView__mana {
     color: blue;
     font-weight: bold;
     width: 14px;
     display: inline-block;
 }
 
-.card-view__dmg {
+.cardView__dmg {
     color: red;
     font-weight: bold;
     width: 14px;
     display: inline-block;
 }
 
-.card-view__health {
+.cardView__health {
     color: green;
     font-weight: bold;
     width: 14px;

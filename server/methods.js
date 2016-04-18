@@ -5,45 +5,39 @@ var green = '0x88ff88';
 
 
 function addCardsToPlayer(gameId, ownerId, color, handCardsNumber) {
-    var allCards = MeteorApp.Decks.findOne(ownerId).cards.map(
-        function(cardId) {
-            return MeteorApp.Cards.findOne(cardId);
-    });
-    var heroesCards = lodash.filter(allCards, 'hero');
-    var nonHeroesCards = lodash.shuffle(lodash.reject(allCards, 'hero'));
-
-    var handCards = lodash.take(nonHeroesCards, handCardsNumber);
-    var deckCards = lodash.drop(nonHeroesCards, handCardsNumber);
+    let deck = MeteorApp.Decks.findOne(ownerId);
+    var allCards = deck.cards.map(
+        (cardId) => MeteorApp.Cards.findOne(cardId)
+    );
     
-    //hand heroes
-    for (var i = 0; i < heroesCards.length; i++) {
-        Meteor.call('createCardFromData', gameId, heroesCards[i], ownerId, 'hand', color);
-    }
+    allCards = lodash.shuffle(allCards);
+    
+    var initialHandCards = deck.handCards.map(
+        (cardId) => MeteorApp.Cards.findOne(cardId)
+    );
+    
+
+    var handCards = lodash.take(allCards, handCardsNumber);
+    var deckCards = lodash.drop(allCards, handCardsNumber);
+    
+    //initial cards from handCards
+    initialHandCards.forEach(
+        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'hand', color)
+    );
 
     //hand creatures
-    for (i = 0; i < handCards.length; i++) {
-        Meteor.call(
-            'createCardFromData', gameId, handCards[i], ownerId, 'hand', color
-        );
-    }
+    handCards.forEach(
+        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'hand', color)
+    );
 
     //deck
-    for (i = 0; i < deckCards.length; i++) {
-        Meteor.call(
-            'createCardFromData', gameId, deckCards[i], ownerId, 'deck', color
-        );
-    }
+    deckCards.forEach(
+        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'deck', color)
+    );
 }
 
 
 Meteor.methods({
-    dropBase: function() {
-        MeteorApp.CardsInGame.remove({});
-        MeteorApp.Actions.remove({});
-        MeteorApp.Cards.remove({});
-    },
-
-
     removeGameById: function(gameId) {
         MeteorApp.Games.remove(gameId);
         MeteorApp.CardsInGame.remove({gameId: gameId});

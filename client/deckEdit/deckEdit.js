@@ -10,15 +10,19 @@ MeteorApp.getDeck = function(playerId) {
 
 /**
  * 
- * @param {String} playerId
+ * @param {String} name
  * @returns {} 
  */
-MeteorApp.createDeck = function(playerId) {
-    return MeteorApp.Decks.insert({ name: playerId, cards: [] });
+MeteorApp.createDeck = function(name) {
+    return MeteorApp.Decks.insert({
+        name: name,
+        cards: [],
+        handCards: []
+    });
 };
 
-MeteorApp.addCardToDeck = function(playerId, cardId) {
-    var deck = MeteorApp.Decks.findOne({name: playerId});
+MeteorApp.addCardToDeck = function(name, cardId) {
+    var deck = MeteorApp.Decks.findOne({name: name});
     
     deck.cards.push(cardId);
     
@@ -26,8 +30,21 @@ MeteorApp.addCardToDeck = function(playerId, cardId) {
     
 };
 
-MeteorApp.clearDeck = function (playerId) {
-    var deck = MeteorApp.Decks.findOne({name: playerId});
+MeteorApp.addCardToHandDeck = function(name, cardId) {
+    var deck = MeteorApp.Decks.findOne({name: name});
+    
+    if (!deck.handCards) {
+        deck.handCards = [];
+    }    
+    
+    deck.handCards.push(cardId);
+    
+    MeteorApp.Decks.update(deck._id, deck);
+};
+
+
+MeteorApp.clearDeck = (name) => {
+    var deck = MeteorApp.Decks.findOne({ name: name });
     deck.cards = [];
     MeteorApp.Decks.update(deck._id, deck);
 };
@@ -61,7 +78,8 @@ var getCards = function() {
 
 Template.deckEdit.helpers({
     deckLength: function() {
-        return MeteorApp.getDeck().cards.length;
+        let deck = MeteorApp.getDeck();
+        return deck.cards.length + deck.handCards.length;
     },
     cards: getCards,
     playerId: function() {
@@ -88,7 +106,30 @@ Template.deckEdit.helpers({
                 
                 return card;
             });
+    },
+    cardsInHandDeck: function() {
+        var deck = MeteorApp.getDeck();
+        var cardsIds = deck.handCards;
+        return lodash.uniq(cardsIds)
+            .map(function(cardId) {
+                var card = MeteorApp.Cards.findOne(cardId);
+                if (!card) { 
+                    console.warn('There is no card', cardId, 'It will be deleted from deck.');
+                    
+                    var index = deck.handCards.lastIndexOf(cardId);
+                    index !== -1 && deck.handCards.splice(index, 1);
+
+                    MeteorApp.Decks.update(deck._id, deck);           
+                } else {
+                    card.quantity = cardsIds.filter(
+                        function(number) {return number === cardId}
+                    ).length;    
+                } 
+                
+                return card;
+            });
     }
+    
 });
 
 Template.deckEdit.events({
@@ -115,6 +156,21 @@ Template.cardView.events({
         
         var index = deck.cards.lastIndexOf(card._id);
         index !== -1 && deck.cards.splice(index, 1);
+
+        MeteorApp.Decks.update(deck._id, deck);
+        
+    },
+    "click .card-add-hand-btn": function(e) {
+        var card = this;
+       
+        MeteorApp.addCardToHandDeck(MeteorApp.data.playerId, card._id);
+    },
+    "click .card-remove-hand-btn": function(e) {
+        var card = this;
+        var deck = MeteorApp.getDeck(MeteorApp.data.playerId);
+        
+        var index = deck.handCards.lastIndexOf(card._id);
+        index !== -1 && deck.handCards.splice(index, 1);
 
         MeteorApp.Decks.update(deck._id, deck);
         

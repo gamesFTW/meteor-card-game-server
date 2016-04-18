@@ -3,11 +3,20 @@
         <div class="deckEdit__your-deck">
             <h2>{{playerId}}'s deck ({{deckLength}})</h2>
             <div class="deckEdit__your-deck-list">
-                {{#each cardsInDeck}}
-                    {{>cardView this}}
-                {{/each}}
+                <div class="deckEdit__cards-in-hand-deck">
+                    {{#each cardsInHandDeck}}
+                        {{>cardView this}}
+                    {{/each}}
+                </div>
+
+                <div class="deckEdit__cards-in-deck">
+                    {{#each cardsInDeck}}
+                        {{>cardView this}}
+                    {{/each}}
+                </div>
             </div>
         </div>
+
         <div class="deckEdit__all-cards">
             <h2>All cards</h2>
             <div>
@@ -22,28 +31,37 @@
                 </span>
             </div>
             {{#each cards}}
-               {{>cardView}}
+               {{>cardView this}}
             {{/each}}
         </div>
     </div>
 </template>
 
 <template name="cardView">
-    <div class="card-view">
-        <div class="card-view__title">{{title}} {{#if quantity}} ({{quantity}}){{/if}}</div>
+    <div class="cardView">
+        <div class="cardView__title">{{title}} {{#if quantity}} ({{quantity}}){{/if}}</div>
         <div>
             {{type}}
             {{#if hero}}
                 (герой)
             {{/if}}
         </div>
-        <div class="card-view__text">{{text}}</div>
+        <div class="cardView__text">{{text}}</div>
         <div>
-            <span class="card-view__mana">{{mana}}</span>
-            <span class="card-view__dmg">{{dmg}}</span>
-            <span class="card-view__health">{{health}}</span>
-            <button class="card-add-btn">+</button>
-            <button class="card-remove-btn">-</button>
+            <span class="cardView__mana">{{mana}}</span>
+            <span class="cardView__dmg">{{dmg}}</span>
+            <span class="cardView__health">{{health}}</span>
+
+            <div class="cardView__deck-buttons">
+                <button class="card-add-btn">+</button>
+                <button class="card-remove-btn">-</button>
+            </div>
+
+            <div class="cardView__deck-hand-buttons">
+               В руку:
+                <button class="card-add-hand-btn">+</button>
+                <button class="card-remove-hand-btn">-</button>
+            </div>
         </div>
     </div>
 </template>
