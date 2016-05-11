@@ -63,27 +63,13 @@ Meteor.methods({
 
 
     startGame: function(game) {
-        addCardsToPlayer(game._id, game.playerId1, red, 9);
-        addCardsToPlayer(game._id, game.playerId2, blue, 10);
+        addCardsToPlayer(game._id, game.playerId1, red, 7);
+        addCardsToPlayer(game._id, game.playerId2, blue, 8);
 
         if (game.type == 'ogre') {
-            addCardsToPlayer(game._id, game.playerId3, yellow, 9);
-            addCardsToPlayer(game._id, game.playerId4, green, 10);
+            addCardsToPlayer(game._id, game.playerId3, yellow, 7);
+            addCardsToPlayer(game._id, game.playerId4, green, 8);
         }
-    },
-
-
-    solo: function() {
-        addCardsToPlayer('1', red, 9);
-        addCardsToPlayer('2', blue, 10);
-    },
-
-
-    ogre: function() {
-        addCardsToPlayer('1', red, 9);
-        addCardsToPlayer('2', blue, 10);
-        addCardsToPlayer('3', yellow, 9);
-        addCardsToPlayer('4', green, 10);
     },
 
 
