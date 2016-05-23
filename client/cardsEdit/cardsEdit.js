@@ -38,8 +38,6 @@ var getCards = function() {
 };
 
 
-Meteor.typeahead.inject();
-
 
 Template.cardsEdit.helpers({
     quantity: function() {
