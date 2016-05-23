@@ -4,5 +4,12 @@
     <div class="game-wrapper">
         <div id="gameView"></div>
     </div>
-</template>
 
+    <div class='game__summon-window {{#if summonWindow}}{{else}}game__summon-window_visible_false{{/if}}'>
+        <input class="typeahead game__summon-window-input" name="summonInput" type="text"
+               placeholder="Название карты"
+               autocomplete="off" spellcheck="off"
+               data-min-length="0" data-limit="10"
+               data-source="creatures" data-select="summonSelected"/>
+    </div>
+</template>

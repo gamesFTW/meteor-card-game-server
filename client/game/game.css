@@ -12,3 +12,15 @@
     top: 50%; left: 50%;
     transform: translate(-50%,-50%);
 }
+
+.game__summon-window {
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: fixed;
+    background: white;
+}
+
+.game__summon-window_visible_false {
+    display: none;
+}

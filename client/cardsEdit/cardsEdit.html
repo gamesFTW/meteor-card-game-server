@@ -6,12 +6,13 @@
             <br>
             <span>
                 Фильтр:
-                <label class="filter-type"><input type="radio" name="gender" value="all" checked>Все</label>
+                <label class="filter-type"><input type="radio" name="gender" value="creatures" checked>Существа</label>
                 <label class="filter-type"><input type="radio" name="gender" value="heroes">Герои</label>
-                <label class="filter-type"><input type="radio" name="gender" value="creatures">Существа</label>
                 <label class="filter-type"><input type="radio" name="gender" value="areas">Арии</label>
                 <label class="filter-type"><input type="radio" name="gender" value="spells">Спелы</label>
                 <label class="filter-type"><input type="radio" name="gender" value="drafts">Драфты</label>
+                <label class="filter-type"><input type="radio" name="gender" value="summoneds">Саммонеды</label>
+                <label class="filter-type"><input type="radio" name="gender" value="all">Все</label>
             </span>
             <br>
             <span>
@@ -48,6 +49,7 @@
             <label title="Является ли героем">H:<input  class="cardEdit__clickSave" name="hero" checked="{{#if hero}}checked{{/if}}" type="checkbox"></label>
             <label title="Является ли существо большим">Big: <input class="cardEdit__clickSave" name="big" checked="{{#if big}}checked{{/if}}" type="checkbox"></label>
             <label title="Является ли драфтом">D: <input class="cardEdit__clickSave" name="draft" checked="{{#if draft}}checked{{/if}}" type="checkbox"></label>
+            <label title="Является ли саммонедом">S: <input class="cardEdit__clickSave" name="summoned" checked="{{#if summoned}}checked{{/if}}" type="checkbox"></label>
         </div>
         <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
             <input class="typeahead cardEdit__imageId" name="imageIdSelect" type="text"

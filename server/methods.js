@@ -100,6 +100,25 @@ Meteor.methods({
         cardData.attachedCards = [];
         cardData.rotated = false;
 
-        MeteorApp.CardsInGame.insert(cardData);
+        return MeteorApp.CardsInGame.insert(cardData);
+    },
+
+
+    createCardInPlayerHand: function(gameId, ownerId, cardId) {
+        var card = MeteorApp.Cards.findOne(cardId);
+        var color = MeteorApp.CardsInGame.findOne({gameId: gameId, ownerId: ownerId}).color;
+
+        var newCardInGameId = Meteor.call('createCardFromData', gameId, card, ownerId, 'hand', color);
+        var newCardInGame = MeteorApp.CardsInGame.findOne(newCardInGameId);
+
+        newCardInGame.id = newCardInGame._id;
+
+        MeteorApp.Actions.insert({
+            gameId: gameId,
+            type: 'Backend:cardCreated',
+            params: {
+                card: newCardInGame
+            }
+        });
     }
 });
