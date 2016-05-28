@@ -57,7 +57,7 @@ var getCards = function() {
     var text = Session.get('searchCardText') || '';
     var textRe = new RegExp(text, 'i');
 
-    var filter = { title: titleRe, text: textRe, draft: false };
+    var filter = { title: titleRe, text: textRe, draft: false, summoned: false };
 
     var filterType = Session.get('filterType');
     if (filterType === 'heroes') {
