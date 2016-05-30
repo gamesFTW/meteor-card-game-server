@@ -45,23 +45,6 @@ Meteor.methods({
     },
 
 
-    gameForTestImg: function() {
-        var cardsDeal = [].concat(cards.heroes, cards.creatures);
-        _.range(6, 15).forEach(function(x) {
-            _.range(6, 15).forEach(function(y) {
-                var card = cardsDeal ? cardsDeal.pop() : null;
-
-                if (card) {
-                    card.x = x;
-                    card.y = y;
-                    Meteor.call('createCardFromData', card, 1, 'table', red);
-                }
-            });
-        });
-
-    },
-
-
     startGame: function(game) {
         addCardsToPlayer(game._id, game.playerId1, red, 7);
         addCardsToPlayer(game._id, game.playerId2, blue, 8);
@@ -70,20 +53,6 @@ Meteor.methods({
             addCardsToPlayer(game._id, game.playerId3, yellow, 7);
             addCardsToPlayer(game._id, game.playerId4, green, 8);
         }
-    },
-
-
-    loadDefaultCards: function() {
-        function addCard(card) {
-            card.date = new Date();
-            MeteorApp.Cards.insert(card);
-        }
-
-        cards.heroes.forEach(addCard);
-        cards.areas.forEach(addCard);
-        cards.creatures.forEach(addCard);
-        cards.spells.forEach(addCard);
-
     },
 
 
