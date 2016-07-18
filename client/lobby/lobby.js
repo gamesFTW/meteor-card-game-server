@@ -17,8 +17,8 @@ MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
         playerId2: playerId2,
         playerId3: undefined,
         playerId4: undefined,
-        mapWidth: 10,
-        mapHeight: 10
+        mapWidth: 8,
+        mapHeight: 9
     });
 };
 
