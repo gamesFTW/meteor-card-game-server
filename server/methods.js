@@ -79,7 +79,11 @@ Meteor.methods({
         cardData.attachable = _.contains(['spell', 'area'], cardData.type);
         cardData.maxHealth = cardData.health;
         cardData.attachedCards = [];
-        cardData.rotated = false;
+        //cardData.rotated = false;
+
+        if (cardGroup == 'manaPool') {
+            cardData.tapped = false;
+        }
 
         return MeteorApp.CardsInGame.insert(cardData);
     },
