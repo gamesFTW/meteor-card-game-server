@@ -66,7 +66,7 @@ Template.gameView.events({
         MeteorApp.Games.update(this._id, game);
     },
     "click .start-game-button": function(e) {
-       MeteorApp.startLobbyGame(this._id);
+        MeteorApp.startLobbyGame(this._id);
     },
     "click .delete-game-button": function(e) {
         if (confirm('Удалить игру?!')) {
