@@ -1,9 +1,3 @@
-var red = '0xff8888';
-var yellow = '0xffff88';
-var blue = '0x8888ff';
-var green = '0x88ff88';
-
-
 function addCardsToPlayer(gameId, ownerId, color, handCardsNumber, manaPoolCardsNumber) {
     let deck = MeteorApp.Decks.findOne(ownerId);
     var allCards = deck.cards.map(
@@ -58,12 +52,12 @@ Meteor.methods({
 
 
     startGame: function(game) {
-        addCardsToPlayer(game._id, game.playerId1, red, 8, 0);
-        addCardsToPlayer(game._id, game.playerId2, blue, 8, 1);
+        addCardsToPlayer(game._id, game.playerId1, '1', 8, 0);
+        addCardsToPlayer(game._id, game.playerId2, '2', 8, 1);
 
         if (game.type == 'ogre') {
-            addCardsToPlayer(game._id, game.playerId3, yellow, 8, 0);
-            addCardsToPlayer(game._id, game.playerId4, green, 8, 1);
+            addCardsToPlayer(game._id, game.playerId3, '3', 8, 0);
+            addCardsToPlayer(game._id, game.playerId4, '4', 8, 1);
         }
     },
 
