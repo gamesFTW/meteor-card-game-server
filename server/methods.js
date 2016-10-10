@@ -52,12 +52,12 @@ Meteor.methods({
 
 
     startGame: function(game) {
-        addCardsToPlayer(game._id, game.playerId1, '1', 8, 0);
-        addCardsToPlayer(game._id, game.playerId2, '2', 8, 1);
+        addCardsToPlayer(game._id, game.playerId1, '1', 9, 0);
+        addCardsToPlayer(game._id, game.playerId2, '2', 9, 0);
 
         if (game.type == 'ogre') {
-            addCardsToPlayer(game._id, game.playerId3, '3', 8, 0);
-            addCardsToPlayer(game._id, game.playerId4, '4', 8, 1);
+            addCardsToPlayer(game._id, game.playerId3, '3', 9, 0);
+            addCardsToPlayer(game._id, game.playerId4, '4', 9, 0);
         }
     },
 

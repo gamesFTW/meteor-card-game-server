@@ -14,7 +14,7 @@ MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
         started: false,
         date: new Date(),
         
-        turnNumber: 0,
+        turnNumber: 1,
         
         playerId1: playerId1,
         playerId2: playerId2,
