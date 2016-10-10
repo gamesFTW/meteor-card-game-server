@@ -27,7 +27,6 @@
         {{else}}
             <input class="lobby__deck-size" type="text" value="{{mapWidth}}" name="mapWidth">
             <input class="lobby__deck-size" type="text" value="{{mapHeight}}" name="mapHeight">
-
             <select class="game-type-selector">
                 <option value="solo" selected="{{#if equals type 'solo'}}selected{{/if}}">Соло</option>
                 <option value="ogre" selected="{{#if equals type 'ogre'}}selected{{/if}}">Огр</option>
@@ -62,5 +61,8 @@
             <button class="start-game-button">Start game</button>
         {{/if}}
         <button class="delete-game-button">Delete game</button>
+        <span>
+            Current Turn: {{turnNumber}}
+        </span>
     </div>
 </template>
