@@ -13,10 +13,14 @@ MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
         type: 'solo',
         started: false,
         date: new Date(),
+        
+        turnNumber: 0,
+        
         playerId1: playerId1,
         playerId2: playerId2,
         playerId3: undefined,
         playerId4: undefined,
+        
         mapWidth: 8,
         mapHeight: 9
     });
