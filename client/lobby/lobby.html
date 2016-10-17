@@ -61,8 +61,11 @@
             <button class="start-game-button">Start game</button>
         {{/if}}
         <button class="delete-game-button">Delete game</button>
-        <span>
-            Current Turn: {{turnNumber}}
-        </span>
+
+        {{#if turnNumber}}
+            <span>
+                Current Turn: {{turnNumber}}
+            </span>
+        {{/if}}
     </div>
 </template>
