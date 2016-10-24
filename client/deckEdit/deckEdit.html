@@ -5,7 +5,18 @@
 
             <div>
                 Распредиление по мане:
-                {{manaDistribution}}
+                <table class="deckEdit__mana-table">
+                    <tr class="deckEdit__mana-title">
+                        {{#each manaDistribution.manaTitle}}
+                            <td>{{this}}</td>
+                        {{/each}}
+                    </tr>
+                    <tr>
+                        {{#each manaDistribution.manaCount}}
+                            <td>{{this}}</td>
+                        {{/each}}
+                    </tr>
+                </table>
             </div>
 
             <div class="deckEdit__your-deck-list">

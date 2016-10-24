@@ -148,9 +148,10 @@ Template.deckEdit.helpers({
             }
         });
         
-        return _.keys(distribution).reduce((str, key) => {
-           return `${str} ${distribution[key]} | `;
-        }, "");
+        return {
+            manaTitle: _.keys(distribution),
+            manaCount: _.values(distribution)
+        }
         
     }
     

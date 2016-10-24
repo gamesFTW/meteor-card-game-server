@@ -2,6 +2,17 @@
     font-family: Arial;
 }
 
+.deckEdit__mana-table td {
+    padding: 0 5px;
+    text-align: center;
+}
+
+.deckEdit__mana-title td {
+    color: blue;
+    font-weight: bold;
+    border-bottom: 1px gray solid;
+}
+
 .deckEdit__your-deck {
     position: fixed;
     top: 31px;
