@@ -131,7 +131,7 @@ Template.deckEdit.helpers({
             });
     },
     manaDistribution: function () {
-        const MAX_MANA = 10 + 1;
+        const MAX_MANA = 8 + 1;
         const cards = MeteorApp.getDeck().cards;
         
         
