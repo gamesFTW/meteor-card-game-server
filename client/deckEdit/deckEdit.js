@@ -129,6 +129,29 @@ Template.deckEdit.helpers({
                 
                 return card;
             });
+    },
+    manaDistribution: function () {
+        const MAX_MANA = 10 + 1;
+        const cards = MeteorApp.getDeck().cards;
+        
+        
+        var distribution = _.range(MAX_MANA).reduce((obj, x) => {
+            obj[x]=0;
+            return obj;
+        }, {});
+        
+        
+        cards.forEach(cardId => {
+            var card = MeteorApp.Cards.findOne(cardId);
+            if (card.mana !== undefined) {
+                distribution[card.mana]++; 
+            }
+        });
+        
+        return _.keys(distribution).reduce((str, key) => {
+           return `${str} ${distribution[key]} | `;
+        }, "");
+        
     }
     
 });

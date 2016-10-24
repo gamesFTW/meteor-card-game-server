@@ -2,6 +2,12 @@
     <div class="deckEdit">
         <div class="deckEdit__your-deck">
             <h2>{{playerId}}'s deck ({{deckLength}})</h2>
+
+            <div>
+                Распредиление по мане:
+                {{manaDistribution}}
+            </div>
+
             <div class="deckEdit__your-deck-list">
                 <div class="deckEdit__cards-in-hand-deck">
                     {{#each cardsInHandDeck}}
@@ -18,7 +24,6 @@
         </div>
 
         <div class="deckEdit__all-cards">
-            <h2>All cards</h2>
             <div>
                 <input class="card-search" type="text" placeholder="Название карты">
                 <input class="card-text-search" type="text" placeholder="Текст карты">
