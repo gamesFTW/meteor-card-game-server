@@ -1,6 +1,6 @@
 Template.imagesEdit.helpers({
     images: function() {
-        return MeteorApp.Images.find({});
+        return MeteorApp.Images.find({}, { sort: { 'original.name': 1 } });
     }
 });
 
