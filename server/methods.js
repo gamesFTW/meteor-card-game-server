@@ -61,6 +61,24 @@ Meteor.methods({
         }
     },
 
+    
+    unPauseGame: function(gameId) {
+        var game = MeteorApp.Games.findOne(gameId);
+        game.paused = false;
+
+        MeteorApp.Games.update(gameId, game);
+        MeteorApp.startGameTimer(gameId);
+    },
+    
+    
+    pauseGame: function(gameId) {
+        var game = MeteorApp.Games.findOne(gameId);
+        game.paused = true;
+
+        MeteorApp.Games.update(gameId, game);
+        MeteorApp.stopGameTimer(gameId);
+    },
+
 
     createCardFromData: function(gameId, cardData, ownerId, cardGroup, color) {
         delete cardData._id;

@@ -1,5 +1,4 @@
 /**
- * 
  * @param {[String]} playerId1
  * @param {[String]} playerId2
  * @returns {string} - game ID
@@ -11,20 +10,43 @@ MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
 
     return MeteorApp.Games.insert({
         type: 'solo',
-        started: false,
         date: new Date(),
-        
+
+        started: false,
+        paused: true,
         turnNumber: 1,
+        turnPlayer: 1,
         
+        // Players ids
         playerId1: playerId1,
         playerId2: playerId2,
         playerId3: undefined,
         playerId4: undefined,
+
+        // Timers
+        globalTimers: {
+            player1: 0,
+            player2: 0,
+            player3: 0,
+            player4: 0
+        },
         
+        // Map
         mapWidth: 8,
         mapHeight: 9
     });
 };
+
+MeteorApp.pauseOrUnpauseGame = function (gameId) {
+    var game = MeteorApp.Games.findOne(gameId);
+
+    if (game.paused) {
+        Meteor.call('unPauseGame', gameId);
+    } else {
+        Meteor.call('pauseGame', gameId);
+    }
+};
+
 
 MeteorApp.startLobbyGame = function (gameId) {
     var game = MeteorApp.Games.findOne(gameId);
@@ -34,6 +56,7 @@ MeteorApp.startLobbyGame = function (gameId) {
 
     Meteor.call('startGame', game);
 };
+
 
 Template.lobby.helpers({
     games: function() {
@@ -71,6 +94,9 @@ Template.gameView.events({
     },
     "click .start-game-button": function(e) {
         MeteorApp.startLobbyGame(this._id);
+    },
+    "click .pause-game-button": function(e) {
+        MeteorApp.pauseOrUnpauseGame(this._id);
     },
     "click .delete-game-button": function(e) {
         if (confirm('Удалить игру?!')) {
