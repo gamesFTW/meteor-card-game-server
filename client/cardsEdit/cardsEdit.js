@@ -24,7 +24,7 @@ var getCards = function() {
     } else if (filterType === 'spells') {
         filter = lodash.assign(filter, { type: 'spell', draft: false, summoned: false });
     } else if (filterType === 'areas') {
-        filter = lodash.assign(filter, { type: 'area', draft: false, summoned: false});
+        filter = lodash.assign(filter, { type: 'area', draft: false, summoned: false });
     } else if (filterType === 'drafts') {
         filter = lodash.assign(filter, { draft: true });
     }  else if (filterType === 'summoneds') {
