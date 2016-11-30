@@ -1,6 +1,4 @@
-MeteorApp.data = {
-    playerId: null
-};
+MeteorApp = MeteorApp || {};
     
 Meteor.methods({    
     addTimerAlarmedEndOfTurnEvent: function (gameId, playerId) {
