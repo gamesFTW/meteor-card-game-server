@@ -1,26 +1,26 @@
 var ddpEvents = new EventDDP('raix:push');
 
 
-const MINUTE = 6;
+const MINUTE = 60;
 const TURN_TIMERS_LIMITS = [
     {
         limit: 0,
         turnTime: Infinity
     },
     {
-        limit: 5 * MINUTE,
+        limit: 6 * MINUTE,
         turnTime: 3 * MINUTE 
     },
     {
-        limit: 10 * MINUTE,
+        limit: 12 * MINUTE,
         turnTime: 2 * MINUTE 
     },
     {
-        limit: 15 * MINUTE,
+        limit: 18 * MINUTE,
         turnTime: 1 * MINUTE 
     },
     {
-        limit: 20 * MINUTE,
+        limit: 25 * MINUTE,
         turnTime: 0.5 * MINUTE 
     }
 ];
@@ -91,7 +91,7 @@ function setGlobalTimer(gameId, playerIndex, value) {
 
 
 function globalTimerTick(gameId) {
-    console.log('Game', gameId, 'tic');
+    // console.log('Game', gameId, 'tic');
     
     var game = MeteorApp.Games.findOne(gameId);
     var playerIndex = game.turnPlayer;
@@ -110,10 +110,17 @@ function globalTimerTick(gameId) {
     }
     
     decrementTimeLeft(gameId);
-    console.log('Game', gameId, 'time', getTimeLeft(gameId), 'left');
-    console.log('Game', gameId, 'user', playerIndex, 'globalTime', getGlobalTime(gameId, playerIndex));
+    // console.log('Game', gameId, 'time', getTimeLeft(gameId), 'left');
+    // console.log('Game', gameId, 'user', playerIndex, 'globalTime', getGlobalTime(gameId, playerIndex));
     
-    sendTimersDataToClient(gameId, { timeLeft: getTimeLeft(gameId)});
+    var globalTimersToSend = {};
+    globalTimersToSend[game['playerId1']] = getGlobalTime(gameId, 1);
+    globalTimersToSend[game['playerId2']] = getGlobalTime(gameId, 2);
+    
+    sendTimersDataToClient(gameId, {
+        timeLeft: getTimeLeft(gameId),
+        globalTimers: globalTimersToSend
+    });
     
     if (getTimeLeft(gameId) == 0) {
         // End of turn
