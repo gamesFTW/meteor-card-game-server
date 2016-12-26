@@ -15,7 +15,11 @@ MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
         started: false,
         paused: true,
         turnNumber: 1,
+        // Индекс плеера, который сейчас ходит.
         turnPlayer: 1,
+        // Time left, сорхранённый во время паузы. Нужен, для того, чтобы его
+        // восстановить после паузы.
+        timeLeftSavedDuringPause: null,
         
         // Players ids
         playerId1: playerId1,

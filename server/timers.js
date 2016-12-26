@@ -17,7 +17,7 @@ const TURN_TIMERS_LIMITS = [
     },
     {
         limit: 18 * MINUTE,
-        turnTime: 1 * MINUTE 
+        turnTime: 1 * MINUTE
     },
     {
         limit: 25 * MINUTE,
@@ -46,10 +46,9 @@ function decrementTimeLeft(gameId) {
 
     console.assert(g !== undefined, "No timeLeft for game", gameId);
 
-    // Нет смысла считать в минус
-    if (MeteorApp.gameTimers.userTurnTimeLeft[gameId] > 0) {
-        MeteorApp.gameTimers.userTurnTimeLeft[gameId]--;
-    } 
+    // Возможно нет смысла считать в минус, но если перестать считать, то
+    // конец хода может срабатывать несколько раз.
+    MeteorApp.gameTimers.userTurnTimeLeft[gameId]--;
 }
 
 
@@ -189,6 +188,17 @@ MeteorApp.stopGameTimer = function (gameId) {
 
     if (MeteorApp.gameTimers.intervals[game._id]) {
         clearInterval(MeteorApp.gameTimers.intervals[game._id]);
+
+        var timeLeft = getTimeLeft(gameId);
+        if (timeLeft !== undefined) {
+            game.timeLeftSavedDuringPause = timeLeft;
+        } else {
+            game.timeLeftSavedDuringPause = null;
+        }
+        MeteorApp.Games.update(gameId, game);
+
+        MeteorApp.gameTimers.saveGlobalTimerForPlayer(gameId, game.turnPlayer);
+
         delete MeteorApp.gameTimers.intervals[game._id];
     } else {
         console.warn('Interval for', game._id, 'not found');
@@ -197,14 +207,20 @@ MeteorApp.stopGameTimer = function (gameId) {
 
 
 MeteorApp.startGameTimer = function (gameId) {
+    var game = MeteorApp.Games.findOne(gameId);
+
     if (MeteorApp.gameTimers.intervals[gameId]) {
         console.warn('Game', gameId, 'started yet');
         return;
     }
 
-    
     setInitialGlobalTimers(gameId);
-    setNewTimeLeft(gameId);
+
+    if (game.timeLeftSavedDuringPause == null) {
+        setNewTimeLeft(gameId);
+    } else {
+        setTimeLeft(gameId, game.timeLeftSavedDuringPause);
+    }
 
     var interval = setInterval(Meteor.bindEnvironment(() => {
         globalTimerTick(gameId);
