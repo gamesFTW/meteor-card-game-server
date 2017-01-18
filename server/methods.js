@@ -76,9 +76,20 @@ Meteor.methods({
         game.paused = true;
 
         MeteorApp.Games.update(gameId, game);
+        MeteorApp.gameTimers.saveGlobalTimerForPlayer(gameId, game.turnPlayer);
         MeteorApp.stopGameTimer(gameId);
     },
 
+    
+    tooglePause: function(gameId) {
+        var game = MeteorApp.Games.findOne(gameId);
+        if (game.paused) {
+            Meteor.call('unPauseGame', gameId)
+        } else {
+            Meteor.call('pauseGame', gameId)
+        }
+    },
+    
 
     createCardFromData: function(gameId, cardData, ownerId, cardGroup, color) {
         delete cardData._id;
