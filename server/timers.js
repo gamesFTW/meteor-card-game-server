@@ -17,11 +17,11 @@ const TURN_TIMERS_LIMITS = [
     },
     {
         limit: 18 * MINUTE,
-        turnTime: 1 * MINUTE
+        turnTime: 1.25 * MINUTE 
     },
     {
-        limit: 25 * MINUTE,
-        turnTime: 0.5 * MINUTE 
+        limit: 22 * MINUTE,
+        turnTime: 1 * MINUTE 
     }
 ];
 
