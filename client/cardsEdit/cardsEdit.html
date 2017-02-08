@@ -51,18 +51,33 @@
             <label title="Является ли драфтом">D: <input class="cardEdit__clickSave" name="draft" checked="{{#if draft}}checked{{/if}}" type="checkbox"></label>
             <label title="Является ли саммонедом">S: <input class="cardEdit__clickSave" name="summoned" checked="{{#if summoned}}checked{{/if}}" type="checkbox"></label>
         </div>
+        <!--image select-->
         <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
-            <input class="typeahead cardEdit__imageId" name="imageIdSelect" type="text"
+            <input class="typeahead cardEdit__imageId" type="text"
                    placeholder="имя картинки" value="{{imageName}}"
                    autocomplete="off" spellcheck="off"
                    data-min-length="0" data-limit="10"
                    data-source="images" data-select="imageSelected"/>
             <input type="hidden" name="imageId" value="{{imageId}}">
-
-
         </div>
 
         <textarea class="cardEdit__text cardEdit__blurSave" name="text" >{{text}}</textarea>
+
+        <div class="cardEdit__tags">
+        {{#each tags}}
+            <span class="cardEdit__tag" >
+                <span class="cardEdit__remove-tag" data-value="{{this}}">Ⓧ</span>{{this}}
+            </span>
+        {{/each}}
+            <input class="cardEdit__tags-storage" name="tags" type="hidden" value="{{tagsToStr}}">
+        </div>
+
+        <input class="typeahead cardEdit__add-tag" name="add-tag" type="text"
+               placeholder="Добавить тег"
+               autocomplete="off" spellcheck="off"
+               data-min-length="0" data-limit="10" data-updated="tagsUpdated"
+               data-source="tagsList" data-select="tagsSelected"/>
+
         <input title="Мана" class="cardEdit__mana cardEdit__blurSave" type="text" name="mana" value="{{mana}}" />
         <input title="Урон" class="cardEdit__dmg cardEdit__blurSave" type="text" name="dmg" value="{{dmg}}" />
         <input title="Жизни" class="cardEdit__health cardEdit__blurSave" type="text" name="health" value="{{health}}" />

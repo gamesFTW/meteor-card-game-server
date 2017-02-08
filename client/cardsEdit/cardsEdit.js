@@ -11,10 +11,10 @@ var getCards = function() {
     var sort = {};
 
     if (order == "date") {
-        sort[order] = -1;
     } else {
         sort[order] = 1;
     }
+    sort['date'] = -1;
 
     var filterType = Session.get('filterType');
     if (filterType === 'heroes') {
@@ -65,7 +65,8 @@ Template.cardsEdit.events({
             big: false,                             // большая крича 2х2?
             draft: false,                           // в разработке? драфт?
             summoned: false,                        // является ли саммонедом
-            imageId: MeteorApp.Images.findOne()._id // id картинки
+            imageId: MeteorApp.Images.findOne()._id, // id картинки
+            tags: []                                // теги
         });
     },
     'keyup .cards-editor__card-search': function(e) {
@@ -95,7 +96,7 @@ Template.cardEdit.helpers({
         return image ? image.original.name : '';
     },
 
-    images: function() {
+    images: function () {
         return MeteorApp.Images.find().map(i => ({id: i._id, value: i.original.name}));
     },
     
@@ -107,8 +108,28 @@ Template.cardEdit.helpers({
     
     itMustHaveImage: function () {
         return this.type !== 'spell';
+    },
+
+    tagsList: function (value, cb) {
+        var notUniqTags = getCards().fetch().reduce((list, c) => {
+            if(c.tags) {
+                return list.concat(c.tags)
+            }
+            return list;
+        }, []);
+        
+        cb(_.uniq(notUniqTags).map(c => ({value: c})));
+    },
+
+    tagsToStr: function () {
+        var tags = this.tags || [];
+        return tags.join(',');
+    },
+
+    tagsSelected: function (e, suggestion) {
+        $(e.target).closest('.cardEdit').find('[name="add-tag"]').typeahead('val', '');
+        addTagToCard($(e.target).closest('.cardEdit'), suggestion.value);
     }
-    
 });
 
 Template.cardEdit.rendered = function () {
@@ -148,6 +169,7 @@ Template.cardEdit.events({
             type: event.target.type.value,
             hero: Boolean(event.target.hero.checked),
             big: Boolean(event.target.big.checked),
+            tags: _.uniq(event.target.tags.value.split(',')),
             draft: Boolean(event.target.draft.checked),
             summoned: Boolean(event.target.summoned.checked),
             imageId: event.target.imageId.value
@@ -161,6 +183,22 @@ Template.cardEdit.events({
         var $form = $(event.target);
 
         blinkGreenBorder($form);
+    },
+
+    "keypress .cardEdit__add-tag": function (e, template) {
+        // if enter pressed
+        if (e.which === 13) {
+            e.preventDefault();
+            addTagToCard($(e.target).closest('.cardEdit'), e.target.value);
+            
+        }
+    },
+    
+    "click .cardEdit__remove-tag": function (e) {
+        if (confirm('Точно?')) {
+            var tag = $(e.target).data('value');
+            removeTagFromCard($(e.target).closest('.cardEdit'), tag);
+        }
     },
     
     //TODO удалить так как решение в лоб
@@ -183,6 +221,26 @@ Template.cardEdit.events({
         window.location = '/game/' + gameId + '/' + deck._id;
     }
 });
+
+
+function addTagToCard($cardEdit, tag) {
+    var $tagsStorage = $cardEdit.find('.cardEdit__tags-storage');
+    if ($tagsStorage.val()) {
+        $tagsStorage.val($tagsStorage.val() + ','+ tag);
+    } else {
+        $tagsStorage.val(tag);
+    }
+    $cardEdit.submit();
+}
+
+function removeTagFromCard($cardEdit, tag) {
+    var $tagsStorage = $cardEdit.find('.cardEdit__tags-storage');
+    var tags = $tagsStorage.val().split(',');
+    var tagsWithoutRemoveTag = _.without(tags, tag);
+    $tagsStorage.val(tagsWithoutRemoveTag.join(','));
+
+    $cardEdit.submit();
+}
 
 
 var blinkGreenBorder = function($selector) {

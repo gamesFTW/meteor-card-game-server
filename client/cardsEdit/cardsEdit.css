@@ -93,7 +93,25 @@
     resize: none;
     font-family: Arial;
 }
+/* TAGS */
+.cardEdit__tags {
+    height: 20px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 
+.cardEdit__tag {
+    font-size: 80%;
+}
+
+.cardEdit__remove-tag {
+    cursor: pointer;
+    color: black;
+    font-size: 90%;
+}
+
+/* IMAGES */
 .cardEdit__image-container {
     margin-top: 10px;
     text-align: center;
