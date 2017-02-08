@@ -69,6 +69,11 @@ var getCards = function() {
     } else if (filterType === 'areas') {
         filter = lodash.assign(filter, { type: 'area'});
     }
+    
+    var filterTag = Session.get('searchTag') || null;
+    if (filterTag) {
+        filter = lodash.assign(filter, { tags: filterTag }); 
+    }
 
     return MeteorApp.Cards.find(
         filter,
@@ -82,10 +87,24 @@ Template.deckEdit.helpers({
         let deck = MeteorApp.getDeck();
         return deck.cards.length + deck.handCards.length;
     },
+    
     cards: getCards,
+    
+    tagsList: function () {
+        var notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
+            if(c.tags) {
+                return list.concat(c.tags)
+            }
+            return list;
+        }, []);
+
+        return _.uniq(notUniqTags);
+    },
+    
     playerId: function() {
         return MeteorApp.data.playerId
     },
+    
     cardsInDeck: function() {
         var deck = MeteorApp.getDeck();
         var cardsIds = deck.cards;
@@ -163,6 +182,9 @@ Template.deckEdit.events({
     },
     'click .filter-type': function(e) {
         Session.set('filterType', e.target.value);
+    },
+    'change .deckEdit__tag-selector': function (e) {
+        Session.set('searchTag', e.target.value);
     },
     'keyup .card-text-search': function(e) {
         Session.set('searchCardText', e.target.value);

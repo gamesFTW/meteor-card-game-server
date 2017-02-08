@@ -38,6 +38,12 @@
             <div>
                 <input class="card-search" type="text" placeholder="Название карты">
                 <input class="card-text-search" type="text" placeholder="Текст карты">
+                <select class="deckEdit__tag-selector">
+                    <option value="">---</option>
+                    {{#each tagsList}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
                 <span>
                     <label class="filter-type"><input type="radio" name="gender" value="all" checked> Все</label>
                     <label class="filter-type"><input type="radio" name="gender" value="heroes"> Герои</label>

@@ -110,7 +110,7 @@ Template.cardEdit.helpers({
         return this.type !== 'spell';
     },
 
-    tagsList: function (value, cb) {
+    tagsList: function () {
         var notUniqTags = getCards().fetch().reduce((list, c) => {
             if(c.tags) {
                 return list.concat(c.tags)
@@ -118,7 +118,7 @@ Template.cardEdit.helpers({
             return list;
         }, []);
         
-        cb(_.uniq(notUniqTags).map(c => ({value: c})));
+        return _.uniq(notUniqTags).map(c => ({value: c}));
     },
 
     tagsToStr: function () {
