@@ -111,6 +111,10 @@
     font-size: 90%;
 }
 
+.cardEdit__add-tag {
+    width: 11em;
+}
+
 /* IMAGES */
 .cardEdit__image-container {
     margin-top: 10px;

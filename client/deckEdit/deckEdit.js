@@ -98,7 +98,7 @@ Template.deckEdit.helpers({
             return list;
         }, []);
 
-        return _.uniq(notUniqTags);
+        return _.sortBy(_.uniq(notUniqTags), String);
     },
     
     playerId: function() {

@@ -19,7 +19,7 @@ var getCards = function() {
     var filterType = Session.get('filterType');
     if (filterType === 'heroes') {
         filter = lodash.assign(filter, { hero: true , type: 'creature', draft: false, summoned: false });
-    } else if (filterType === 'creatures') {
+    } else if (filterType === 'creatures' || filterType === null) {
         filter = lodash.assign(filter, { hero: false , type: 'creature', draft: false, summoned: false });
     } else if (filterType === 'spells') {
         filter = lodash.assign(filter, { type: 'spell', draft: false, summoned: false });
@@ -111,7 +111,7 @@ Template.cardEdit.helpers({
     },
 
     tagsList: function () {
-        var notUniqTags = getCards().fetch().reduce((list, c) => {
+        var notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
             if(c.tags) {
                 return list.concat(c.tags)
             }
