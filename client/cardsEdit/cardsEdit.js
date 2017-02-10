@@ -31,6 +31,11 @@ var getCards = function() {
         filter = lodash.assign(filter, { summoned: true });
     }
 
+    var filterTag = Session.get('searchTag') || null;
+    if (filterTag) {
+        filter = lodash.assign(filter, { tags: filterTag });
+    }
+
     return MeteorApp.Cards.find(
         filter,
         { sort }
@@ -46,7 +51,17 @@ Template.cardsEdit.helpers({
     cards: getCards,
     getSearchCardTitle: function () {
         return Session.get('searchCardTitle') || '';
-    }
+    },
+    tagsList: function () {
+        var notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
+            if(c.tags) {
+                return list.concat(c.tags)
+            }
+            return list;
+        }, []);
+
+        return _.sortBy(_.uniq(notUniqTags), String);
+    },
 });
 
 
@@ -80,7 +95,10 @@ Template.cardsEdit.events({
     },
     'click .cardsEdit__order': function(e) {
         Session.set('order', e.target.value);
-    }
+    },
+    'change .cards-editor__tag-selector': function (e) {
+        Session.set('searchTag', e.target.value);
+    },
 });
 
 

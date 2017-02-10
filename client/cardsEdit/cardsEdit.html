@@ -3,6 +3,12 @@
         <div class="cards-editor__search-container">
             <input class="cards-editor__card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Название карты">
             <input class="cards-editor__card-text-search" type="text" placeholder="Текст карты">
+            <select class="cards-editor__tag-selector">
+                <option value="">---</option>
+                {{#each tagsList}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
             <br>
             <span>
                 Фильтр:
