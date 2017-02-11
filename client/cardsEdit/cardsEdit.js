@@ -208,7 +208,7 @@ Template.cardEdit.events({
         if (e.which === 13) {
             e.preventDefault();
             addTagToCard($(e.target).closest('.cardEdit'), e.target.value);
-            
+            $(e.target).typeahead('val', '');
         }
     },
     
