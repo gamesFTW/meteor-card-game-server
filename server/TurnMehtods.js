@@ -15,6 +15,10 @@ Meteor.methods({
     
     addEndOfTurnEvent: function(gameId, playerId) {
         let game = MeteorApp.Games.findOne(gameId);
+        let currentPlayerIndex = game.turnPlayer;
+        let lastPlayerId = getLastPlayerId(game);
+        let gameTurnNumber = getGameTurnNumber(gameId, lastPlayerId); 
+        let isNewGameTurnNumber = gameTurnNumber !== game.turnNumber;
         
         // Insert Event
         MeteorApp.Actions.insert({
@@ -25,17 +29,17 @@ Meteor.methods({
                 playerId: playerId 
             }
         });
-        
-        let currentPlayerIndex = game.turnPlayer;
-        let lastPlayerId = getLastPlayerId(game);
-        let gameTurnNumber = getGameTurnNumber(gameId, lastPlayerId); 
-        let isNewGameTurnNumber = gameTurnNumber !== game.turnNumber;
-        
+        // Upkeep
+        makeUpkeep(gameId, playerId);
+       
+        // Update turn number
         if (isNewGameTurnNumber) {
             updateGameTurnNumber(gameId, gameTurnNumber);
         }
-        
+
+        // Change current player
         changeCurentPlayerInGame(gameId);
+        // Update server game timers
         MeteorApp.gameTimers.setNewTimeLeft(gameId);
         MeteorApp.gameTimers.saveGlobalTimerForPlayer(gameId, currentPlayerIndex);
 
@@ -53,6 +57,26 @@ Meteor.methods({
     }
 });
 
+
+function makeUpkeep(gameId, playerId) {
+    // WARNING часть апкипа происходит на клиенте, смотри endOfTurn в CardsManger.js
+    let game = MeteorApp.Games.findOne(gameId);
+
+    let numberOfManaToUntap = 3;
+    let turnNumber = game.turnNumber;
+
+    if (turnNumber >= 4) {
+        numberOfManaToUntap = 4;
+        if (turnNumber >= 8) {
+            numberOfManaToUntap = 5;
+        }
+    }
+
+    // Untap mana
+    Meteor.call('untapCardsInManaPool', gameId, playerId, numberOfManaToUntap);
+    // Untap all table cards 
+    Meteor.call('untapCardsInTable', gameId, playerId);
+}
 
 
 function changeCurentPlayerInGame(gameId) {
