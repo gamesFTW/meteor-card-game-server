@@ -62,15 +62,15 @@ function makeUpkeep(gameId, playerId) {
     // WARNING часть апкипа происходит на клиенте, смотри endOfTurn в CardsManger.js
     let game = MeteorApp.Games.findOne(gameId);
 
-    let numberOfManaToUntap = 3;
-    let turnNumber = game.turnNumber;
+    let numberOfManaToUntap = 4;
+    //let turnNumber = game.turnNumber;
 
-    if (turnNumber >= 4) {
-        numberOfManaToUntap = 4;
-        if (turnNumber >= 8) {
-            numberOfManaToUntap = 5;
-        }
-    }
+    //if (turnNumber >= 4) {
+    //    numberOfManaToUntap = 4;
+    //    if (turnNumber >= 8) {
+    //        numberOfManaToUntap = 5;
+    //    }
+    //}
 
     // Untap mana
     Meteor.call('untapCardsInManaPool', gameId, playerId, numberOfManaToUntap);
