@@ -1,6 +1,6 @@
 Template.decks.helpers({
     decks: function() {
-        return MeteorApp.Decks.find().fetch().reverse();
+        return MeteorApp.Decks.find({}, { sort:{name: 1}}).fetch();
     },
     cards: function () {
         return this.cards.length;

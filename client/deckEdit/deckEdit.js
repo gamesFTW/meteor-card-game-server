@@ -17,7 +17,8 @@ MeteorApp.createDeck = function(name) {
     return MeteorApp.Decks.insert({
         name: name,
         cards: [],
-        handCards: []
+        handCards: [],
+        desc: ""
     });
 };
 
