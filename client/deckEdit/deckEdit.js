@@ -106,6 +106,11 @@ Template.deckEdit.helpers({
         return MeteorApp.data.playerId
     },
     
+    desc: function() {
+        let deck = MeteorApp.getDeck();
+        return deck.desc;
+    },
+    
     cardsInDeck: function() {
         var deck = MeteorApp.getDeck();
         var cardsIds = deck.cards;
@@ -186,6 +191,12 @@ Template.deckEdit.events({
     },
     'change .deckEdit__tag-selector': function (e) {
         Session.set('searchTag', e.target.value);
+    },
+    'blur .deckEdit__desc-area': function (e) {
+        var desc = e.target.value;
+        let deck = MeteorApp.getDeck();
+        deck.desc = desc;
+        MeteorApp.Decks.update(deck._id, deck);
     },
     'keyup .card-text-search': function(e) {
         Session.set('searchCardText', e.target.value);

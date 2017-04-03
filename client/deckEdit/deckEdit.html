@@ -3,8 +3,8 @@
         <div class="deckEdit__your-deck">
             <h2>{{playerId}}'s deck ({{deckLength}})</h2>
 
-            <div>
-                Распредиление по мане:
+            <div class="deckEdit__top-container">
+                <textarea class="deckEdit__desc-area" placeholder="Описание">{{desc}}</textarea>
                 <table class="deckEdit__mana-table">
                     <tr class="deckEdit__mana-title">
                         {{#each manaDistribution.manaTitle}}

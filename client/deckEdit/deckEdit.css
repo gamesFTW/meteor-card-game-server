@@ -2,6 +2,10 @@
     font-family: Arial;
 }
 
+.deckEdit__mana-table {
+    display: inline-block;
+}
+
 .deckEdit__mana-table td {
     padding: 0 5px;
     text-align: center;
@@ -11,6 +15,12 @@
     color: blue;
     font-weight: bold;
     border-bottom: 1px gray solid;
+}
+
+.deckEdit__desc-area {
+    width: 30%;
+    height: 50px;
+
 }
 
 .deckEdit__your-deck {
