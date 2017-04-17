@@ -119,7 +119,8 @@ Template.deckEdit.helpers({
     cardsInDeck: function() {
         var deck = MeteorApp.getDeck();
         var cardsIds = deck.cards;
-        return lodash.uniq(cardsIds)
+        return lodash(cardsIds)
+            .uniq()
             .map(function(cardId) {
                 var card = MeteorApp.Cards.findOne(cardId);
                 if (!card) { 
@@ -136,7 +137,9 @@ Template.deckEdit.helpers({
                 } 
                 
                 return card;
-            });
+            })
+            .sortBy('mana')
+            .value();
     },
     cardsInHandDeck: function() {
         var deck = MeteorApp.getDeck();
