@@ -113,7 +113,7 @@ Template.gameView.events({
 
 Template.gameView.helpers({
     decks: function() {
-        return MeteorApp.Decks.find({});
+        return MeteorApp.Decks.find({}, { sort:{name: 1}}).fetch();
     },
     getPlayerNameById: function(id) {
         return MeteorApp.Decks.findOne(id).name;

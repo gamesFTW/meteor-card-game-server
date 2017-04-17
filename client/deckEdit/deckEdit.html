@@ -1,9 +1,10 @@
 <template name="deckEdit">
     <div class="deckEdit">
         <div class="deckEdit__your-deck">
-            <h2>{{playerId}}'s deck ({{deckLength}})</h2>
+            <h2>{{name}}'s deck ({{deckLength}})</h2>
 
             <div class="deckEdit__top-container">
+                <input class="deckEdit__name-area"  type="text" value="{{name}}">
                 <textarea class="deckEdit__desc-area" placeholder="Описание">{{desc}}</textarea>
                 <table class="deckEdit__mana-table">
                     <tr class="deckEdit__mana-title">

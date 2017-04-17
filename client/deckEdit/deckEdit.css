@@ -20,7 +20,10 @@
 .deckEdit__desc-area {
     width: 30%;
     height: 50px;
+}
 
+.deckEdit__name-area {
+    float: left;
 }
 
 .deckEdit__your-deck {
