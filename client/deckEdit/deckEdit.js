@@ -51,15 +51,7 @@ MeteorApp.clearDeck = (name) => {
     MeteorApp.Decks.update(deck._id, deck);
 };
 
-var getCards = function() {
-    var title = Session.get('searchCardTitle') || '';
-    var titleRe = new RegExp(title, 'i');
-
-    var text = Session.get('searchCardText') || '';
-    var textRe = new RegExp(text, 'i');
-
-    var filter = { title: titleRe, text: textRe, draft: false, summoned: false };
-
+var addTypesToFilter = function(filter) {
     var filterType = Session.get('filterType');
     if (filterType === 'heroes') {
         filter = lodash.assign(filter, { hero: true , type: 'creature'});
@@ -70,6 +62,17 @@ var getCards = function() {
     } else if (filterType === 'areas') {
         filter = lodash.assign(filter, { type: 'area'});
     }
+}
+
+var getCards = function() {
+    var title = Session.get('searchCardTitle') || '';
+    var titleRe = new RegExp(title, 'i');
+
+    var text = Session.get('searchCardText') || '';
+    var textRe = new RegExp(text, 'i');
+
+    var filter = { title: titleRe, text: textRe, draft: false, summoned: false };
+    addTypesToFilter(filter);
     
     var filterTag = Session.get('searchTag') || null;
     if (filterTag) {
@@ -92,7 +95,11 @@ Template.deckEdit.helpers({
     cards: getCards,
     
     tagsList: function () {
-        var notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
+        var filter = {};
+
+        addTypesToFilter(filter);
+
+        var notUniqTags = MeteorApp.Cards.find(filter).fetch().reduce((list, c) => {
             if(c.tags) {
                 return list.concat(c.tags)
             }

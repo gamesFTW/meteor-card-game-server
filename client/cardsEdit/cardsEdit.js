@@ -1,3 +1,23 @@
+var addTypesToFilter = function(filter) {
+    var filterType = Session.get('filterType');
+    if (filterType === 'heroes') {
+        filter = lodash.assign(filter, { hero: true , type: 'creature', draft: false, summoned: false });
+    } else if (filterType === 'creatures' || filterType === null) {
+        filter = lodash.assign(filter, { hero: false , type: 'creature', draft: false, summoned: false });
+    } else if (filterType === 'spells') {
+        filter = lodash.assign(filter, { type: 'spell', draft: false, summoned: false });
+    } else if (filterType === 'areas') {
+        filter = lodash.assign(filter, { type: 'area', draft: false, summoned: false });
+    } else if (filterType === 'drafts') {
+        filter = lodash.assign(filter, { draft: true });
+    }  else if (filterType === 'summoneds') {
+        filter = lodash.assign(filter, { summoned: true });
+    }
+
+    return filter;
+};
+
+
 var getCards = function() {
     var title = Session.get('searchCardTitle') || '';
     var titleRe = new RegExp(title, 'i');
@@ -16,20 +36,7 @@ var getCards = function() {
     }
     sort['date'] = -1;
 
-    var filterType = Session.get('filterType');
-    if (filterType === 'heroes') {
-        filter = lodash.assign(filter, { hero: true , type: 'creature', draft: false, summoned: false });
-    } else if (filterType === 'creatures' || filterType === null) {
-        filter = lodash.assign(filter, { hero: false , type: 'creature', draft: false, summoned: false });
-    } else if (filterType === 'spells') {
-        filter = lodash.assign(filter, { type: 'spell', draft: false, summoned: false });
-    } else if (filterType === 'areas') {
-        filter = lodash.assign(filter, { type: 'area', draft: false, summoned: false });
-    } else if (filterType === 'drafts') {
-        filter = lodash.assign(filter, { draft: true });
-    }  else if (filterType === 'summoneds') {
-        filter = lodash.assign(filter, { summoned: true });
-    }
+    addTypesToFilter(filter);
 
     var filterTag = Session.get('searchTag') || null;
     if (filterTag) {
@@ -43,7 +50,6 @@ var getCards = function() {
 };
 
 
-
 Template.cardsEdit.helpers({
     quantity: function() {
         return getCards().count();
@@ -53,7 +59,10 @@ Template.cardsEdit.helpers({
         return Session.get('searchCardTitle') || '';
     },
     tagsList: function () {
-        var notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
+        var filter = {};
+        addTypesToFilter(filter);
+
+        var notUniqTags = MeteorApp.Cards.find(filter).fetch().reduce((list, c) => {
             if(c.tags) {
                 return list.concat(c.tags)
             }
