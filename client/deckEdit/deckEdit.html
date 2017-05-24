@@ -45,6 +45,12 @@
                         <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
+                <select class="deckEdit__race-selector">
+                    <option value="">---</option>
+                    {{#each raceList}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
                 <span>
                     <label class="filter-type"><input type="radio" name="gender" value="all" checked> Все</label>
                     <label class="filter-type"><input type="radio" name="gender" value="heroes"> Герои</label>

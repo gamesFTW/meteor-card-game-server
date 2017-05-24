@@ -12,23 +12,25 @@ var addTypesToFilter = function(filter) {
         filter = lodash.assign(filter, { draft: true });
     }  else if (filterType === 'summoneds') {
         filter = lodash.assign(filter, { summoned: true });
+    }  else if (filterType === 'all') {
+        filter = lodash.assign(filter, { draft: false });
     }
 
     return filter;
 };
 
 
-var getCards = function() {
-    var title = Session.get('searchCardTitle') || '';
-    var titleRe = new RegExp(title, 'i');
+let getCards = function() {
+    let title = Session.get('searchCardTitle') || '';
+    let titleRe = new RegExp(title, 'i');
 
-    var text = Session.get('searchCardText') || '';
-    var textRe = new RegExp(text, 'i');
+    let text = Session.get('searchCardText') || '';
+    let textRe = new RegExp(text, 'i');
 
-    var filter = { title: titleRe, text: textRe };
+    let filter = { title: titleRe, text: textRe };
 
-    var order = Session.get('order') || 'date';
-    var sort = {};
+    let order = Session.get('order') || 'date';
+    let sort = {};
 
     if (order == "date") {
     } else {
@@ -38,15 +40,40 @@ var getCards = function() {
 
     addTypesToFilter(filter);
 
-    var filterTag = Session.get('searchTag') || null;
-    if (filterTag) {
-        filter = lodash.assign(filter, { tags: filterTag });
+
+    let tagList = [];
+
+    let searchTag = Session.get('searchTag') || null;
+    if (searchTag) {
+        tagList.push({tags: searchTag});
     }
+
+    let raceTag = Session.get('raceTag') || null;
+    if (raceTag) {
+        tagList.push({tags: raceTag});
+    }
+
+    if (searchTag || raceTag) {
+        filter = lodash.assign(filter, { $and: tagList} );
+    }
+
 
     return MeteorApp.Cards.find(
         filter,
         { sort }
     );
+};
+
+
+let getAllTags = function(filter) {
+    let cardsWithTags = MeteorApp.Cards.find(filter).fetch().reduce((list, c) => {
+        if(c.tags) {
+            return list.concat(c.tags)
+        }
+        return list;
+    }, []);
+
+    return _.uniq(cardsWithTags)
 };
 
 
@@ -59,17 +86,48 @@ Template.cardsEdit.helpers({
         return Session.get('searchCardTitle') || '';
     },
     tagsList: function () {
-        var filter = {};
+        let filter = {};
+
         addTypesToFilter(filter);
 
-        var notUniqTags = MeteorApp.Cards.find(filter).fetch().reduce((list, c) => {
-            if(c.tags) {
-                return list.concat(c.tags)
-            }
-            return list;
-        }, []);
+        let raceTag = Session.get('raceTag') || null;
+        if (raceTag) {
+            filter.tags = raceTag;
+        }
 
-        return _.sortBy(_.uniq(notUniqTags), String);
+        let uniqTags = getAllTags(filter);
+
+        let tagWithoutRace = uniqTags.reduce(
+            (list, tag) => {
+                if(!lodash.includes(tag, '_race_')) {
+                    return list.concat(tag)
+                }
+
+                return list;
+            },
+            []
+        );
+
+        return _.sortBy(tagWithoutRace, String);
+    },
+    raceList: function () {
+        let filter = {};
+
+        addTypesToFilter(filter);
+        let uniqTags = getAllTags(filter);
+
+        let tagWithRace = uniqTags.reduce(
+            (list, tag) => {
+                if(lodash.includes(tag, '_race_')) {
+                    return list.concat(tag)
+                }
+
+                return list;
+            },
+            []
+        );
+
+        return _.sortBy(tagWithRace, String);
     },
 });
 
@@ -108,6 +166,9 @@ Template.cardsEdit.events({
     'change .cards-editor__tag-selector': function (e) {
         Session.set('searchTag', e.target.value);
     },
+    'change .cards-editor__race-selector': function (e) {
+        Session.set('raceTag', e.target.value);
+    },
 });
 
 
@@ -144,7 +205,7 @@ Template.cardEdit.helpers({
             }
             return list;
         }, []);
-        
+
         return _.uniq(notUniqTags).map(c => ({value: c}));
     },
 

@@ -1,8 +1,8 @@
 MeteorApp.getDeck = function(playerId) {
     playerId = playerId || MeteorApp.data.playerId;
-    var deck = MeteorApp.Decks.findOne({ name: playerId });
+    let deck = MeteorApp.Decks.findOne({ name: playerId });
     if (!deck) {
-        var deckId = MeteorApp.createDeck(playerId);
+        let deckId = MeteorApp.createDeck(playerId);
         return MeteorApp.Decks.findOne(deckId);
     }
     return deck;
@@ -23,7 +23,7 @@ MeteorApp.createDeck = function(name) {
 };
 
 MeteorApp.addCardToDeck = function(name, cardId) {
-    var deck = MeteorApp.Decks.findOne({name: name});
+    let deck = MeteorApp.Decks.findOne({name: name});
     
     deck.cards.push(cardId);
     
@@ -32,7 +32,7 @@ MeteorApp.addCardToDeck = function(name, cardId) {
 };
 
 MeteorApp.addCardToHandDeck = function(name, cardId) {
-    var deck = MeteorApp.Decks.findOne({name: name});
+    let deck = MeteorApp.Decks.findOne({name: name});
     
     if (!deck.handCards) {
         deck.handCards = [];
@@ -45,14 +45,14 @@ MeteorApp.addCardToHandDeck = function(name, cardId) {
 
 
 MeteorApp.clearDeck = (name) => {
-    var deck = MeteorApp.Decks.findOne({ name: name });
+    let deck = MeteorApp.Decks.findOne({ name: name });
     deck.cards = [];
     deck.handCards = [];
     MeteorApp.Decks.update(deck._id, deck);
 };
 
-var addTypesToFilter = function(filter) {
-    var filterType = Session.get('filterType');
+let addTypesToFilter = function(filter) {
+    let filterType = Session.get('filterType');
     if (filterType === 'heroes') {
         filter = lodash.assign(filter, { hero: true , type: 'creature'});
     } else if (filterType === 'creatures') {
@@ -62,22 +62,48 @@ var addTypesToFilter = function(filter) {
     } else if (filterType === 'areas') {
         filter = lodash.assign(filter, { type: 'area'});
     }
-}
+};
 
-var getCards = function() {
-    var title = Session.get('searchCardTitle') || '';
-    var titleRe = new RegExp(title, 'i');
 
-    var text = Session.get('searchCardText') || '';
-    var textRe = new RegExp(text, 'i');
+let getAllTags = function(filter) {
+    let cardsWithTags = MeteorApp.Cards.find(filter).fetch().reduce((list, c) => {
+        if(c.tags) {
+            return list.concat(c.tags)
+        }
+        return list;
+    }, []);
 
-    var filter = { title: titleRe, text: textRe, draft: false, summoned: false };
+    return _.uniq(cardsWithTags)
+};
+
+let getCards = function() {
+    let title = Session.get('searchCardTitle') || '';
+    let titleRe = new RegExp(title, 'i');
+
+    let text = Session.get('searchCardText') || '';
+    let textRe = new RegExp(text, 'i');
+
+    let filter = { title: titleRe, text: textRe, draft: false, summoned: false };
+
     addTypesToFilter(filter);
-    
-    var filterTag = Session.get('searchTag') || null;
-    if (filterTag) {
-        filter = lodash.assign(filter, { tags: filterTag }); 
+
+
+    let tagList = [];
+
+    let searchTag = Session.get('searchTag') || null;
+    if (searchTag) {
+        tagList.push({tags: searchTag});
     }
+
+    let raceTag = Session.get('raceTag') || null;
+    if (raceTag) {
+        tagList.push({tags: raceTag});
+    }
+
+    if (searchTag || raceTag) {
+        filter = lodash.assign(filter, { $and: tagList} );
+    }
+
 
     return MeteorApp.Cards.find(
         filter,
@@ -95,18 +121,49 @@ Template.deckEdit.helpers({
     cards: getCards,
     
     tagsList: function () {
-        var filter = {};
+        let filter = {};
 
         addTypesToFilter(filter);
 
-        var notUniqTags = MeteorApp.Cards.find(filter).fetch().reduce((list, c) => {
-            if(c.tags) {
-                return list.concat(c.tags)
-            }
-            return list;
-        }, []);
+        let raceTag = Session.get('raceTag') || null;
+        if (raceTag) {
+            filter.tags = raceTag;
+        }
 
-        return _.sortBy(_.uniq(notUniqTags), String);
+        let tags = getAllTags(filter);
+
+        let tagWithoutRace = tags.reduce(
+            (list, tag) => {
+                if(!lodash.includes(tag, '_race_')) {
+                    return list.concat(tag)
+                }
+
+                return list;
+            },
+            []
+        );
+
+        return _.sortBy(tagWithoutRace, String);
+    },
+
+    raceList: function () {
+        let filter = {};
+
+        addTypesToFilter(filter);
+        let tags = getAllTags(filter);
+
+        let tagWithRace = tags.reduce(
+            (list, tag) => {
+                if(lodash.includes(tag, '_race_')) {
+                    return list.concat(tag)
+                }
+
+                return list;
+            },
+            []
+        );
+
+        return _.sortBy(tagWithRace, String);
     },
     
     playerId: function() {
@@ -124,16 +181,16 @@ Template.deckEdit.helpers({
     },
     
     cardsInDeck: function() {
-        var deck = MeteorApp.getDeck();
-        var cardsIds = deck.cards;
+        let deck = MeteorApp.getDeck();
+        let cardsIds = deck.cards;
         return lodash(cardsIds)
             .uniq()
             .map(function(cardId) {
-                var card = MeteorApp.Cards.findOne(cardId);
+                let card = MeteorApp.Cards.findOne(cardId);
                 if (!card) { 
                     console.warn('There is no card', cardId, 'It will be deleted from deck.');
                     
-                    var index = deck.cards.lastIndexOf(cardId);
+                    let index = deck.cards.lastIndexOf(cardId);
                     index !== -1 && deck.cards.splice(index, 1);
 
                     MeteorApp.Decks.update(deck._id, deck);           
@@ -149,15 +206,15 @@ Template.deckEdit.helpers({
             .value();
     },
     cardsInHandDeck: function() {
-        var deck = MeteorApp.getDeck();
-        var cardsIds = deck.handCards;
+        let deck = MeteorApp.getDeck();
+        let cardsIds = deck.handCards;
         return lodash.uniq(cardsIds)
             .map(function(cardId) {
-                var card = MeteorApp.Cards.findOne(cardId);
+                let card = MeteorApp.Cards.findOne(cardId);
                 if (!card) { 
                     console.warn('There is no card', cardId, 'It will be deleted from deck.');
                     
-                    var index = deck.handCards.lastIndexOf(cardId);
+                    let index = deck.handCards.lastIndexOf(cardId);
                     index !== -1 && deck.handCards.splice(index, 1);
 
                     MeteorApp.Decks.update(deck._id, deck);           
@@ -175,14 +232,14 @@ Template.deckEdit.helpers({
         const cards = MeteorApp.getDeck().cards;
         
         
-        var distribution = _.range(MAX_MANA).reduce((obj, x) => {
+        let distribution = _.range(MAX_MANA).reduce((obj, x) => {
             obj[x]=0;
             return obj;
         }, {});
         
         
         cards.forEach(cardId => {
-            var card = MeteorApp.Cards.findOne(cardId);
+            let card = MeteorApp.Cards.findOne(cardId);
             if (card.mana !== undefined) {
                 distribution[card.mana]++; 
             }
@@ -207,15 +264,18 @@ Template.deckEdit.events({
     'change .deckEdit__tag-selector': function (e) {
         Session.set('searchTag', e.target.value);
     },
+    'change .deckEdit__race-selector': function (e) {
+        Session.set('raceTag', e.target.value);
+    },
     'blur .deckEdit__desc-area': function (e) {
-        var desc = e.target.value;
+        let desc = e.target.value;
         let deck = MeteorApp.getDeck();
         deck.desc = desc;
         MeteorApp.Decks.update(deck._id, deck);
     },
     'blur .deckEdit__name-area': function (e) {
 
-        var name = e.target.value;
+        let name = e.target.value;
         Router.go(`/cards/deck/${name}/edit`);
 
         let deck = MeteorApp.getDeck();
@@ -230,30 +290,30 @@ Template.deckEdit.events({
 
 Template.cardView.events({
     "click .card-add-btn": function(e) {
-        var card = this;
+        let card = this;
        
         MeteorApp.addCardToDeck(MeteorApp.data.playerId, card._id);
     },
     "click .card-remove-btn": function(e) {
-        var card = this;
-        var deck = MeteorApp.getDeck(MeteorApp.data.playerId);
+        let card = this;
+        let deck = MeteorApp.getDeck(MeteorApp.data.playerId);
         
-        var index = deck.cards.lastIndexOf(card._id);
+        let index = deck.cards.lastIndexOf(card._id);
         index !== -1 && deck.cards.splice(index, 1);
 
         MeteorApp.Decks.update(deck._id, deck);
         
     },
     "click .card-add-hand-btn": function(e) {
-        var card = this;
+        let card = this;
        
         MeteorApp.addCardToHandDeck(MeteorApp.data.playerId, card._id);
     },
     "click .card-remove-hand-btn": function(e) {
-        var card = this;
-        var deck = MeteorApp.getDeck(MeteorApp.data.playerId);
+        let card = this;
+        let deck = MeteorApp.getDeck(MeteorApp.data.playerId);
         
-        var index = deck.handCards.lastIndexOf(card._id);
+        let index = deck.handCards.lastIndexOf(card._id);
         index !== -1 && deck.handCards.splice(index, 1);
 
         MeteorApp.Decks.update(deck._id, deck);
