@@ -220,11 +220,21 @@ Template.cardEdit.helpers({
     }
 });
 
-Template.cardEdit.rendered = function () {
-    Meteor.typeahead.inject();
-};
+
 
 Template.cardEdit.events({
+    "mouseenter .cardEdit__add-tag": function() {
+        if(!this.isTypeheadInjected) {
+            Meteor.typeahead.inject();
+            this.isTypeheadInjected = true;
+        }
+    },
+    "mouseenter .cardEdit__imageId": function() {
+        if(!this.isTypeheadInjected) {
+            Meteor.typeahead.inject();
+            this.isTypeheadInjected = true;
+        }
+    },
     "click .card-remove": function(e) {
         e.preventDefault();
         if (confirm("Точно точно удалить " + this.title + "?")) {
