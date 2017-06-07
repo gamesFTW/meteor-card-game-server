@@ -221,18 +221,19 @@ Template.cardEdit.helpers({
 });
 
 
-
 Template.cardEdit.events({
-    "mouseenter .cardEdit__add-tag": function() {
-        if(!this.isTypeheadInjected) {
+    "click .cardEdit__add-tag": function(e) {
+        var target = $(e.currentTarget);
+        if(!target.hasClass('tt-input')) {
             Meteor.typeahead.inject();
-            this.isTypeheadInjected = true;
+            $(target).focus();
         }
     },
-    "mouseenter .cardEdit__imageId": function() {
-        if(!this.isTypeheadInjected) {
+    "click .cardEdit__imageId": function(e) {
+        var target = $(e.currentTarget);
+        if(!target.hasClass('tt-input')) {
             Meteor.typeahead.inject();
-            this.isTypeheadInjected = true;
+            $(target).focus();
         }
     },
     "click .card-remove": function(e) {
