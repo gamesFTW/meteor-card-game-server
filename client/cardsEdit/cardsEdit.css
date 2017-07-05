@@ -95,10 +95,11 @@
 }
 /* TAGS */
 .cardEdit__tags {
-    height: 20px;
+    height: 24px;
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
+    margin-bottom: 4px;
 }
 
 .cardEdit__tag {
@@ -131,7 +132,31 @@
 
 @media only screen and (max-width: 1000px)  {
     .cardEdit {
-        margin: 0 2px 10px;
-        padding: 6px;
+        display: block;
+        width: auto;
+    }
+
+    .cardEdit__imageId, .cardEdit__text {
+        width: 100%;
+    }
+
+    .cardEdit__title, .cardEdit__type {
+        width: 45%;
+    }
+
+    .cardEdit__checkboxes {
+        margin: 8px 0;
+    }
+
+    .cardEdit__checkboxes label {
+        margin: 0 10px;
+    }
+
+    input, textarea {
+        font-size: 16px;
+    }
+
+    .cards-editor__search-container {
+
     }
 }
