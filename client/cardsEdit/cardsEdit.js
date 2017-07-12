@@ -49,12 +49,20 @@ let getCards = function() {
     }
 
     let raceTag = Session.get('raceTag') || null;
-    if (raceTag) {
+    let raceQuery = null;
+
+    if (raceTag == '_without-race') {
+        let races = getAllRaces();
+        raceQuery = {tags: {$nin: races}};
+    } else if (raceTag) {
         tagList.push({tags: raceTag});
     }
 
-    if (searchTag || raceTag) {
-        filter = lodash.assign(filter, { $and: tagList} );
+
+    if (tagList.length > 0) {
+        filter = lodash.assign(filter, { $and: tagList });
+    } else if (raceQuery) {
+        filter = lodash.assign(filter, raceQuery);
     }
 
 
@@ -74,6 +82,10 @@ let getAllTags = function(filter) {
     }, []);
 
     return _.uniq(cardsWithTags)
+};
+
+let getAllRaces = function() {
+    return getAllTags({}).filter(tag => lodash.startsWith(tag, '_race_'));
 };
 
 
@@ -116,7 +128,9 @@ Template.cardsEdit.helpers({
         addTypesToFilter(filter);
         let uniqTags = getAllTags(filter);
 
-        let tagWithRace = uniqTags.reduce(
+        let tagWithRace = ['_without-race'];
+
+        tagWithRace = uniqTags.reduce(
             (list, tag) => {
                 if(lodash.includes(tag, '_race_')) {
                     return list.concat(tag)
@@ -124,7 +138,7 @@ Template.cardsEdit.helpers({
 
                 return list;
             },
-            []
+            tagWithRace
         );
 
         return _.sortBy(tagWithRace, String);
