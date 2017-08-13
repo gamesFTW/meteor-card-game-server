@@ -249,9 +249,7 @@ Template.deckEdit.helpers({
             manaTitle: _.keys(distribution),
             manaCount: _.values(distribution)
         }
-        
     }
-    
 });
 
 Template.deckEdit.events({
@@ -260,12 +258,15 @@ Template.deckEdit.events({
     },
     'click .filter-type': function(e) {
         Session.set('filterType', e.target.value);
+        resetTagFilter();
+        resetRaceFilter();
     },
     'change .deckEdit__tag-selector': function (e) {
         Session.set('searchTag', e.target.value);
     },
     'change .deckEdit__race-selector': function (e) {
         Session.set('raceTag', e.target.value);
+        resetTagFilter();
     },
     'blur .deckEdit__desc-area': function (e) {
         let desc = e.target.value;
@@ -288,35 +289,21 @@ Template.deckEdit.events({
     }
 });
 
-Template.cardView.events({
-    "click .card-add-btn": function(e) {
-        let card = this;
-       
-        MeteorApp.addCardToDeck(MeteorApp.data.playerId, card._id);
-    },
-    "click .card-remove-btn": function(e) {
-        let card = this;
-        let deck = MeteorApp.getDeck(MeteorApp.data.playerId);
-        
-        let index = deck.cards.lastIndexOf(card._id);
-        index !== -1 && deck.cards.splice(index, 1);
+// resetTagFilter и resetRaceFilter исправляют следующий баг:
+// При если выбрать фильтр по тегу или рассе, а потом поменять другие фильтры
+// так, чтобы кант не оказалось, в изначальном фильтре значение поменяется на
+// '', но при этом не вызовится событие change.
+// setTimeout нужен, потому, что действия после Session.set не успевают отработать.
+function resetTagFilter() {
+    setTimeout(() => {
+        let tagInputValue = $('.cards-editor__tag-selector').val();
+        Session.set('searchTag', tagInputValue);
+    }, 0);
+}
 
-        MeteorApp.Decks.update(deck._id, deck);
-        
-    },
-    "click .card-add-hand-btn": function(e) {
-        let card = this;
-       
-        MeteorApp.addCardToHandDeck(MeteorApp.data.playerId, card._id);
-    },
-    "click .card-remove-hand-btn": function(e) {
-        let card = this;
-        let deck = MeteorApp.getDeck(MeteorApp.data.playerId);
-        
-        let index = deck.handCards.lastIndexOf(card._id);
-        index !== -1 && deck.handCards.splice(index, 1);
-
-        MeteorApp.Decks.update(deck._id, deck);
-        
-    }
-});
+function resetRaceFilter() {
+    setTimeout(() => {
+        let tagInputValue = $('.cards-editor__race-selector').val();
+        Session.set('raceTag', tagInputValue);
+    }, 0);
+}

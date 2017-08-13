@@ -1,0 +1,31 @@
+<template name="cardView">
+    <div class="cardView">
+        <div class="cardView__title">{{title}} {{#if quantity}} ({{quantity}}){{/if}}</div>
+        <div>
+            {{type}}
+            {{#if hero}}
+                (Герой)
+            {{/if}}
+            {{#if big}}
+                (Большая)
+            {{/if}}
+        </div>
+        <div class="cardView__text">{{text}}</div>
+        <div>
+            <span class="cardView__mana">{{mana}}</span>
+            <span class="cardView__dmg">{{dmg}}</span>
+            <span class="cardView__health">{{health}}</span>
+
+            <div class="cardView__deck-buttons">
+                <button class="card-add-btn">+</button>
+                <button class="card-remove-btn">-</button>
+            </div>
+
+            <div class="cardView__deck-hand-buttons">
+               В руку:
+                <button class="card-add-hand-btn">+</button>
+                <button class="card-remove-hand-btn">-</button>
+            </div>
+        </div>
+    </div>
+</template>

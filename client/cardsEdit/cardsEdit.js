@@ -145,7 +145,6 @@ Template.cardsEdit.helpers({
     },
 });
 
-
 Template.cardsEdit.events({
     'click .add-card-btn': function() {
         MeteorApp.Cards.insert({
@@ -168,8 +167,10 @@ Template.cardsEdit.events({
     'keyup .cards-editor__card-search': function(e) {
         Session.set('searchCardTitle', e.target.value);
     },
-    'click .filter-type': function(e) {
+    'click .filter-type input': function(e) {
         Session.set('filterType', e.target.value);
+        resetTagFilter();
+        resetRaceFilter();
     },
     'keyup .cards-editor__card-text-search': function(e) {
         Session.set('searchCardText', e.target.value);
@@ -182,190 +183,25 @@ Template.cardsEdit.events({
     },
     'change .cards-editor__race-selector': function (e) {
         Session.set('raceTag', e.target.value);
+        resetTagFilter();
     },
 });
 
-
-Template.cardEdit.helpers({
-    cardTypes: ['creature', 'area', 'spell'],
-
-    image: function () {
-        return MeteorApp.Images.findOne(this.imageId);
-    },
-
-    imageName: function () {
-        var image = MeteorApp.Images.findOne(this.imageId);
-        return image ? image.original.name : '';
-    },
-
-    images: function () {
-        return MeteorApp.Images.find().map(i => ({id: i._id, value: i.original.name}));
-    },
-    
-    imageSelected: function (e, suggestion) {
-        $(e.target).closest('.cardEdit').find('input[name="imageId"]').val(suggestion.id);
-        
-        $(e.target).closest('.cardEdit').submit();
-    },
-    
-    itMustHaveImage: function () {
-        return this.type !== 'spell';
-    },
-
-    tagsList: function () {
-        var notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
-            if(c.tags) {
-                return list.concat(c.tags)
-            }
-            return list;
-        }, []);
-
-        return _.uniq(notUniqTags).map(c => ({value: c}));
-    },
-
-    tagsToStr: function () {
-        var tags = this.tags || [];
-        return tags.join(',');
-    },
-
-    tagsSelected: function (e, suggestion) {
-        $(e.target).closest('.cardEdit').find('[name="add-tag"]').typeahead('val', '');
-        addTagToCard($(e.target).closest('.cardEdit'), suggestion.value);
-    }
-});
-
-
-Template.cardEdit.events({
-    "click .cardEdit__add-tag": function(e) {
-        var target = $(e.currentTarget);
-        if(!target.hasClass('tt-input')) {
-            Meteor.typeahead.inject();
-            $(target).focus();
-        }
-    },
-    "click .cardEdit__imageId": function(e) {
-        var target = $(e.currentTarget);
-        if(!target.hasClass('tt-input')) {
-            Meteor.typeahead.inject();
-            $(target).focus();
-        }
-    },
-    "click .card-remove": function(e) {
-        e.preventDefault();
-        if (confirm("Точно точно удалить " + this.title + "?")) {
-            MeteorApp.Cards.remove(this._id);
-        }
-    },
-
-    'blur .cardEdit__blurSave': function(e) {
-        $(e.target).closest('.cardEdit').submit();
-    },
-
-    'click .cardEdit__clickSave': function(e) {
-        $(e.target).closest('.cardEdit').submit();
-    },
-    
-    'change .cardEdit__changeSave': function(e) {
-        $(e.target).closest('.cardEdit').submit();
-    },
-
-    "submit .cardEdit": function(event) {
-        event.preventDefault();
-
-        var card = lodash.assign(this, {
-            title: event.target.title.value,
-            health: Number(event.target.health.value),
-            text: event.target.text.value,
-            dmg: Number(event.target.dmg.value),
-            mana: Number(event.target.mana.value),
-            counter: Number(event.target.counter.value),
-            type: event.target.type.value,
-            hero: Boolean(event.target.hero.checked),
-            big: Boolean(event.target.big.checked),
-            tags: _.uniq(event.target.tags.value.split(',')),
-            draft: Boolean(event.target.draft.checked),
-            summoned: Boolean(event.target.summoned.checked),
-            imageId: event.target.imageId.value
-        });
-
-        // for old cards
-        card.date = card.date || new Date();
-
-        MeteorApp.Cards.update(this._id, card);
-
-        var $form = $(event.target);
-
-        blinkGreenBorder($form);
-    },
-
-    "keypress .cardEdit__add-tag": function (e, template) {
-        // if enter pressed
-        if (e.which === 13) {
-            e.preventDefault();
-            addTagToCard($(e.target).closest('.cardEdit'), e.target.value);
-            $(e.target).typeahead('val', '');
-        }
-    },
-    
-    "click .cardEdit__remove-tag": function (e) {
-        if (confirm('Точно?')) {
-            var tag = $(e.target).data('value');
-            removeTagFromCard($(e.target).closest('.cardEdit'), tag);
-        }
-    },
-    
-    //TODO удалить так как решение в лоб
-    "click .cardEdit__createTestGame": function (e) {
-        var card = this;
-        
-        var playerId = 'test_images';
-        
-        var deck = MeteorApp.getDeck(playerId);
-
-        MeteorApp.clearDeck(playerId);
-        MeteorApp.addCardToHandDeck(playerId, card._id);
-        
-        // Создаем героя для теста арий
-        var heroCard = MeteorApp.Cards.findOne({hero: true});
-        MeteorApp.addCardToHandDeck(playerId, heroCard._id);
-        
-        var gameId = MeteorApp.createLobbyGame(deck._id);
-        MeteorApp.startLobbyGame(gameId);
-        window.location = '/game/' + gameId + '/' + deck._id;
-    }
-});
-
-
-function addTagToCard($cardEdit, tag) {
-    var $tagsStorage = $cardEdit.find('.cardEdit__tags-storage');
-    if ($tagsStorage.val()) {
-        $tagsStorage.val($tagsStorage.val() + ','+ tag);
-    } else {
-        $tagsStorage.val(tag);
-    }
-    $cardEdit.submit();
+// resetTagFilter и resetRaceFilter исправляют следующий баг:
+// При если выбрать фильтр по тегу или рассе, а потом поменять другие фильтры
+// так, чтобы кант не оказалось, в изначальном фильтре значение поменяется на
+// '', но при этом не вызовится событие change.
+// setTimeout нужен, потому, что действия после Session.set не успевают отработать.
+function resetTagFilter() {
+    setTimeout(() => {
+        let tagInputValue = $('.cards-editor__tag-selector').val();
+        Session.set('searchTag', tagInputValue);
+    }, 0);
 }
 
-function removeTagFromCard($cardEdit, tag) {
-    var $tagsStorage = $cardEdit.find('.cardEdit__tags-storage');
-    var tags = $tagsStorage.val().split(',');
-    var tagsWithoutRemoveTag = _.without(tags, tag);
-    $tagsStorage.val(tagsWithoutRemoveTag.join(','));
-
-    $cardEdit.submit();
+function resetRaceFilter() {
+    setTimeout(() => {
+        let tagInputValue = $('.cards-editor__race-selector').val();
+        Session.set('raceTag', tagInputValue);
+    }, 0);
 }
-
-
-var blinkGreenBorder = function($selector) {
-    $selector
-        .delay(1)
-        .queue(function (next) {
-            $(this).css({'borderColor': 'green'});
-            next();
-        })
-        .delay(2000)
-        .queue(function (next) {
-            $(this).removeAttr('style');
-            next();
-        });
-};
