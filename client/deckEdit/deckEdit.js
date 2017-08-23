@@ -296,14 +296,14 @@ Template.deckEdit.events({
 // setTimeout нужен, потому, что действия после Session.set не успевают отработать.
 function resetTagFilter() {
     setTimeout(() => {
-        let tagInputValue = $('.cards-editor__tag-selector').val();
+        let tagInputValue = $('.deckEdit__tag-selector').val();
         Session.set('searchTag', tagInputValue);
     }, 0);
 }
 
 function resetRaceFilter() {
     setTimeout(() => {
-        let tagInputValue = $('.cards-editor__race-selector').val();
+        let tagInputValue = $('.deckEdit__race-selector').val();
         Session.set('raceTag', tagInputValue);
     }, 0);
 }
