@@ -116,6 +116,10 @@ Template.gameView.helpers({
         return MeteorApp.Decks.find({}, { sort:{name: 1}}).fetch();
     },
     getPlayerNameById: function(id) {
-        return MeteorApp.Decks.findOne(id).name;
+        if (MeteorApp.Decks.findOne(id)) {
+            return MeteorApp.Decks.findOne(id).name;
+        } else {
+            return 'Unknown';
+        }
     }
 });
