@@ -9,4 +9,6 @@ cmd "/C meteor build build"
 scp build/${BUILD_FILENAME} ${ADDRESS}:~/builds/
 ssh ${ADDRESS} "cd builds && tar -xvf ${BUILD_FILENAME}"
 ssh ${ADDRESS} "cd builds/bundle/programs/server && npm i"
-ssh ${ADDRESS} "forever restartall"
+
+# Без nvm не находится forever который установлен в nvm/bin
+ssh ${ADDRESS} '. ~/.nvm/nvm.sh && forever restartall'
