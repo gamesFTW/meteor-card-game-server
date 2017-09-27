@@ -1,9 +1,3 @@
-MeteorApp = {};
-
-MeteorApp.data = {
-    playerId: null
-};
-
 let GroupName = {
     DECK: 'deck',
     HAND: 'hand',
@@ -442,8 +436,8 @@ Meteor.methods({
         }).fetch();
 
         manaCards.forEach((card) => {
-                Meteor.call('untapCard', gameId, card._id);
-            });
+            Meteor.call('untapCard', gameId, card._id);
+        });
     },
     
     

@@ -12,4 +12,5 @@ public
 start-ep1c.bat
 start-vscale.bat
 
+id_rsa
 build/

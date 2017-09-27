@@ -1,5 +1,5 @@
 MeteorApp = MeteorApp || {};
-    
+
 Meteor.methods({    
     addTimerAlarmedEndOfTurnEvent: function (gameId, playerId) {
         MeteorApp.Actions.insert({
