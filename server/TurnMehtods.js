@@ -16,6 +16,13 @@ Meteor.methods({
     addEndOfTurnEvent: function(gameId, playerId) {
         let game = MeteorApp.Games.findOne(gameId);
         let currentPlayerIndex = game.turnPlayer;
+
+        let currentPlayerId = game['playerId' + currentPlayerIndex];
+        if (currentPlayerId != playerId) {
+            console.warn(`Player ${playerId} cant end opponent tourn`);
+            return;
+        }
+
         let lastPlayerId = getLastPlayerId(game);
         let gameTurnNumber = getGameTurnNumber(gameId, lastPlayerId); 
         let isNewGameTurnNumber = gameTurnNumber !== game.turnNumber;
@@ -31,10 +38,14 @@ Meteor.methods({
         });
         // Upkeep
         makeUpkeep(gameId, playerId);
-       
+
         // Update turn number
         if (isNewGameTurnNumber) {
             updateGameTurnNumber(gameId, gameTurnNumber);
+        }
+
+        if (game.timeLeftSavedDuringPause !== null) {
+            MeteorApp.Games.update(gameId, { $set: { timeLeftSavedDuringPause: null } });
         }
 
         // Change current player
@@ -59,6 +70,7 @@ Meteor.methods({
 
 
 function makeUpkeep(gameId, playerId) {
+
     // WARNING часть апкипа происходит на клиенте, смотри endOfTurn в CardsManger.js
     let game = MeteorApp.Games.findOne(gameId);
 
@@ -71,10 +83,10 @@ function makeUpkeep(gameId, playerId) {
     //        numberOfManaToUntap = 5;
     //    }
     //}
-
     // Untap mana
     Meteor.call('untapCardsInManaPool', gameId, playerId, numberOfManaToUntap);
-    // Untap all table cards 
+
+    // Untap all table cards
     Meteor.call('untapCardsInTable', gameId, playerId);
 }
 

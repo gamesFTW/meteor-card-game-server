@@ -1,4 +1,4 @@
-var ddpEvents = new EventDDP('raix:push');
+let ddpEvents = new EventDDP('raix:push');
 
 
 const MINUTE = 60;
@@ -33,7 +33,7 @@ MeteorApp.gameTimers = {
 
 
 function getTimeLeft(gameId) {
-    var g = MeteorApp.gameTimers.userTurnTimeLeft[gameId];
+    let g = MeteorApp.gameTimers.userTurnTimeLeft[gameId];
     
     console.assert(g !== undefined, "No timeLeft for game", gameId);
 
@@ -42,7 +42,7 @@ function getTimeLeft(gameId) {
 
 
 function decrementTimeLeft(gameId) {
-    var g = MeteorApp.gameTimers.userTurnTimeLeft[gameId];
+    let g = MeteorApp.gameTimers.userTurnTimeLeft[gameId];
 
     console.assert(g !== undefined, "No timeLeft for game", gameId);
 
@@ -58,7 +58,7 @@ function setTimeLeft(gameId, value) {
 
 
 function getGlobalTime(gameId, playerIndex) {
-    var g = MeteorApp.gameTimers.userGlobalTime[gameId];
+    let g = MeteorApp.gameTimers.userGlobalTime[gameId];
     
     console.assert(g !== undefined, "No globalTime for game", gameId);
     console.assert(g[playerIndex] !== undefined, "No globalTime for game", gameId, "player", playerIndex);
@@ -68,7 +68,7 @@ function getGlobalTime(gameId, playerIndex) {
 
 
 function incrementGlobalTime(gameId, playerIndex) {
-    var g = MeteorApp.gameTimers.userGlobalTime[gameId];
+    let g = MeteorApp.gameTimers.userGlobalTime[gameId];
 
     console.assert(g !== undefined, "No globalTime for game", gameId);
     console.assert(g[playerIndex] !== undefined, "No globalTime for game", gameId, "player", playerIndex);
@@ -81,8 +81,7 @@ function incrementGlobalTime(gameId, playerIndex) {
 
 
 function setGlobalTimer(gameId, playerIndex, value) {
-    console.log(gameId, playerIndex, value);
-    var u = MeteorApp.gameTimers.userGlobalTime;
+    let u = MeteorApp.gameTimers.userGlobalTime;
     
     u[gameId] = u[gameId] === undefined ? {} : u[gameId];
     u[gameId][playerIndex] = value;
@@ -90,29 +89,25 @@ function setGlobalTimer(gameId, playerIndex, value) {
 
 
 function globalTimerTick(gameId) {
-    // console.log('Game', gameId, 'tic');
+    let game = MeteorApp.Games.findOne(gameId);
+    let playerIndex = game.turnPlayer;
+    let playerId = game['playerId' + playerIndex];
     
-    var game = MeteorApp.Games.findOne(gameId);
-    var playerIndex = game.turnPlayer;
-    var playerId = game['playerId' + playerIndex];
-    
-    var globalTimer = getGlobalTime(gameId, playerIndex);
+    let globalTimer = getGlobalTime(gameId, playerIndex);
     
     // Если был достигнут первый лимит нужно убрать из timeLeft Infinity и поставить turnTime от следующего лимита
-    var itWasFirstLimit = globalTimer < TURN_TIMERS_LIMITS[1].limit;
+    let itWasFirstLimit = globalTimer < TURN_TIMERS_LIMITS[1].limit;
     incrementGlobalTime(gameId, playerIndex);
     
-    var currentLimit = getCurrentLimit(getGlobalTime(gameId, playerIndex));
+    let currentLimit = getCurrentLimit(getGlobalTime(gameId, playerIndex));
     
     if (itWasFirstLimit && currentLimit === 1) {
         setTimeLeft(gameId, TURN_TIMERS_LIMITS[currentLimit].turnTime);
     }
     
     decrementTimeLeft(gameId);
-    // console.log('Game', gameId, 'time', getTimeLeft(gameId), 'left');
-    // console.log('Game', gameId, 'user', playerIndex, 'globalTime', getGlobalTime(gameId, playerIndex));
     
-    var globalTimersToSend = {};
+    let globalTimersToSend = {};
     globalTimersToSend[game['playerId1']] = getGlobalTime(gameId, 1);
     globalTimersToSend[game['playerId2']] = getGlobalTime(gameId, 2);
     
@@ -123,7 +118,6 @@ function globalTimerTick(gameId) {
     
     if (getTimeLeft(gameId) == 0) {
         // End of turn
-        console.log('End of turn');
         Meteor.call('addTimerAlarmedEndOfTurnEvent', gameId, playerId);
     }
 }
@@ -149,7 +143,7 @@ MeteorApp.gameTimers.saveGlobalTimerForPlayer = function (gameId, playerIndex) {
 };
 
 
-var setNewTimeLeft = MeteorApp.gameTimers.setNewTimeLeft = function (gameId) {
+let setNewTimeLeft = MeteorApp.gameTimers.setNewTimeLeft = function (gameId) {
     let game = MeteorApp.Games.findOne(gameId);
 
     let playerIndex = game.turnPlayer;
@@ -161,7 +155,7 @@ var setNewTimeLeft = MeteorApp.gameTimers.setNewTimeLeft = function (gameId) {
 
 
 function setInitialGlobalTimers(gameId) {
-    var game = MeteorApp.Games.findOne(gameId);
+    let game = MeteorApp.Games.findOne(gameId);
     setGlobalTimer(gameId, 1, game.globalTimers['player' + 1]);
     setGlobalTimer(gameId, 2, game.globalTimers['player' + 2]);
     
@@ -173,7 +167,7 @@ function setInitialGlobalTimers(gameId) {
 
 
 function getCurrentLimit(globalTimer) {
-    var currentLimit = 0;
+    let currentLimit = 0;
     lodash.forEach(TURN_TIMERS_LIMITS, (item, i) => {
         if (globalTimer >= item.limit) {
             currentLimit = i;
@@ -184,12 +178,12 @@ function getCurrentLimit(globalTimer) {
 
 
 MeteorApp.stopGameTimer = function (gameId) {
-    var game = MeteorApp.Games.findOne(gameId);
+    let game = MeteorApp.Games.findOne(gameId);
 
     if (MeteorApp.gameTimers.intervals[game._id]) {
         clearInterval(MeteorApp.gameTimers.intervals[game._id]);
 
-        var timeLeft = getTimeLeft(gameId);
+        let timeLeft = getTimeLeft(gameId);
         if (timeLeft !== undefined) {
             game.timeLeftSavedDuringPause = timeLeft;
         } else {
@@ -207,7 +201,7 @@ MeteorApp.stopGameTimer = function (gameId) {
 
 
 MeteorApp.startGameTimer = function (gameId) {
-    var game = MeteorApp.Games.findOne(gameId);
+    let game = MeteorApp.Games.findOne(gameId);
 
     if (MeteorApp.gameTimers.intervals[gameId]) {
         console.warn('Game', gameId, 'started yet');
@@ -222,7 +216,7 @@ MeteorApp.startGameTimer = function (gameId) {
         setTimeLeft(gameId, game.timeLeftSavedDuringPause);
     }
 
-    var interval = setInterval(Meteor.bindEnvironment(() => {
+    let interval = setInterval(Meteor.bindEnvironment(() => {
         globalTimerTick(gameId);
     }), 1000);
 
