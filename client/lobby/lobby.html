@@ -19,8 +19,10 @@
             <span>x</span>
             <span>{{mapHeight}}</span>
             <a href="/game/{{_id}}/{{playerId1}}">{{getPlayerNameById playerId1}}</a>
+            VS
             <a href="/game/{{_id}}/{{playerId2}}">{{getPlayerNameById playerId2}}</a>
 
+            | <a href="/game/{{_id}}/{{playerId2}}?view_replay=1">view replay</a>
             {{#if equals type 'ogre'}}
                 <a href="/game/{{_id}}/{{playerId3}}">{{getPlayerNameById playerId3}}</a>
                 <a href="/game/{{_id}}/{{playerId4}}">{{getPlayerNameById playerId4}}</a>

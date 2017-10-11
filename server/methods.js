@@ -59,6 +59,14 @@ Meteor.methods({
             addCardsToPlayer(game._id, game.playerId3, '3', 9, 0);
             addCardsToPlayer(game._id, game.playerId4, '4', 9, 0);
         }
+
+        // Save initial state for replay
+        MeteorApp.Games.update(game._id, {
+            $set: {
+                initialStateCards: MeteorApp.CardsInGame.find({ gameId: game._id }).fetch()
+                }
+            }
+        );
     },
 
     

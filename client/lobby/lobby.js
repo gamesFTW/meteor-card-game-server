@@ -43,7 +43,7 @@ MeteorApp.createLobbyGame = function(playerId1 = null, playerId2 = null) {
 
 MeteorApp.pauseOrUnpauseGame = function (gameId) {
     var game = MeteorApp.Games.findOne(gameId);
-    console.log('aaa')
+    console.log('aaa');
 
     if (game.paused) {
         Meteor.call('unPauseGame', gameId);
