@@ -134,7 +134,8 @@ Meteor.methods({
             type: 'Backend:cardCreated',
             params: {
                 card: newCardInGame
-            }
+            },
+            datetime: new Date()
         });
     }
 });
