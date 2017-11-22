@@ -118,7 +118,7 @@ function globalTimerTick(gameId) {
     
     if (getTimeLeft(gameId) == 0) {
         // End of turn
-        Meteor.call('addTimerAlarmedEndOfTurnEvent', gameId, playerId);
+        Meteor.call('addEndOfTurnEvent', gameId, playerId);
     }
 }
 

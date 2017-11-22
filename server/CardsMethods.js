@@ -129,6 +129,7 @@ Meteor.methods({
             card.cardGroup = GroupName.HAND;
             MeteorApp.CardsInGame.update(id, card);
 
+            // todo: добавить анимацию на потягивание карты из деки
             MeteorApp.Actions.insert({
                 gameId: gameId,
                 type: 'Backend:cardDrawn',
@@ -139,6 +140,17 @@ Meteor.methods({
                 }
             });
         }
+    },
+
+
+    playerDrawRandomCards: function (gameId, playerId, cardNumber) {
+        let deckCards = MeteorApp.CardsInGame.find(
+            {gameId: gameId, ownerId: playerId, cardGroup: GroupName.DECK}
+        ).fetch();
+
+        let randomCardsToDraw = lodash.sample(deckCards, cardNumber);
+
+        randomCardsToDraw.forEach(card => Meteor.call('drawCard', gameId, card._id));
     },
 
 
