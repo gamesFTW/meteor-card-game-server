@@ -47,7 +47,7 @@ Meteor.methods({
     removeGameById: function(gameId) {
         MeteorApp.Games.remove(gameId);
         MeteorApp.CardsInGame.remove({gameId: gameId});
-        MeteorApp.Actions.remove({});
+        MeteorApp.Actions.remove({gameId: gameId});
     },
 
 
