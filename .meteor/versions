@@ -86,6 +86,8 @@ routepolicy@1.0.11
 sergeyt:typeahead@0.11.1_9
 session@1.1.6
 shell-server@0.2.1
+simple:json-routes@2.1.0
+simple:rest@1.1.1
 spacebars@1.0.13
 spacebars-compiler@1.0.13
 standard-minifier-css@1.2.1

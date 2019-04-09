@@ -26,3 +26,5 @@ sergeyt:typeahead
 shell-server@0.2.1
 raix:eventddp
 check@1.2.3
+simple:rest
+simple:json-routes
