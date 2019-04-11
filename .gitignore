@@ -1,4 +1,6 @@
-.idea/*
+.idea/
+.vscode/
+
 public/
 .DS_Store
 .idea
