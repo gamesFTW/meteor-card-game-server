@@ -63,7 +63,7 @@ Meteor.methods({
             };
             gameServerId = HTTP.call('POST', CONFIG['gameServerCreateGameURL'], {
                 data
-            });
+            }).data.gameId;
         } catch(e) {
             Meteor.call('removeGameById', ourId);
             throw e;
