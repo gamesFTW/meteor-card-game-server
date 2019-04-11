@@ -28,3 +28,4 @@ raix:eventddp
 check@1.2.3
 simple:rest
 simple:json-routes
+http

@@ -1,4 +1,10 @@
 
 SimpleRest.configure({
-  collections: ['Decks', 'Images', 'Cards']
+  collections: ['Games', 'Decks', 'Images', 'Cards']
 });
+
+CONFIG = {
+  gameServerURL: 'http://localhost:3000/',
+}
+
+CONFIG['gameServerCreateGameURL'] = CONFIG['gameServerURL'] + 'createGame';

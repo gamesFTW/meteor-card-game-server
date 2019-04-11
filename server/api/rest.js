@@ -13,6 +13,6 @@ Meteor.method("Decks-with-cards", function () {
   });
   return decks;
 }, {
-  url: "api/1/decks-with-cards",
+  url: "methods/decks-with-cards",
   httpMethod: "get",
-})
+});

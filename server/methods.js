@@ -10,7 +10,6 @@ function addCardsToPlayer(gameId, ownerId, color, handCardsNumber, manaPoolCards
     var initialHandCards = deck.handCards.map(
         (cardId) => MeteorApp.Cards.findOne(cardId)
     );
-    
 
     var handCards = lodash.take(allCards, handCardsNumber);
     var deckCards = lodash.drop(allCards, handCardsNumber);
@@ -42,12 +41,41 @@ function addCardsToPlayer(gameId, ownerId, color, handCardsNumber, manaPoolCards
     );
 }
 
+function getCardsByIds(cardsIds) {
+    return MeteorApp.Cards.find({ _id : { $in : cardsIds }})
+        .fetch()
+        .map((card) => {
+            card.id = card._id;
+            return card;
+        });
+}
 
 Meteor.methods({
+    createGame: function(deckId1, deckId2) {
+        let gameServerId;
+        const deck1 = MeteorApp.Decks.findOne(deckId1);
+        const deck2 = MeteorApp.Decks.findOne(deckId2);
+
+        try {
+            const data = {
+                playerA: {deck: getCardsByIds(deck1.cards), heroes: getCardsByIds(deck1.handCards)},
+                playerB: {deck: getCardsByIds(deck2.cards), heroes: getCardsByIds(deck2.handCards)},
+            };
+            gameServerId = HTTP.call('POST', CONFIG['gameServerCreateGameURL'], {
+                data
+            });
+        } catch(e) {
+            Meteor.call('removeGameById', ourId);
+            throw e;
+        }
+
+        const ourId = MeteorApp.createLobbyGame(deckId1, deckId2, gameServerId);
+        
+        return ourId;
+    },
+
     removeGameById: function(gameId) {
         MeteorApp.Games.remove(gameId);
-        MeteorApp.CardsInGame.remove({gameId: gameId});
-        MeteorApp.Actions.remove({gameId: gameId});
     },
 
 
@@ -69,36 +97,6 @@ Meteor.methods({
         );
     },
 
-    
-    unPauseGame: function(gameId) {
-        var game = MeteorApp.Games.findOne(gameId);
-        game.paused = false;
-
-        MeteorApp.Games.update(gameId, game);
-        MeteorApp.startGameTimer(gameId);
-    },
-    
-    
-    pauseGame: function(gameId) {
-        var game = MeteorApp.Games.findOne(gameId);
-        game.paused = true;
-
-        MeteorApp.Games.update(gameId, game);
-        MeteorApp.gameTimers.saveGlobalTimerForPlayer(gameId, game.turnPlayer);
-        MeteorApp.stopGameTimer(gameId);
-    },
-
-    
-    tooglePause: function(gameId) {
-        var game = MeteorApp.Games.findOne(gameId);
-        if (game.paused) {
-            Meteor.call('unPauseGame', gameId)
-        } else {
-            Meteor.call('pauseGame', gameId)
-        }
-    },
-    
-
     createCardFromData: function(gameId, cardData, ownerId, cardGroup, color) {
         delete cardData._id;
         cardData.gameId = gameId;
@@ -118,24 +116,4 @@ Meteor.methods({
 
         return MeteorApp.CardsInGame.insert(cardData);
     },
-
-
-    createCardInPlayerHand: function(gameId, ownerId, cardId) {
-        var card = MeteorApp.Cards.findOne(cardId);
-        var color = MeteorApp.CardsInGame.findOne({gameId: gameId, ownerId: ownerId}).color;
-
-        var newCardInGameId = Meteor.call('createCardFromData', gameId, card, ownerId, 'hand', color);
-        var newCardInGame = MeteorApp.CardsInGame.findOne(newCardInGameId);
-
-        newCardInGame.id = newCardInGame._id;
-
-        MeteorApp.Actions.insert({
-            gameId: gameId,
-            type: 'Backend:cardCreated',
-            params: {
-                card: newCardInGame
-            },
-            datetime: new Date()
-        });
-    }
 });

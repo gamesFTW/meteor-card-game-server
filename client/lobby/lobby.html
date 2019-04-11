@@ -2,7 +2,6 @@
     <h1>Lobby</h1>
 
     <h2>Games</h2>
-    <button class="create-game-button">Create game</button>
     <div>
         {{#each games}}
            {{>gameView}}
@@ -14,7 +13,6 @@
 <template name="gameView">
     <div>
         {{#if started}}
-            <span>{{#if paused}}▌▌{{else}}►{{/if}}</span>
             <span>{{mapWidth}}</span>
             <span>x</span>
             <span>{{mapHeight}}</span>
@@ -64,12 +62,5 @@
             <button class="start-game-button">Start game</button>
         {{/if}}
         <button class="delete-game-button">Delete game</button>
-        <button class="pause-game-button">Pause game</button>
-
-        {{#if turnNumber}}
-            <span>
-                Current Turn: {{turnNumber}}
-            </span>
-        {{/if}}
     </div>
 </template>
