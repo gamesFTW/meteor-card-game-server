@@ -1,53 +1,15 @@
-function addCardsToPlayer(gameId, ownerId, color, handCardsNumber, manaPoolCardsNumber) {
-    let deck = MeteorApp.Decks.findOne(ownerId);
-    var allCards = deck.cards.map(
-        (cardId) => MeteorApp.Cards.findOne(cardId)
-    );
-    
-    allCards = lodash.shuffle(allCards);
-    
-    // Те каты которые мы добавляем как изначальные(герои и арии)
-    var initialHandCards = deck.handCards.map(
-        (cardId) => MeteorApp.Cards.findOne(cardId)
-    );
-
-    var handCards = lodash.take(allCards, handCardsNumber);
-    var deckCards = lodash.drop(allCards, handCardsNumber);
-    var manaPoolCards = [];
-    
-    // Переносим карты из деки в манапул
-    for(var i = 0; i < manaPoolCardsNumber; i++) {
-        manaPoolCards.push(deckCards.pop());
-    }
-    
-    //initial cards from handCards
-    initialHandCards.forEach(
-        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'hand', color)
-    );
-
-    //hand creatures
-    handCards.forEach(
-        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'hand', color)
-    );
-
-    //deck
-    deckCards.forEach(
-        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'deck', color)
-    );
-    
-    //deck
-    manaPoolCards.forEach(
-        (card) => Meteor.call('createCardFromData', gameId, card, ownerId, 'manaPool', color)
-    );
-}
-
 function getCardsByIds(cardsIds) {
-    return MeteorApp.Cards.find({ _id : { $in : cardsIds }})
-        .fetch()
-        .map((card) => {
-            card.id = card._id;
-            return card;
-        });
+    const cards = MeteorApp.Cards.find({ _id : { $in : cardsIds }}).fetch();
+    const count = lodash.countBy(cardsIds);
+
+    return cards.reduce((allCards, card) => {
+            card.image = MeteorApp.Images.findOne(card.imageId).url();
+            lodash.range(count[card._id]).forEach((i) => {
+                allCards.push(card);
+            });
+
+            return allCards;
+        }, []);
 }
 
 Meteor.methods({
