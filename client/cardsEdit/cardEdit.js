@@ -64,7 +64,7 @@ Template.cardEdit.events({
     },
     "click .card-remove": function(e) {
         e.preventDefault();
-        if (confirm("Точно точно удалить " + this.title + "?")) {
+        if (confirm("Точно точно удалить " + this.name + "?")) {
             MeteorApp.Cards.remove(this._id);
         }
     },
@@ -85,11 +85,11 @@ Template.cardEdit.events({
         event.preventDefault();
 
         let card = lodash.assign(this, {
-            title: event.target.title.value,
-            health: Number(event.target.health.value),
+            name: event.target.name.value,
+            maxHp: Number(event.target.maxHp.value),
             text: event.target.text.value,
-            dmg: Number(event.target.dmg.value),
-            mana: Number(event.target.mana.value),
+            damage: Number(event.target.damage.value),
+            manaCost: Number(event.target.manaCost.value),
             counter: Number(event.target.counter.value),
             type: event.target.type.value,
             hero: Boolean(event.target.hero.checked),

@@ -97,23 +97,5 @@ Meteor.methods({
         );
     },
 
-    createCardFromData: function(gameId, cardData, ownerId, cardGroup, color) {
-        delete cardData._id;
-        cardData.gameId = gameId;
-        cardData.ownerId = ownerId;
-        cardData.cardGroup = cardGroup;
-        cardData.color = color;
-
-        cardData.counter = cardData.counter || 0;
-        cardData.attachable = _.contains(['spell', 'area'], cardData.type);
-        cardData.maxHealth = cardData.maxHealth;
-        cardData.attachedCards = [];
-        //cardData.rotated = false;
-
-        if (cardGroup == 'manaPool') {
-            cardData.tapped = false;
-        }
-
-        return MeteorApp.CardsInGame.insert(cardData);
-    },
+    
 });

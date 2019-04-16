@@ -105,10 +105,13 @@ let getCards = function() {
     }
 
 
-    return MeteorApp.Cards.find(
+    const cards = MeteorApp.Cards.find(
         filter,
         { sort: {  manaCost: 1 } }
-    );
+    ).fetch();
+    console.log(cards);
+
+    return cards;
 };
 
 
@@ -199,7 +202,6 @@ Template.deckEdit.helpers({
                         function(number) {return number === cardId}
                     ).length;    
                 } 
-                
                 return card;
             })
             .sortBy('manaCost')
@@ -254,7 +256,7 @@ Template.deckEdit.helpers({
 
 Template.deckEdit.events({
     'keyup .card-search': function(e) {
-        Session.set('searchCardTitle', e.target.value);
+        Session.set('searchCardName', e.target.value);
     },
     'click .filter-type': function(e) {
         Session.set('filterType', e.target.value);

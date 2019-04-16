@@ -6,8 +6,8 @@
             <div class="deckEdit__top-container">
                 <input class="deckEdit__name-area"  type="text" value="{{name}}">
                 <textarea class="deckEdit__desc-area" placeholder="Описание">{{desc}}</textarea>
-                <table class="deckEdit__mana-table">
-                    <tr class="deckEdit__mana-title">
+                <table class="deckEdit__manaCost-table">
+                    <tr class="deckEdit__manaCost-title">
                         {{#each manaDistribution.manaTitle}}
                             <td>{{this}}</td>
                         {{/each}}

@@ -38,7 +38,7 @@
     background: #F1F1F1;
 }
 
-.cardEdit__title {
+.cardEdit__name {
     font-weight: bold;
     display: inline-block;
     width: 11em;
@@ -55,7 +55,7 @@
     padding: 1px;
 }
 
-.cardEdit__mana {
+.cardEdit__manaCost {
     width: 1em;
     color: blue;
     display: inline-block;
@@ -63,7 +63,7 @@
     text-align: center;
 }
 
-.cardEdit__dmg {
+.cardEdit__damage {
     color: red;
     width: 1em;
     display: inline-block;
@@ -71,7 +71,7 @@
     text-align: center;
 }
 
-.cardEdit__health {
+.cardEdit__maxHp {
     color: green;
     width: 1em;
     display: inline-block;
@@ -140,7 +140,7 @@
         width: 100%;
     }
 
-    .cardEdit__title, .cardEdit__type {
+    .cardEdit__name, .cardEdit__type {
         width: 45%;
     }
 

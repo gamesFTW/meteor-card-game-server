@@ -2,16 +2,16 @@
     font-family: Arial;
 }
 
-.deckEdit__mana-table {
+.deckEdit__manaCost-table {
     display: inline-block;
 }
 
-.deckEdit__mana-table td {
+.deckEdit__manaCost-table td {
     padding: 0 5px;
     text-align: center;
 }
 
-.deckEdit__mana-title td {
+.deckEdit__manaCost-title td {
     color: blue;
     font-weight: bold;
     border-bottom: 1px gray solid;
@@ -80,7 +80,7 @@
     background: #F1F1F1;
 }
 
-.cardView__title {
+.cardView__name {
     font-weight: bold;
 }
 
@@ -94,21 +94,21 @@
     padding: 1px;
 }
 
-.cardView__mana {
+.cardView__manaCost {
     color: blue;
     font-weight: bold;
     width: 14px;
     display: inline-block;
 }
 
-.cardView__dmg {
+.cardView__damage {
     color: red;
     font-weight: bold;
     width: 14px;
     display: inline-block;
 }
 
-.cardView__health {
+.cardView__maxHp {
     color: green;
     font-weight: bold;
     width: 14px;
