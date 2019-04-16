@@ -21,13 +21,13 @@ var addTypesToFilter = function(filter) {
 
 
 let getCards = function() {
-    let title = Session.get('searchCardTitle') || '';
-    let titleRe = new RegExp(title, 'i');
+    let name = Session.get('searchCardName') || '';
+    let nameRe = new RegExp(name, 'i');
 
     let text = Session.get('searchCardText') || '';
     let textRe = new RegExp(text, 'i');
 
-    let filter = { title: titleRe, text: textRe };
+    let filter = { name: nameRe, text: textRe };
 
     let order = Session.get('order') || 'date';
     let sort = {};
@@ -94,8 +94,8 @@ Template.cardsEdit.helpers({
         return getCards().count();
     },
     cards: getCards,
-    getSearchCardTitle: function () {
-        return Session.get('searchCardTitle') || '';
+    getSearchCardName: function () {
+        return Session.get('searchCardName') || '';
     },
     tagsList: function () {
         let filter = {};
@@ -148,10 +148,10 @@ Template.cardsEdit.helpers({
 Template.cardsEdit.events({
     'click .add-card-btn': function() {
         MeteorApp.Cards.insert({
-            title: 'Новая карта',                   // название
-            health: 1,                              // здоровье
-            dmg: 0,                                 // урон
-            mana: 1,                                // мана
+            name: 'Новая карта',                   // название
+            maxHp: 1,                              // здоровье
+            damage: 0,                                 // урон
+            manaCost: 1,                                // мана
             counter: 0,                             // счетчик на карте(монетка)
             type: 'creature',                       // area/spell/creature
             text: 'Описание',                       // Описание карты
@@ -161,11 +161,13 @@ Template.cardsEdit.events({
             draft: false,                           // в разработке? драфт?
             summoned: false,                        // является ли саммонедом
             imageId: MeteorApp.Images.findOne()._id, // id картинки
-            tags: []                                // теги
+            tags: [],                                // теги
+            abilities: [],
+            movingPoints: 3,
         });
     },
     'keyup .cards-editor__card-search': function(e) {
-        Session.set('searchCardTitle', e.target.value);
+        Session.set('searchCardName', e.target.value);
     },
     'click .filter-type input': function(e) {
         Session.set('filterType', e.target.value);

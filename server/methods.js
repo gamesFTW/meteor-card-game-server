@@ -106,7 +106,7 @@ Meteor.methods({
 
         cardData.counter = cardData.counter || 0;
         cardData.attachable = _.contains(['spell', 'area'], cardData.type);
-        cardData.maxHealth = cardData.health;
+        cardData.maxHealth = cardData.maxHealth;
         cardData.attachedCards = [];
         //cardData.rotated = false;
 

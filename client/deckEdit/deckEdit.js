@@ -77,13 +77,13 @@ let getAllTags = function(filter) {
 };
 
 let getCards = function() {
-    let title = Session.get('searchCardTitle') || '';
-    let titleRe = new RegExp(title, 'i');
+    let name = Session.get('searchCardName') || '';
+    let nameRe = new RegExp(name, 'i');
 
     let text = Session.get('searchCardText') || '';
     let textRe = new RegExp(text, 'i');
 
-    let filter = { title: titleRe, text: textRe, draft: false, summoned: false };
+    let filter = { name: nameRe, text: textRe, draft: false, summoned: false };
 
     addTypesToFilter(filter);
 
@@ -107,7 +107,7 @@ let getCards = function() {
 
     return MeteorApp.Cards.find(
         filter,
-        { sort: {  mana: 1 } }
+        { sort: {  manaCost: 1 } }
     );
 };
 
@@ -202,7 +202,7 @@ Template.deckEdit.helpers({
                 
                 return card;
             })
-            .sortBy('mana')
+            .sortBy('manaCost')
             .value();
     },
     cardsInHandDeck: function() {
@@ -240,8 +240,8 @@ Template.deckEdit.helpers({
         
         cards.forEach(cardId => {
             let card = MeteorApp.Cards.findOne(cardId);
-            if (card.mana !== undefined) {
-                distribution[card.mana]++; 
+            if (card.manaCost !== undefined) {
+                distribution[card.manaCost]++; 
             }
         });
         

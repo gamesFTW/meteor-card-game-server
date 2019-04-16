@@ -1,7 +1,7 @@
 <template name="cardsEdit">
     <div class="cards-editor">
         <div class="cards-editor__search-container">
-            <input class="cards-editor__card-search" type="text" value="{{getSearchCardTitle}}" placeholder="Название карты">
+            <input class="cards-editor__card-search" type="text" value="{{getSearchCardName}}" placeholder="Название карты">
             <input class="cards-editor__card-text-search" type="text" placeholder="Текст карты">
             <select class="cards-editor__tag-selector">
                 <option value="">---</option>
@@ -30,7 +30,7 @@
             <span>
                 Сортировка:
                 <label class="cardsEdit__order"><input type="radio" name="order" value="date" checked> Дата создания</label>
-                <label class="cardsEdit__order"><input type="radio" name="order" value="mana"> Манна</label>
+                <label class="cardsEdit__order"><input type="radio" name="order" value="manaCost"> Манна</label>
                 <label class="cardsEdit__order"><input type="radio" name="order" value="dmg"> Урон</label>
                 <label class="cardsEdit__order"><input type="radio" name="order" value="health"> Жизни</label>
             </span>
