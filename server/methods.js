@@ -3,7 +3,10 @@ function getCardsByIds(cardsIds) {
     const count = lodash.countBy(cardsIds);
 
     return cards.reduce((allCards, card) => {
-            card.image = MeteorApp.Images.findOne(card.imageId).url();
+            const img =  MeteorApp.Images.findOne(card.imageId)
+            if (img) {
+                card.image = img.url();
+            }
             lodash.range(count[card._id]).forEach((i) => {
                 allCards.push(card);
             });
