@@ -18,7 +18,7 @@ Meteor.method("Decks-with-cards", function () {
 });
 
 Meteor.method("getGames", function () {
-  return MeteorApp.Games.find({}).fetch().map(function(game) {
+  const Games = MeteorApp.Games.find({}).fetch().map(function(game) {
     const deck1 = MeteorApp.Decks.findOne(game.deckId1);
     const deck2 = MeteorApp.Decks.findOne(game.deckId2);
     if (deck1) {
@@ -35,6 +35,7 @@ Meteor.method("getGames", function () {
 
     return game;
   });
+  return {Games};
 }, {
   url: "methods/getGames",
   httpMethod: "get",
