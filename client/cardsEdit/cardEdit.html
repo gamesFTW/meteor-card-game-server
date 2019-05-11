@@ -34,19 +34,25 @@
                autocomplete="off" spellcheck="off"
                data-min-length="0" data-limit="10" data-updated="tagsUpdated"
                data-source="tagsList" data-select="tagsSelected"/>
+        <button class="card-remove">Del</button>
+        <br>
 
         <input title="Мана" class="cardEdit__manaCost cardEdit__blurSave" type="text" name="manaCost" value="{{manaCost}}" />
         <input title="Урон" class="cardEdit__damage cardEdit__blurSave" type="text" name="damage" value="{{damage}}" />
         <input title="Жизни" class="cardEdit__maxHp cardEdit__blurSave" type="text" name="maxHp" value="{{maxHp}}" />
         <input title="Стартовые каунтеры" class="cardEdit__couter cardEdit__blurSave" type="text" name="counter" value="{{counter}}" />
 
-        <button class="card-remove">Del</button>
+        <button class="cardEdit__toogleAbilities">Abilities</button>
+
+        {{#if isShowAbilities }} 
+            <button class='cardEdit__saveAbilities'>Save abilities</button>
+        {{/if}}
+        <div class='cardEdit__abilities'>
+        </div>
 
         {{#if itMustHaveImage}}
             <div class="cardEdit__image-container">
                 <img class="cardEdit__image" src="{{image.url store='Images'}}"/>
-                <br>
-                <button class="cardEdit__createTestGame">Попробовать</button>
             </div>
         {{/if}}
     </form>

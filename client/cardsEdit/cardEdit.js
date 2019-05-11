@@ -24,6 +24,10 @@ Template.cardEdit.helpers({
         return this.type !== 'spell';
     },
 
+    isShowAbilities: function () {
+        return Session.get('showAbilities');
+    },
+
     tagsList: function () {
         let notUniqTags = MeteorApp.Cards.find().fetch().reduce((list, c) => {
             if(c.tags) {
@@ -69,6 +73,37 @@ Template.cardEdit.events({
         }
     },
 
+    "click .cardEdit__toogleAbilities": function(e) {
+        e.preventDefault();
+        var element = $(e.target).closest('.cardEdit').find('.cardEdit__abilities')[0];
+        toogleAbilities(element, this.abilities);
+    },
+
+    'click .cardEdit__saveAbilities': function(e) {
+        e.preventDefault();
+        if (window.editor) {
+            var errors = editor.validate();
+            if (errors.length) {
+                console.error(errors, editor.getValue());
+                alert('hui tebe sm console');
+            } else {
+                var abilities = getNotDefaultFromAbilities(editor.getValue());
+                // save
+                MeteorApp.Cards.update({_id: this._id}, { 
+                    $set: {
+                        abilities: abilities
+                    }
+                });
+
+                // toogle Abilities
+                var element = $(e.target).closest('.cardEdit').find('.cardEdit__abilities')[0];
+                toogleAbilities(element, this.abilities);
+                let $form = $(e.target).closest('.cardEdit');
+                blinkGreenBorder($form);
+            }
+        }
+    },
+    
     'blur .cardEdit__blurSave': function(e) {
         $(e.target).closest('.cardEdit').submit();
     },
@@ -126,27 +161,7 @@ Template.cardEdit.events({
         }
     },
     
-    //TODO удалить так как решение в лоб
-    "click .cardEdit__createTestGame": function (e) {
-        let card = this;
-        
-        let playerId = 'test_images';
-        
-        let deck = MeteorApp.getDeck(playerId);
-
-        MeteorApp.clearDeck(playerId);
-        MeteorApp.addCardToHandDeck(playerId, card._id);
-        
-        // Создаем героя для теста арий
-        let heroCard = MeteorApp.Cards.findOne({hero: true});
-        MeteorApp.addCardToHandDeck(playerId, heroCard._id);
-        
-        let gameId = MeteorApp.createLobbyGame(deck._id);
-        MeteorApp.startLobbyGame(gameId);
-        window.location = '/game/' + gameId + '/' + deck._id;
-    }
 });
-
 
 function addTagToCard($cardEdit, tag) {
     let $tagsStorage = $cardEdit.find('.cardEdit__tags-storage');
@@ -181,3 +196,46 @@ let blinkGreenBorder = function($selector) {
             next();
         });
 };
+
+
+function getNotDefaultFromAbilities (obj) {
+    var newObj = {};
+    var def = window.defaultAbilities;
+    _.forEach(obj, function(value, key) {
+        if (typeof value == "object") {
+            if (!_.isEqual(def[key], value)) {
+                newObj[key] = value;
+            }
+        } else {
+            if (def[key] !== value) {
+                newObj[key] = value;
+            }
+        }
+    });
+
+    return newObj;
+}
+
+function toogleAbilities (element, abilities) {
+    var show = Session.get('showAbilities', false);
+    show = !show;
+    Session.set('showAbilities', show);
+
+    if (show) {
+        editor = new JSONEditor(element, { 
+            schema: MeteorApp.schemeAbilities,
+            disable_properties: true,
+            disable_edit_json: true,
+            // Seed the form with a starting value
+            startval: abilities || {},
+            // Disable additional properties
+            // no_additional_properties: true,
+            // Require all properties by default
+            required_by_default: false,
+            display_required_only: true,
+           
+        });
+    } else {
+        window.editor && editor.destroy();
+    }
+}

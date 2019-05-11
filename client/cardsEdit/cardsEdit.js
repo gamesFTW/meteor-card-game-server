@@ -65,7 +65,6 @@ let getCards = function() {
         filter = lodash.assign(filter, raceQuery);
     }
 
-
     return MeteorApp.Cards.find(
         filter,
         { sort }
@@ -162,7 +161,7 @@ Template.cardsEdit.events({
             summoned: false,                        // является ли саммонедом
             imageId: MeteorApp.Images.findOne()._id, // id картинки
             tags: [],                                // теги
-            abilities: [],
+            abilities: {},
             movingPoints: 3,
         });
     },
@@ -206,4 +205,21 @@ function resetRaceFilter() {
         let tagInputValue = $('.cards-editor__race-selector').val();
         Session.set('raceTag', tagInputValue);
     }, 0);
+}
+
+function getDefaultAbilities() {
+    var element = document.createElement("div");
+    var editor = new JSONEditor(element, { 
+        schema: MeteorApp.schemeAbilities,
+        startval: {},
+        // Disable additional properties
+        // no_additional_properties: true,
+        // Require all properties by default
+    }); 
+    window.defaultAbilities = editor.getValue();
+    editor.destroy();
+}
+
+Template.cardsEdit.rendered = function () {
+    getDefaultAbilities();
 }

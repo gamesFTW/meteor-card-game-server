@@ -29,3 +29,4 @@ check@1.2.3
 simple:rest
 simple:json-routes
 http
+appworkshop:json-editor
