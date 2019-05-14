@@ -7,6 +7,11 @@ function getCardsByIds(cardsIds) {
             if (img) {
                 card.image = img.url();
             }
+            // ранее card.abilities был массивом, но теперь мы ждем объект
+            if (Array.isArray(card.abilities) || card.abilities === null) {
+                card.abilities = {};
+            }
+            
             lodash.range(count[card._id]).forEach((i) => {
                 allCards.push(card);
             });
