@@ -15,8 +15,7 @@ MeteorApp.schemeAbilities =  {
         }
       },
       "required": [
-        "range",
-        "blockedInBeginningOfTurn"
+        "range"
       ]
     },
     "firstStrike": {
