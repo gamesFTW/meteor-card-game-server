@@ -12,10 +12,6 @@ MeteorApp.schemeAbilities =  {
       "properties": {
         "range": {
           "type": "number"
-        },
-        "blockedInBeginningOfTurn": {
-          "type": "boolean",
-          "format": "checkbox"
         }
       },
       "required": [
