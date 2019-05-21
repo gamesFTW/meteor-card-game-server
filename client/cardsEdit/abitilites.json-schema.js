@@ -48,6 +48,21 @@ MeteorApp.schemeAbilities =  {
     "piercing": {
       "type": "boolean",
       "format": "checkbox"
+    },
+    "speed": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "speed": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "speed"
+      ]
     }
   },
   "additionalProperties": false
