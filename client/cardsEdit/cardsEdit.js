@@ -161,8 +161,7 @@ Template.cardsEdit.events({
             summoned: false,                        // является ли саммонедом
             imageId: MeteorApp.Images.findOne()._id, // id картинки
             tags: [],                                // теги
-            abilities: {},
-            movingPoints: 3,
+            abilities: {}
         });
     },
     'keyup .cards-editor__card-search': function(e) {
