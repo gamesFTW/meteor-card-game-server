@@ -63,6 +63,21 @@ MeteorApp.schemeAbilities =  {
       "required": [
         "speed"
       ]
+    },
+    "flanking": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "damage": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "damage"
+      ]
     }
   },
   "additionalProperties": false
