@@ -78,6 +78,25 @@ MeteorApp.schemeAbilities =  {
       "required": [
         "damage"
       ]
+    },
+    "healing": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "number"
+        },
+        "heal": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "range",
+        "heal"
+      ]
     }
   },
   "additionalProperties": false
