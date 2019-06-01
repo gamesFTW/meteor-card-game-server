@@ -112,6 +112,10 @@ MeteorApp.schemeAbilities =  {
       "required": [
           "range"
       ]
+    },
+    "ricochet": {
+      "type": "boolean",
+      "format": "checkbox"
     }
   },
   "additionalProperties": false
