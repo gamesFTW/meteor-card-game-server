@@ -97,6 +97,21 @@ MeteorApp.schemeAbilities =  {
         "range",
         "heal"
       ]
+    },
+    "push": {
+      "type": "object",
+      "options": {
+          "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+          "range": {
+              "type": "number"
+          }
+      },
+      "required": [
+          "range"
+      ]
     }
   },
   "additionalProperties": false
