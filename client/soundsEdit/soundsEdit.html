@@ -1,0 +1,23 @@
+<template name="soundsEdit">
+    <div class="soundsEdit">
+        <h1>Заливка звуков для карт </h1>
+
+        <div>
+            <input title="Звук (ogg only)" multiple class="sound-upload" type="file"/>
+        </div>
+
+        <br>
+
+        {{#each sounds}}
+            <div title="{{original.name}}" class="soundsEdit__sound-container">
+                <div class="soundsEdit__name">
+                    {{original.name}}
+                </div>
+
+                <div>
+                    <button class="delete-sound">Delete</button>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</template>

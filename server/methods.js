@@ -7,6 +7,19 @@ function getCardsByIds(cardsIds) {
             if (img) {
                 card.image = img.url();
             }
+
+            if (card.sounds === null) {
+                card.sounds = {};
+            } else {
+                for (let key in card.sounds) {
+                    let sound = card.sounds[key];
+
+                    const s =  MeteorApp.Sounds.findOne(sound.soundId);
+
+                    sound.url = s.url();
+                }
+            }
+
             // ранее card.abilities был массивом, но теперь мы ждем объект
             if (Array.isArray(card.abilities) || card.abilities === null) {
                 card.abilities = {};

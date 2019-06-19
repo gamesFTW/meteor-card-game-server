@@ -8,6 +8,7 @@
             <label title="Является ли драфтом">D: <input class="cardEdit__clickSave" name="draft" checked="{{#if draft}}checked{{/if}}" type="checkbox"></label>
             <label title="Является ли саммонедом">S: <input class="cardEdit__clickSave" name="summoned" checked="{{#if summoned}}checked{{/if}}" type="checkbox"></label>
         </div>
+
         <!--image select-->
         <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
             <input class="typeahead cardEdit__imageId" type="text"
@@ -42,12 +43,35 @@
         <input title="Жизни" class="cardEdit__maxHp cardEdit__blurSave" type="text" name="maxHp" value="{{maxHp}}" />
         <input title="Стартовые каунтеры" class="cardEdit__couter cardEdit__blurSave" type="text" name="counter" value="{{counter}}" />
 
-        <button class="cardEdit__toogleAbilities">Abilities</button>
+        <button class="cardEdit__toogleAbilities">Abil</button>
+
+        <button class="cardEdit__toogleSounds">Sounds</button>
 
         {{#if isShowAbilities }} 
             <button class='cardEdit__saveAbilities'>Save abilities</button>
         {{/if}}
         <div class='cardEdit__abilities'>
+        </div>
+
+
+        <div class="cardEdit__sounds">
+            <br>
+            <button class="cardEdit__addSound">Add sound</button>
+            <button class="cardEdit__saveSounds">Save sounds</button>
+            <br>
+            <br>
+            {{#each cardSound in cardSounds}}
+                <div class="cardEdit__sound">
+                    <input class="cardEdit__soundName" name="soundName" value="{{cardSound.soundName}}">
+                    <input class="typeahead cardEdit__attackSoundId" type="text"
+                           placeholder="" value="{{cardSound.fileName}}"
+                           autocomplete="off" spellcheck="off"
+                           data-min-length="0" data-limit="10"
+                           data-source="sounds" data-select="soundSelected"/>
+                    <input type="hidden" name="soundId" value="{{cardSound.soundId}}">
+                    <button class="cardEdit__remove-sound">X</button>
+                </div>
+            {{/each}}
         </div>
 
         {{#if itMustHaveImage}}

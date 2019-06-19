@@ -5,6 +5,10 @@ Template.cardEdit.helpers({
         return MeteorApp.Images.findOne(this.imageId);
     },
 
+    sound: function () {
+        return MeteorApp.Sounds.findOne(this.soundId);
+    },
+
     imageName: function () {
         let image = MeteorApp.Images.findOne(this.imageId);
         return image ? image.original.name : '';
@@ -13,10 +17,20 @@ Template.cardEdit.helpers({
     images: function () {
         return MeteorApp.Images.find().map(i => ({id: i._id, value: i.original.name}));
     },
+
+    sounds: function () {
+        return MeteorApp.Sounds.find().map(i => ({id: i._id, value: i.original.name}));
+    },
     
     imageSelected: function (e, suggestion) {
         $(e.target).closest('.cardEdit').find('input[name="imageId"]').val(suggestion.id);
         
+        $(e.target).closest('.cardEdit').submit();
+    },
+
+    soundSelected: function (e, suggestion) {
+        $(e.target).closest('.cardEdit').find('input[name="soundId"]').val(suggestion.id);
+
         $(e.target).closest('.cardEdit').submit();
     },
     
@@ -47,22 +61,62 @@ Template.cardEdit.helpers({
     tagsSelected: function (e, suggestion) {
         $(e.target).closest('.cardEdit').find('[name="add-tag"]').typeahead('val', '');
         addTagToCard($(e.target).closest('.cardEdit'), suggestion.value);
+    },
+
+    cardSounds: function() {
+        let soundsList = [];
+        for (let sound in this.sounds) {
+            soundsList.push(this.sounds[sound]);
+        }
+        return soundsList;
     }
 });
 
 
 Template.cardEdit.events({
+    "click .cardEdit__addSound": function(e) {
+        e.preventDefault();
+
+        let sounds = this.sounds ? this.sounds : {};
+        sounds.new = {soundName: 'new'};
+
+        this.sounds = sounds;
+
+        MeteorApp.Cards.update(this._id, this);
+    },
+    "click .cardEdit__saveSounds": function(e) {
+        e.preventDefault();
+
+        $(e.target).closest('.cardEdit').submit();
+        var element = $(e.target).closest('.cardEdit').find('.cardEdit__sounds').toggle();
+    },
+    "click .cardEdit__remove-sound": function(e) {
+        e.preventDefault();
+
+        let soundName = $(e.currentTarget).parent().find('[name="soundName"]').val();
+
+        delete this.sounds[soundName];
+
+        MeteorApp.Cards.update(this._id, this);
+    },
     "click .cardEdit__add-tag": function(e) {
         let target = $(e.currentTarget);
         if(!target.hasClass('tt-input')) {
-            Meteor.typeahead.inject();
+            Meteor.typeahead.inject(e.currentTarget);
             $(target).focus();
         }
     },
     "click .cardEdit__imageId": function(e) {
         let target = $(e.currentTarget);
         if(!target.hasClass('tt-input')) {
-            Meteor.typeahead.inject();
+            Meteor.typeahead.inject(e.currentTarget);
+            $(target).focus();
+        }
+    },
+    "click .cardEdit__attackSoundId": function(e) {
+        let target = $(e.currentTarget);
+        if(!target.hasClass('tt-input')) {
+            Meteor.typeahead.inject(e.currentTarget);
             $(target).focus();
         }
     },
@@ -77,6 +131,11 @@ Template.cardEdit.events({
         e.preventDefault();
         var element = $(e.target).closest('.cardEdit').find('.cardEdit__abilities')[0];
         toogleAbilities(element, this.abilities);
+    },
+
+    "click .cardEdit__toogleSounds": function(e) {
+        e.preventDefault();
+        var element = $(e.target).closest('.cardEdit').find('.cardEdit__sounds').toggle();
     },
 
     'click .cardEdit__saveAbilities': function(e) {
@@ -119,6 +178,19 @@ Template.cardEdit.events({
     "submit .cardEdit": function(event) {
         event.preventDefault();
 
+        let sounds = {};
+
+        let soundsElement = $(event.currentTarget).find('.cardEdit__sound');
+        soundsElement.each(function() {
+            let soundName = $(this).find('[name="soundName"]').val();
+            let fileName = $(this).find('.cardEdit__attackSoundId').eq(1).val();
+            let soundId = $(this).find('[name="soundId"]').val();
+
+            sounds[soundName] = {
+                soundName, fileName, soundId
+            };
+        });
+
         let card = lodash.assign(this, {
             name: event.target.name.value,
             maxHp: Number(event.target.maxHp.value),
@@ -132,7 +204,8 @@ Template.cardEdit.events({
             tags: _.uniq(event.target.tags.value.split(',')),
             draft: Boolean(event.target.draft.checked),
             summoned: Boolean(event.target.summoned.checked),
-            imageId: event.target.imageId.value
+            imageId: event.target.imageId.value,
+            sounds: sounds
         });
 
         // for old cards

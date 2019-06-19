@@ -50,7 +50,7 @@
     padding: 1px;
 }
 
-.cardEdit__imageId {
+.cardEdit__imageId, .cardEdit__attackSoundId {
     width: 95%;
     padding: 1px;
 }
@@ -130,13 +130,29 @@
     height: 200%;
 }
 
+.cardEdit__sounds {
+    display: none;
+}
+
+.cardEdit__soundName {
+    width: 90px;
+}
+
+.cardEdit__attackSoundId {
+    width: 60px;
+}
+
+.twitter-typeahead {
+    display: inline !important;
+}
+
 @media only screen and (max-width: 1000px)  {
     .cardEdit {
         display: block;
         width: auto;
     }
 
-    .cardEdit__imageId, .cardEdit__text {
+    .cardEdit__imageId, .cardEdit__attackSoundId, .cardEdit__text {
         width: 100%;
     }
 

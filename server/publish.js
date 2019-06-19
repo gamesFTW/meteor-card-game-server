@@ -3,8 +3,15 @@ Meteor.publish('CardsNames', function() { return MeteorApp.Cards.find({}, {field
 Meteor.publish('Decks', function() { return MeteorApp.Decks.find() });
 Meteor.publish('Games', function() { return MeteorApp.Games.find() });
 Meteor.publish('Images', function() { return MeteorApp.Images.find() });
+Meteor.publish('Sounds', function() { return MeteorApp.Sounds.find() });
 
 MeteorApp.Images.allow({
+  'insert': function () {
+    return true;
+  }
+});
+
+MeteorApp.Sounds.allow({
   'insert': function () {
     return true;
   }
