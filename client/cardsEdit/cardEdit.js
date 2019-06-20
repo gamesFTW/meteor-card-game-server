@@ -29,7 +29,7 @@ Template.cardEdit.helpers({
     },
 
     soundSelected: function (e, suggestion) {
-        $(e.target).closest('.cardEdit').find('input[name="soundId"]').val(suggestion.id);
+        $(e.target).closest('.cardEdit__sound').find('input[name="soundId"]').val(suggestion.id);
 
         $(e.target).closest('.cardEdit').submit();
     },
