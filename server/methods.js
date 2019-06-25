@@ -16,7 +16,9 @@ function getCardsByIds(cardsIds) {
 
                     const s =  MeteorApp.Sounds.findOne(sound.soundId);
 
-                    sound.url = s.url();
+                    if (s) {
+                        sound.url = s.url();
+                    }
                 }
             }
 
