@@ -116,6 +116,25 @@ MeteorApp.schemeAbilities =  {
     "ricochet": {
       "type": "boolean",
       "format": "checkbox"
+    },
+    "block": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "number"
+        },
+        "blockingDamage": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "range",
+        "blockingDamage"
+      ]
     }
   },
   "additionalProperties": false
