@@ -12,6 +12,9 @@ MeteorApp.schemeAbilities =  {
       "properties": {
         "range": {
           "type": "number"
+        },
+        "minRange": {
+          "type": "number"
         }
       },
       "required": [
