@@ -138,6 +138,21 @@ MeteorApp.schemeAbilities =  {
         "range",
         "blockingDamage"
       ]
+    },
+    "mana": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "mana": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "mana"
+      ]
     }
   },
   "additionalProperties": false
