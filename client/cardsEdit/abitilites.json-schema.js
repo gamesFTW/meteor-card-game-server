@@ -168,6 +168,10 @@ MeteorApp.schemeAbilities =  {
       "required": [
         "regeneration"
       ]
+    },
+    "bash": {
+      "type": "boolean",
+      "format": "checkbox"
     }
   },
   "additionalProperties": false
