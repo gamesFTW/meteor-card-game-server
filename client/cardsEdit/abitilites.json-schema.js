@@ -153,6 +153,21 @@ MeteorApp.schemeAbilities =  {
       "required": [
         "mana"
       ]
+    },
+    "regeneration": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "regeneration": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "regeneration"
+      ]
     }
   },
   "additionalProperties": false
