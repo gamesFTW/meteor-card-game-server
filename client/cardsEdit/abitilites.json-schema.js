@@ -172,6 +172,10 @@ MeteorApp.schemeAbilities =  {
     "bash": {
       "type": "boolean",
       "format": "checkbox"
+    },
+    "evasion": {
+      "type": "boolean",
+      "format": "checkbox"
     }
   },
   "additionalProperties": false
