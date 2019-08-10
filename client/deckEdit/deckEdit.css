@@ -84,6 +84,14 @@
     font-weight: bold;
 }
 
+.cardView__abilities {
+    height: 140px;
+}
+
+.cardView__abilities ul {
+    padding-left: 20px;
+}
+
 .cardView__text {
     margin: 6px 0;
     height: 140px;

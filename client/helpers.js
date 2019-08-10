@@ -10,3 +10,9 @@ function renameTag(oldName, newName) {
         console.log(card.tags);
     });
 }
+
+Template.registerHelper('arrayify',function(obj){
+    var result = [];
+    for (var key in obj) result.push({name:key,value:obj[key]});
+    return result;
+});

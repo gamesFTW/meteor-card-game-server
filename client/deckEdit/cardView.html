@@ -10,7 +10,17 @@
                 (Большая)
             {{/if}}
         </div>
-        <div class="cardView__text">{{text}}</div>
+        <br>
+        <div class="cardView__abilities">
+            <ul>
+                {{#each arrayify abilities}}
+                    <li>
+                        {{name}}
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+
         <div>
             <span class="cardView__manaCost">{{manaCost}}</span>
             <span class="cardView__damage">{{damage}}</span>

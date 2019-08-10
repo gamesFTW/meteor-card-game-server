@@ -19,6 +19,15 @@
             <input type="hidden" name="imageId" value="{{imageId}}">
         </div>
 
+        <div class="cardEdit__abilities-list">
+            <ul>
+                {{#each arrayify abilities}}
+                    <li>
+                        {{name}}
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
         <textarea class="cardEdit__text cardEdit__blurSave" name="text" >{{text}}</textarea>
 
         <div class="cardEdit__tags">

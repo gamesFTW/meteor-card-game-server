@@ -87,12 +87,23 @@
     text-align: center;
 }
 
+.cardEdit__abilities-list {
+    height: 5em;
+    text-align: left;
+    overflow: auto;
+}
+
+.cardEdit__abilities-list ul {
+    margin: 0;
+}
+
 .cardEdit__text {
-    height: 10em;
+    height: 5em;
     width: 95%;
     resize: none;
     font-family: Arial;
 }
+
 /* TAGS */
 .cardEdit__tags {
     height: 24px;
