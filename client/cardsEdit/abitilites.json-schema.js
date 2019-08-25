@@ -176,6 +176,21 @@ MeteorApp.schemeAbilities =  {
     "evasion": {
       "type": "boolean",
       "format": "checkbox"
+    },
+    "poison": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "poisonDamage": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "poisonDamage"
+      ]
     }
   },
   "additionalProperties": false
