@@ -191,6 +191,21 @@ MeteorApp.schemeAbilities =  {
       "required": [
         "poisonDamage"
       ]
+    },
+    "damageCurse": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "damageReduction": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "damageReduction"
+      ]
     }
   },
   "additionalProperties": false
