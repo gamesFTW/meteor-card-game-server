@@ -8,20 +8,22 @@ function getCardsByIds(cardsIds) {
                 card.image = img.url();
             }
 
-            if (card.soundPackId === null) {
-                card.sounds = {};
-            } else {
+            card.sounds = {};
+            if (card.soundPackId) {
                 const soundPack = MeteorApp.SoundPacks.findOne(card.soundPackId)
 
                 if (soundPack) {
+                    // console.log('sound pack', soundPack)
                     for (let key in soundPack.sounds) {
                         let soundId = card.sounds[key];
+                        // console.log('sound ', key, soundId)
 
                         if (soundId) {
-                            const s =  MeteorApp.Sounds.findOne(soundId);
+                            const s = MeteorApp.Sounds.findOne(soundId);
+                            // console.log('s', s, s)
 
                             if (s) {
-                                sound.url = s.url();
+                                card.sounds[key] = {url: s.url()};
                             }
                         }
                     }
