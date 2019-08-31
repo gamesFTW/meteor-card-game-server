@@ -1,20 +1,67 @@
 <template name="soundsEdit">
     <div class="soundsEdit">
-        <h1>Заливка звуков для карт </h1>
 
-        <div>
-            <input title="Звук (ogg only)" multiple class="sound-upload" type="file"/>
-        </div>
+        <h1>Sounds upload</h1>
+        <input title="Звук (wav only!)" multiple class="sound-upload" type="file"/>
 
         <br>
+        <button>Show list (does not work)</button>
 
-        {{#each sounds}}
-            <div title="{{original.name}}" class="soundsEdit__sound-container">
-                <div class="soundsEdit__name">
-                    {{original.name}}
-                    <button class="delete-sound">Delete</button>
+        <ul class="sounds_list">
+
+            {{#each sounds}}
+                <li title="{{original.name}}" class="soundsEdit__sound-container">
+                    <div class="soundsEdit__name">
+                        {{original.name}}
+                        <audio controls>
+                            <source src="{{url store='Sounds'}}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <button class="delete-sound">Delete</button>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+
+        <h1>Sound packs managment</h1>
+        <input type="text" placholder="sound pack name" value="" class="soundpack_name-input" />
+        <button class="soundpack_btn__add">Add</button>
+        
+
+        <div class="soundpack_list">
+            {{#each soundPacks}}
+                <div title="" class="soundsEdit__sound-container">
+                    <h2>{{name}}</h2> <button class="soundpack-btn__remove">Remove</button>
+                    
+                    <form class="soundpack_form">
+                        <input name="packId" type="hidden" value="{{_id}}"/>
+                        <ul class="soundpack_sound-list">
+                        {{#each arrayify this.sounds}}
+                                <li class="soundpack_sound">
+                                    {{name}}:
+                                    <input name="soundName" type="hidden" value="{{name}}"/>
+                                    <input name="soundId" type="hidden" value="{{value}}"/>
+
+                                    
+                                    <input class="typeahead soundpack_input__sound" type="text"
+                                        placeholder="" value="{{getSoundNameById value}}"
+                                        autocomplete="off" spellcheck="off"
+                                        data-min-length="0" data-limit="10"
+                                        data-source="soundsList" data-select="soundSelected"/>
+
+                                    {{#if getSoundNameById value}}
+                                        <audio controls>
+                                            <source src="{{getSoundUlrById value store='Sounds'}}" type="audio/wav">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    {{/if}}
+                                </li>
+                        {{/each}} 
+                        </ul>
+                    </form>
                 </div>
-            </div>
-        {{/each}}
+            {{/each}} 
+        </div>
+
     </div>
 </template>

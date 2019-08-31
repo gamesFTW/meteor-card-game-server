@@ -50,7 +50,7 @@
     padding: 1px;
 }
 
-.cardEdit__imageId, .cardEdit__attackSoundId {
+.cardEdit__imageId, .cardEdit__soundPack {
     width: 95%;
     padding: 1px;
 }
@@ -141,7 +141,7 @@
     height: 200%;
 }
 
-.cardEdit__sounds {
+.cardEdit__sounds-pack {
     display: none;
 }
 
@@ -149,7 +149,7 @@
     width: 90px;
 }
 
-.cardEdit__attackSoundId {
+.cardEdit__soundPack {
     width: 60px;
 }
 
@@ -163,7 +163,7 @@
         width: auto;
     }
 
-    .cardEdit__imageId, .cardEdit__attackSoundId, .cardEdit__text {
+    .cardEdit__imageId, .cardEdit__soundPack, .cardEdit__text {
         width: 100%;
     }
 

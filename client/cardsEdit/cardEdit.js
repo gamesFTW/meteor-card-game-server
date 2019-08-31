@@ -5,10 +5,6 @@ Template.cardEdit.helpers({
         return MeteorApp.Images.findOne(this.imageId);
     },
 
-    sound: function () {
-        return MeteorApp.Sounds.findOne(this.soundId);
-    },
-
     imageName: function () {
         let image = MeteorApp.Images.findOne(this.imageId);
         return image ? image.original.name : '';
@@ -18,8 +14,8 @@ Template.cardEdit.helpers({
         return MeteorApp.Images.find().map(i => ({id: i._id, value: i.original.name}));
     },
 
-    sounds: function () {
-        return MeteorApp.Sounds.find().map(i => ({id: i._id, value: i.original.name}));
+    soundPacks: function () {
+        return MeteorApp.SoundPacks.find().map(i => ({id: i._id, value: i.name}));
     },
     
     imageSelected: function (e, suggestion) {
@@ -28,10 +24,21 @@ Template.cardEdit.helpers({
         $(e.target).closest('.cardEdit').submit();
     },
 
-    soundSelected: function (e, suggestion) {
-        $(e.target).closest('.cardEdit__sound').find('input[name="soundId"]').val(suggestion.id);
+    soundPackSelected: function (e, suggestion) {
+        $(e.target).closest('.cardEdit').find('input[name="soundPackId"]').val(suggestion.id);
 
         $(e.target).closest('.cardEdit').submit();
+    },
+
+    getSoundPackNameById: function (id) {
+        if (id) {
+            const soundPack = MeteorApp.SoundPacks.findOne(id);
+            if (soundPack) {
+                return soundPack.name;
+            }
+            return '';
+        }
+        return '';
     },
     
     itMustHaveImage: function () {
@@ -62,43 +69,10 @@ Template.cardEdit.helpers({
         $(e.target).closest('.cardEdit').find('[name="add-tag"]').typeahead('val', '');
         addTagToCard($(e.target).closest('.cardEdit'), suggestion.value);
     },
-
-    cardSounds: function() {
-        let soundsList = [];
-        for (let sound in this.sounds) {
-            soundsList.push(this.sounds[sound]);
-        }
-        return soundsList;
-    }
 });
 
 
 Template.cardEdit.events({
-    "click .cardEdit__addSound": function(e) {
-        e.preventDefault();
-
-        let sounds = this.sounds ? this.sounds : {};
-        sounds.new = {soundName: 'new'};
-
-        this.sounds = sounds;
-
-        MeteorApp.Cards.update(this._id, this);
-    },
-    "click .cardEdit__saveSounds": function(e) {
-        e.preventDefault();
-
-        $(e.target).closest('.cardEdit').submit();
-        var element = $(e.target).closest('.cardEdit').find('.cardEdit__sounds').toggle();
-    },
-    "click .cardEdit__remove-sound": function(e) {
-        e.preventDefault();
-
-        let soundName = $(e.currentTarget).parent().find('[name="soundName"]').val();
-
-        delete this.sounds[soundName];
-
-        MeteorApp.Cards.update(this._id, this);
-    },
     "click .cardEdit__add-tag": function(e) {
         let target = $(e.currentTarget);
         if(!target.hasClass('tt-input')) {
@@ -113,7 +87,7 @@ Template.cardEdit.events({
             $(target).focus();
         }
     },
-    "click .cardEdit__attackSoundId": function(e) {
+    "click .cardEdit__soundPack": function(e) {
         let target = $(e.currentTarget);
         if(!target.hasClass('tt-input')) {
             Meteor.typeahead.inject(e.currentTarget);
@@ -135,7 +109,7 @@ Template.cardEdit.events({
 
     "click .cardEdit__toogleSounds": function(e) {
         e.preventDefault();
-        var element = $(e.target).closest('.cardEdit').find('.cardEdit__sounds').toggle();
+        $(e.target).closest('.cardEdit').find('.cardEdit__sounds-pack').toggle();
     },
 
     'click .cardEdit__saveAbilities': function(e) {
@@ -178,18 +152,7 @@ Template.cardEdit.events({
     "submit .cardEdit": function(event) {
         event.preventDefault();
 
-        let sounds = {};
-
-        let soundsElement = $(event.currentTarget).find('.cardEdit__sound');
-        soundsElement.each(function() {
-            let soundName = $(this).find('[name="soundName"]').val();
-            let fileName = $(this).find('.cardEdit__attackSoundId').eq(1).val();
-            let soundId = $(this).find('[name="soundId"]').val();
-
-            sounds[soundName] = {
-                soundName, fileName, soundId
-            };
-        });
+        let soundPackId = $(event.currentTarget).find('input[name="soundPackId"]').val();
 
         let card = lodash.assign(this, {
             name: event.target.name.value,
@@ -205,7 +168,7 @@ Template.cardEdit.events({
             draft: Boolean(event.target.draft.checked),
             summoned: Boolean(event.target.summoned.checked),
             imageId: event.target.imageId.value,
-            sounds: sounds
+            soundPackId,
         });
 
         // for old cards

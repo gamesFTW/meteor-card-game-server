@@ -3,15 +3,17 @@ function getCardsByIds(cardsIds) {
     const count = lodash.countBy(cardsIds);
 
     return cards.reduce((allCards, card) => {
-            const img =  MeteorApp.Images.findOne(card.imageId)
+            const img = MeteorApp.Images.findOne(card.imageId)
             if (img) {
                 card.image = img.url();
             }
 
-            if (card.sounds === null) {
+            if (card.soundPackId === null) {
                 card.sounds = {};
             } else {
-                for (let key in card.sounds) {
+                const soundPack = MeteorApp.SoundPacks.findOne(card.soundPackId)
+
+                for (let key in soundPack.sounds) {
                     let sound = card.sounds[key];
 
                     const s =  MeteorApp.Sounds.findOne(sound.soundId);

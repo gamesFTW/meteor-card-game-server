@@ -63,24 +63,13 @@
         </div>
 
 
-        <div class="cardEdit__sounds">
-            <br>
-            <button class="cardEdit__addSound">Add sound</button>
-            <button class="cardEdit__saveSounds">Save sounds</button>
-            <br>
-            <br>
-            {{#each cardSound in cardSounds}}
-                <div class="cardEdit__sound">
-                    <input class="cardEdit__soundName" name="soundName" value="{{cardSound.soundName}}">
-                    <input class="typeahead cardEdit__attackSoundId" type="text"
-                           placeholder="" value="{{cardSound.fileName}}"
-                           autocomplete="off" spellcheck="off"
-                           data-min-length="0" data-limit="10"
-                           data-source="sounds" data-select="soundSelected"/>
-                    <input type="hidden" name="soundId" value="{{cardSound.soundId}}">
-                    <button class="cardEdit__remove-sound">X</button>
-                </div>
-            {{/each}}
+        <div class="cardEdit__sounds-pack">
+            <input name="soundPackId" value="{{soundPackId}}" type='hidden'>
+            SoundPack: <input class="typeahead cardEdit__soundPack" type="text"
+                    placeholder="" value="{{getSoundPackNameById soundPackId}}"
+                    autocomplete="off" spellcheck="off"
+                    data-min-length="0" data-limit="10"
+                    data-source="soundPacks" data-select="soundPackSelected"/>
         </div>
 
         {{#if itMustHaveImage}}
