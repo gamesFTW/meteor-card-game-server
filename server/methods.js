@@ -13,14 +13,16 @@ function getCardsByIds(cardsIds) {
             } else {
                 const soundPack = MeteorApp.SoundPacks.findOne(card.soundPackId)
 
-                for (let key in soundPack.sounds) {
-                    let soundId = card.sounds[key];
+                if (soundPack) {
+                    for (let key in soundPack.sounds) {
+                        let soundId = card.sounds[key];
 
-                    if (soundId) {
-                        const s =  MeteorApp.Sounds.findOne(soundId);
+                        if (soundId) {
+                            const s =  MeteorApp.Sounds.findOne(soundId);
 
-                        if (s) {
-                            sound.url = s.url();
+                            if (s) {
+                                sound.url = s.url();
+                            }
                         }
                     }
                 }
