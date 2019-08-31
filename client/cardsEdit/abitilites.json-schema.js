@@ -206,6 +206,26 @@ MeteorApp.schemeAbilities =  {
       "required": [
         "damageReduction"
       ]
+    },
+    "aoe": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "number"
+        },
+        "diagonal": {
+          "type": "boolean",
+          "format": "checkbox"
+        }
+      },
+      "required": [
+        "range",
+        "diagonal"
+      ]
     }
   },
   "additionalProperties": false
