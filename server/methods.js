@@ -23,7 +23,7 @@ function getCardsByIds(cardsIds) {
                             console.log('s', s, s)
 
                             if (s) {
-                                card.sounds[key] = {url: s.url()};
+                                card.sounds[key] = {url: s.url(), soundName: key};
                             }
                         }
                     }
