@@ -226,6 +226,25 @@ MeteorApp.schemeAbilities =  {
         "range",
         "diagonal"
       ]
+    },
+    "hpAura": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "number"
+        },
+        "hpBuff": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "range",
+        "hpBuff"
+      ]
     }
   },
   "additionalProperties": false
