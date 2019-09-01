@@ -13,14 +13,11 @@ function getCardsByIds(cardsIds) {
                 const soundPack = MeteorApp.SoundPacks.findOne(card.soundPackId)
 
                 if (soundPack) {
-                    console.log('sound pack', soundPack)
                     for (let key in soundPack.sounds) {
                         let soundId = soundPack.sounds[key];
-                        console.log('sound ', key, soundId)
 
                         if (soundId) {
                             const s = MeteorApp.Sounds.findOne(soundId);
-                            console.log('s', s, s)
 
                             if (s) {
                                 card.sounds[key] = {url: s.url(), soundName: key};
