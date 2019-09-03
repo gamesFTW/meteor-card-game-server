@@ -10,3 +10,16 @@
 .soundsEdit__name {
     font-size: 10px;
 }
+
+.soundpack__audio, .sound__audio {
+    height: 10px;
+}
+
+.soundpack__type {
+    display: inline-block;
+    width: 50px;
+}
+
+.soundpack__input_sound {
+    width: 250px
+}

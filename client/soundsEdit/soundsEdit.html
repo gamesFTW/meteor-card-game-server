@@ -13,7 +13,7 @@
                 <li title="{{original.name}}" class="soundsEdit__sound-container">
                     <div class="soundsEdit__name">
                         {{original.name}}
-                        <audio controls>
+                        <audio controls class="sound__audio">
                             <source src="{{url store='Sounds'}}" type="audio/wav">
                             Your browser does not support the audio element.
                         </audio>
@@ -24,33 +24,33 @@
         </ul>
 
         <h1>Sound packs managment</h1>
-        <input type="text" placholder="sound pack name" value="" class="soundpack_name-input" />
-        <button class="soundpack_btn__add">Add</button>
+        <input type="text" placholder="sound pack name" value="" class="soundpack__name-input" />
+        <button class="soundpack__btn_add">Add</button>
         
 
-        <div class="soundpack_list">
+        <div class="soundpack__list">
             {{#each soundPacks}}
                 <div title="" class="soundsEdit__sound-container">
-                    <h2>{{name}}</h2> <button class="soundpack-btn__remove">Remove</button>
+                    <h2>{{name}}</h2> <button class="soundpack__btn_remove">Remove</button>
                     
-                    <form class="soundpack_form">
+                    <form class="soundpack__form">
                         <input name="packId" type="hidden" value="{{_id}}"/>
-                        <ul class="soundpack_sound-list">
+                        <ul class="soundpack__sound-list">
                         {{#each arrayify this.sounds}}
-                                <li class="soundpack_sound">
-                                    {{name}}:
+                                <li class="soundpack__sound">
+                                    <div class="soundpack__type">{{name}}:</div>
                                     <input name="soundName" type="hidden" value="{{name}}"/>
                                     <input name="soundId" type="hidden" value="{{value}}"/>
 
                                     
-                                    <input class="typeahead soundpack_input__sound" type="text"
+                                    <input class="typeahead soundpack__input_sound" type="text"
                                         placeholder="" value="{{getSoundNameById value}}"
                                         autocomplete="off" spellcheck="off"
                                         data-min-length="0" data-limit="10"
                                         data-source="soundsList" data-select="soundSelected"/>
 
                                     {{#if getSoundNameById value}}
-                                        <audio controls>
+                                        <audio controls class="soundpack__audio">
                                             <source src="{{getSoundUlrById value store='Sounds'}}" type="audio/wav">
                                             Your browser does not support the audio element.
                                         </audio>
@@ -60,6 +60,7 @@
                         </ul>
                     </form>
                 </div>
+                <hr>
             {{/each}} 
         </div>
 

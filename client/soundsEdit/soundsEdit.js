@@ -41,8 +41,8 @@ Template.soundsEdit.helpers({
     },
 
     soundSelected: function (e, suggestion) {
-        $(e.target).closest('.soundpack_sound').find('input[name="soundId"]').val(suggestion.id);
-        $(e.target).closest('.soundpack_form').submit();
+        $(e.target).closest('.soundpack__sound').find('input[name="soundId"]').val(suggestion.id);
+        $(e.target).closest('.soundpack__form').submit();
     }
 });
 
@@ -59,9 +59,8 @@ Template.soundsEdit.events({
             }.bind(this));
         }.bind(this));
     },
-    
-    'click .soundpack_btn__add': function (e) {
-        const name = $('.soundpack_name-input').val();
+    'click .soundpack__btn_add': function (e) {
+        const name = $('.soundpack__name-input').val();
         if (!name) {
             alert('Insert name');
             return;
@@ -73,24 +72,22 @@ Template.soundsEdit.events({
         });
         
     },
-    "click .soundpack_input__sound": function(e) {
+    "click .soundpack__input_sound": function(e) {
         let target = $(e.currentTarget);
         if(!target.hasClass('tt-input')) {
             Meteor.typeahead.inject(e.currentTarget);
             $(target).focus();
         }
     },
-    'click .soundpack-btn__remove': function (e) {
+    'click .soundpack__btn_remove': function (e) {
         if (confirm("Точно точно удалить?")) {
             MeteorApp.SoundPacks.remove(this._id);
         }
     },
 
-    
-
-    'submit .soundpack_form': function(e) {
+    'submit .soundpack__form': function(e) {
         e.preventDefault();
-        let soundsElement = $(e.currentTarget).find('.soundpack_sound');
+        let soundsElement = $(e.currentTarget).find('.soundpack__sound');
         const sounds = this.sounds;
         soundsElement.each(function() {
             let soundName = $(this).find('[name="soundName"]').val();
