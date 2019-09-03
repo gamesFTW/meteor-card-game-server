@@ -43,6 +43,13 @@ Template.soundsEdit.helpers({
     soundSelected: function (e, suggestion) {
         $(e.target).closest('.soundpack__sound').find('input[name="soundId"]').val(suggestion.id);
         $(e.target).closest('.soundpack__form').submit();
+
+        setTimeout(() => {
+            const player = $(e.target).closest('.soundpack__sound').find('audio')[0];
+            player.pause();
+            player.load();
+        }, 200);
+        
     }
 });
 
