@@ -245,6 +245,21 @@ MeteorApp.schemeAbilities =  {
         "range",
         "hpBuff"
       ]
+    },
+    "aiming": {
+      "type": "object",
+      "options": {
+        "collapsed": true
+      },
+      "additionalProperties": false,
+      "properties": {
+        "numberOfAimingForAttack": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "numberOfAimingForAttack"
+      ]
     }
   },
   "additionalProperties": false
