@@ -107,11 +107,6 @@ Template.cardEdit.events({
         toogleAbilities(element, this.abilities);
     },
 
-    "click .cardEdit__toogleSounds": function(e) {
-        e.preventDefault();
-        $(e.target).closest('.cardEdit').find('.cardEdit__sounds-pack').toggle();
-    },
-
     'click .cardEdit__saveAbilities': function(e) {
         e.preventDefault();
         if (window.editor) {
