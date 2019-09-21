@@ -255,10 +255,14 @@ MeteorApp.schemeAbilities =  {
       "properties": {
         "numberOfAimingForAttack": {
           "type": "number"
+        },
+        "damage": {
+          "type": "number"
         }
       },
       "required": [
-        "numberOfAimingForAttack"
+        "numberOfAimingForAttack",
+        "damage"
       ]
     }
   },
