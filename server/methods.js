@@ -48,8 +48,8 @@ Meteor.methods({
 
         try {
             const data = {
-                playerA: {deck: getCardsByIds(deck1.cards), heroes: getCardsByIds(deck1.handCards)},
-                playerB: {deck: getCardsByIds(deck2.cards), heroes: getCardsByIds(deck2.handCards)},
+                playerA: {deck: getCardsByIds(deck1.cards), heroes: getCardsByIds(deck1.handCards), ai: isAIDeck(deck1)},
+                playerB: {deck: getCardsByIds(deck2.cards), heroes: getCardsByIds(deck2.handCards), ai: isAIDeck(deck2)},
             };
             gameServerId = HTTP.call('POST', CONFIG['gameServerCreateGameURL'], {
                 data
