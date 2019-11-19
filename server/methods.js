@@ -1,3 +1,8 @@
+function isAIDeck(deck) {
+    return deck.name.startsWith("AI");
+}
+
+
 function getCardsByIds(cardsIds) {
     const cards = MeteorApp.Cards.find({ _id : { $in : cardsIds }}).fetch();
     const count = lodash.countBy(cardsIds);
