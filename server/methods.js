@@ -48,13 +48,28 @@ function getCardsByIds(cardsIds) {
 Meteor.methods({
     createGame: function(deckId1, deckId2) {
         let gameServerId;
-        const deck1 = MeteorApp.Decks.findOne(deckId1);
-        const deck2 = MeteorApp.Decks.findOne(deckId2);
+        let deck1, deck2;
+        // random shuffle players
+        if (Math.random() >= 0.5) {
+            deck1 = MeteorApp.Decks.findOne(deckId1);
+            deck2 = MeteorApp.Decks.findOne(deckId2);
+        } else {
+            deck2 = MeteorApp.Decks.findOne(deckId1);
+            deck1 = MeteorApp.Decks.findOne(deckId2);
+        }
 
         try {
             const data = {
-                playerA: {deck: getCardsByIds(deck1.cards), heroes: getCardsByIds(deck1.handCards), ai: isAIDeck(deck1)},
-                playerB: {deck: getCardsByIds(deck2.cards), heroes: getCardsByIds(deck2.handCards), ai: isAIDeck(deck2)},
+                playerA: {
+                    deck: getCardsByIds(deck1.cards), 
+                    heroes: getCardsByIds(deck1.handCards), 
+                    ai: isAIDeck(deck1)
+                },
+                playerB: {
+                    deck: getCardsByIds(deck2.cards),
+                    heroes: getCardsByIds(deck2.handCards),
+                    ai: isAIDeck(deck2)
+                },
             };
             gameServerId = HTTP.call('POST', CONFIG['gameServerCreateGameURL'], {
                 data
