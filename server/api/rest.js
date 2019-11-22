@@ -56,6 +56,18 @@ SimpleRest.setMethodOptions('createGame', {
   }
 });
 
+SimpleRest.setMethodOptions('createSinglePlayerGame', {
+  getArgsFromRequest: function (request) {
+    var content = request.body;
+
+    if (!content.deckId1) {
+      throw new Error('deckId1 not set');
+    }
+
+    return [content.deckId1];
+  }
+});
+
 SimpleRest.setMethodOptions('removeGameById', {
   getArgsFromRequest: function (request) {
     var content = request.body;

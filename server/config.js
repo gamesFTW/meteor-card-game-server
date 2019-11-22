@@ -5,6 +5,7 @@ SimpleRest.configure({
 
 CONFIG = {
   gameServerURL: 'http://localhost:3000/',
-}
+};
 
 CONFIG['gameServerCreateGameURL'] = CONFIG['gameServerURL'] + 'createGame';
+CONFIG['gameServerGetGameURL'] = CONFIG['gameServerURL'] + 'getGame';
