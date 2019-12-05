@@ -41,6 +41,16 @@ Meteor.method("getGames", function () {
   httpMethod: "get",
 });
 
+Meteor.method("getPlayerDecks", function () {
+  const decks = MeteorApp.Decks.find({}).fetch()
+    .filter((d) => !d.name.startsWith("AI"));
+
+  return {Decks: decks};
+}, {
+  url: "methods/getPlayerDecks",
+  httpMethod: "get",
+});
+
 SimpleRest.setMethodOptions('createGame', {
   getArgsFromRequest: function (request) {
     var content = request.body;
