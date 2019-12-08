@@ -90,3 +90,8 @@ SimpleRest.setMethodOptions('removeGameById', {
   }
 });
 
+SimpleRest.setMethodOptions('findMultyplayerGame', {
+  getArgsFromRequest: function (request) {
+    return [request.body.deckId];
+  }
+});

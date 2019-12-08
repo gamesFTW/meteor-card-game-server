@@ -5,6 +5,7 @@ Meteor.publish('Games', function() { return MeteorApp.Games.find() });
 Meteor.publish('Images', function() { return MeteorApp.Images.find() });
 Meteor.publish('Sounds', function() { return MeteorApp.Sounds.find() });
 Meteor.publish('SoundPacks', function() { return MeteorApp.SoundPacks.find() });
+Meteor.publish('QueueOfPlayers', function() { return MeteorApp.QueueOfPlayers.find() });
 
 MeteorApp.Images.allow({
   'insert': function () {

@@ -47,14 +47,14 @@ function getCardsByIds(cardsIds) {
 
 function createGame(deckId1, deckId2) {
     let gameServerId;
-    let deck1, deck2;
-    // random shuffle players
-    if (Math.random() >= 0.5) {
-        deck1 = MeteorApp.Decks.findOne(deckId1);
-        deck2 = MeteorApp.Decks.findOne(deckId2);
-    } else {
+    let deck1, deck2, isItVicaVersa;
+    isItVicaVersa = Math.random() >= 0.5;
+    if (isItVicaVersa) {
         deck2 = MeteorApp.Decks.findOne(deckId1);
         deck1 = MeteorApp.Decks.findOne(deckId2);
+    } else {
+        deck1 = MeteorApp.Decks.findOne(deckId1);
+        deck2 = MeteorApp.Decks.findOne(deckId2);
     }
 
     try {
@@ -70,18 +70,28 @@ function createGame(deckId1, deckId2) {
                 ai: isAIDeck(deck2)
             },
         };
+
         gameServerId = HTTP.call('POST', CONFIG['gameServerCreateGameURL'], {
             data
         }).data.gameId;
+
     } catch(e) {
-        Meteor.call('removeGameById', ourId);
+        Meteor.call('removeGameById', gameServerId);
         throw e;
     }
 
-    const ourId = MeteorApp.createLobbyGame(deck1._id, deck2._id, gameServerId);
+    const gameLobbyId = MeteorApp.createLobbyGame(deck1._id, deck2._id, gameServerId);
+    const game = HTTP.call(
+        'GET', CONFIG['gameServerGetGameURL'] + '?gameId=' + gameServerId
+    ).data.game;
 
-    return ourId;
+    return {
+        gameId: gameServerId,
+        playerOfDeckId1: isItVicaVersa ? game.player2Id : game.player1Id,
+        playerOfDeckId2: isItVicaVersa ? game.player1Id : game.player2Id
+    };
 }
+      
 
 function createSinglePlayerGame (deckId1) {
     var aiDecks = MeteorApp.Decks.find({"name": /AI.*/}).fetch();
@@ -91,7 +101,8 @@ function createSinglePlayerGame (deckId1) {
     }
 
     var deckId2 = aiDecks[0]._id;
-    var lobbyGameId = createGame(deckId1, deckId2);
+    var {id: lobbyGameId}= createGame(deckId1, deckId2);
+
     var lobbyGame = MeteorApp.Games.findOne({"_id": lobbyGameId});
 
     var gameData = HTTP.call('get', CONFIG['gameServerGetGameURL'], {
@@ -122,6 +133,7 @@ Meteor.methods({
     createSinglePlayerGame: createSinglePlayerGame,
 
     createGame: createGame,
+    
 
     removeGameById: function(gameId) {
         MeteorApp.Games.remove(gameId);
@@ -144,4 +156,72 @@ Meteor.methods({
             }
         );
     },
+
+    // public bool gameFound;
+    // public string gameId;
+    // public string playerId;
+    // public string opponentId;
+
+
+    findMultyplayerGame: function(myDeckId) {
+        let cursor = MeteorApp.QueueOfPlayers.find({gameId: null});
+        const players = cursor.fetch();
+
+        if (players.length > 0) {
+            // Нашли другого игрока, играем с ним
+            const p = players[0];
+            const game = Meteor.call("createGame", myDeckId, p.deckId);
+            
+
+            MeteorApp.QueueOfPlayers.update(p._id, 
+                {$set: {
+                    gameId: game.gameId,
+                    playerId: game.playerOfDeckId2,
+                    opponentId: game.playerOfDeckId1,
+                }}
+            );
+
+            return {
+                gameId: game.gameId,
+                playerId: game.playerOfDeckId1,
+                opponentId: game.playerOfDeckId2,
+                gameFound: true
+            };
+        }
+        
+        const currentPlayerInQueueId = MeteorApp.QueueOfPlayers.insert({
+            gameId: null, deckId: myDeckId,
+        });
+
+        cursor = MeteorApp.QueueOfPlayers.find({ _id: currentPlayerInQueueId });
+
+        // After five seconds, stop keeping the count.
+        const waitForPlayer = Meteor.wrapAsync(function (time, res) {
+            const timer = Meteor.setTimeout(() => {
+                handle.stop();
+                // не дождолись, милый не пришел
+                res(null, {gameFound: false});
+            }, time);
+
+            const handle = cursor.observeChanges({
+                changed(id, {gameId, playerId, opponentId}) {
+                    // другой игрок нас нашел
+                    Meteor.clearTimeout(timer);
+                    res(null, {
+                        gameId,
+                        playerId,
+                        opponentId,
+                        gameFound: true
+                    });
+                }
+            });
+            
+        });
+
+
+        var resultOfWaiting = waitForPlayer(10000);
+        MeteorApp.QueueOfPlayers.remove(currentPlayerInQueueId);
+        return resultOfWaiting;
+    }
+    
 });
