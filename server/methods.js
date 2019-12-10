@@ -87,6 +87,7 @@ function createGame(deckId1, deckId2) {
 
     return {
         gameId: gameServerId,
+        lobbyGameId: gameLobbyId,
         playerOfDeckId1: isItVicaVersa ? game.player2Id : game.player1Id,
         playerOfDeckId2: isItVicaVersa ? game.player1Id : game.player2Id
     };
@@ -101,9 +102,13 @@ function createSinglePlayerGame (deckId1) {
     }
 
     var deckId2 = aiDecks[0]._id;
-    var {id: lobbyGameId}= createGame(deckId1, deckId2);
+    var lobbyGameId = createGame(deckId1, deckId2).lobbyGameId;
+
+    console.log(lobbyGameId);
 
     var lobbyGame = MeteorApp.Games.findOne({"_id": lobbyGameId});
+
+    console.log(lobbyGame);
 
     var gameData = HTTP.call('get', CONFIG['gameServerGetGameURL'], {
         params: {gameId: lobbyGame.gameServerId}
