@@ -43,7 +43,7 @@ Meteor.method("getGames", function () {
 
 Meteor.method("getPlayerDecks", function () {
   const decks = MeteorApp.Decks.find({}).fetch()
-    .filter((d) => !d.name.startsWith("AI"));
+    .filter((d) => !d.name.startsWith("AI") && !d.name.startsWith("PlayerTutorial"));
 
   return {Decks: decks};
 }, {

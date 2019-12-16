@@ -45,13 +45,19 @@ function getCardsByIds(cardsIds) {
         }, []);
 }
 
-function createGame(deckId1, deckId2) {
+function createGame(deckId1, deckId2, random = true) {
     let gameServerId;
     let deck1, deck2, isItVicaVersa;
-    isItVicaVersa = Math.random() >= 0.5;
+
+    if (random) {
+        isItVicaVersa = Math.random() >= 0.5;
+    } else {
+        isItVicaVersa = false;
+    }
+
     if (isItVicaVersa) {
-        deck2 = MeteorApp.Decks.findOne(deckId1);
         deck1 = MeteorApp.Decks.findOne(deckId2);
+        deck2 = MeteorApp.Decks.findOne(deckId1);
     } else {
         deck1 = MeteorApp.Decks.findOne(deckId1);
         deck2 = MeteorApp.Decks.findOne(deckId2);
@@ -93,7 +99,6 @@ function createGame(deckId1, deckId2) {
     };
 }
       
-
 function createSinglePlayerGame (deckId1) {
     var aiDecks = MeteorApp.Decks.find({"name": /AI.*/}).fetch();
 
@@ -104,11 +109,7 @@ function createSinglePlayerGame (deckId1) {
     var deckId2 = aiDecks[0]._id;
     var lobbyGameId = createGame(deckId1, deckId2).lobbyGameId;
 
-    console.log(lobbyGameId);
-
     var lobbyGame = MeteorApp.Games.findOne({"_id": lobbyGameId});
-
-    console.log(lobbyGame);
 
     var gameData = HTTP.call('get', CONFIG['gameServerGetGameURL'], {
         params: {gameId: lobbyGame.gameServerId}
@@ -134,7 +135,29 @@ function createSinglePlayerGame (deckId1) {
     }
 }
 
+function createTutorialGame () {
+    var playerDeck = MeteorApp.Decks.findOne({"name": "PlayerTutorial"});
+    var aiDeck = MeteorApp.Decks.findOne({"name": "AITutorial"});
+
+    var lobbyGameId = createGame(playerDeck._id, aiDeck._id, false).lobbyGameId;
+
+    var lobbyGame = MeteorApp.Games.findOne({"_id": lobbyGameId});
+
+    var gameData = HTTP.call('get', CONFIG['gameServerGetGameURL'], {
+        params: {gameId: lobbyGame.gameServerId}
+    }).data;
+
+    return {
+        lobbyGameId: lobbyGameId,
+        gameServerId: gameData.game.id,
+        playerId: playerDeck._id,
+        aiId: aiDeck._id
+    }
+}
+
 Meteor.methods({
+    createTutorialGame: createTutorialGame,
+
     createSinglePlayerGame: createSinglePlayerGame,
 
     createGame: createGame,
