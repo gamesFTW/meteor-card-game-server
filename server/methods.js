@@ -150,8 +150,8 @@ function createTutorialGame () {
     return {
         lobbyGameId: lobbyGameId,
         gameServerId: gameData.game.id,
-        playerId: playerDeck._id,
-        aiId: aiDeck._id
+        playerId: gameData.player1.id,
+        aiId: gameData.player2.id
     }
 }
 
