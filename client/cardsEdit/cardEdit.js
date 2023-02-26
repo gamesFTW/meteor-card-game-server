@@ -2,7 +2,9 @@ Template.cardEdit.helpers({
     cardTypes: ['creature', 'area', 'spell'],
 
     image: function () {
-        return MeteorApp.Images.findOne(this.imageId);
+        const image = MeteorApp.Images2.findOne(this.imageId);
+        
+        return image ? image : MeteorApp.Images.findOne(this.imageId);
     },
 
     imageName: function () {
@@ -10,8 +12,17 @@ Template.cardEdit.helpers({
         return image ? image.original.name : '';
     },
 
+    image2Name: function () {
+        let image = MeteorApp.Images2.findOne(this.imageId);
+        return image ? image.name : '';
+    },
+
     images: function () {
         return MeteorApp.Images.find().map(i => ({id: i._id, value: i.original.name}));
+    },
+
+    images2: function () {
+        return MeteorApp.Images2.find().map(i => ({id: i._id, value: i.name}));
     },
 
     soundPacks: function () {
@@ -21,6 +32,14 @@ Template.cardEdit.helpers({
     imageSelected: function (e, suggestion) {
         $(e.target).closest('.cardEdit').find('input[name="imageId"]').val(suggestion.id);
         
+        console.log('imageSelected');
+        $(e.target).closest('.cardEdit').submit();
+    },
+    
+    image2Selected: function (e, suggestion) {
+        $(e.target).closest('.cardEdit').find('input[name="imageId2"]').val(suggestion.id);
+        
+        console.log('image2Selected');
         $(e.target).closest('.cardEdit').submit();
     },
 
@@ -87,6 +106,13 @@ Template.cardEdit.events({
             $(target).focus();
         }
     },
+    "click .cardEdit__image2Id": function(e) {
+        let target = $(e.currentTarget);
+        if(!target.hasClass('tt-input')) {
+            Meteor.typeahead.inject(e.currentTarget);
+            $(target).focus();
+        }
+    },
     "click .cardEdit__soundPack": function(e) {
         let target = $(e.currentTarget);
         if(!target.hasClass('tt-input')) {
@@ -145,6 +171,11 @@ Template.cardEdit.events({
     },
 
     "submit .cardEdit": function(event) {
+        console.log('===============');
+        console.log(event.target.imageId.value);
+        console.log(event.target.imageId2.value);
+
+
         event.preventDefault();
 
         let soundPackId = $(event.currentTarget).find('input[name="soundPackId"]').val();
@@ -162,7 +193,7 @@ Template.cardEdit.events({
             tags: _.uniq(event.target.tags.value.split(',')),
             draft: Boolean(event.target.draft.checked),
             summoned: Boolean(event.target.summoned.checked),
-            imageId: event.target.imageId.value,
+            imageId: event.target.imageId2.value ? event.target.imageId2.value : event.target.imageId.value,
             soundPackId,
         });
 

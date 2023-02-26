@@ -7,6 +7,9 @@ Meteor.publish('Sounds', function() { return MeteorApp.Sounds.find() });
 Meteor.publish('SoundPacks', function() { return MeteorApp.SoundPacks.find() });
 Meteor.publish('QueueOfPlayers', function() { return MeteorApp.QueueOfPlayers.find() });
 
+Meteor.publish('files.images.all', function () { return MeteorApp.Images2.find().cursor; });
+Meteor.publish('files.sounds.all', function () { return MeteorApp.Sounds2.find().cursor; });
+
 MeteorApp.Images.allow({
   'insert': function () {
     return true;

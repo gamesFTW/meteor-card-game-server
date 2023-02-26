@@ -10,13 +10,23 @@
         </div>
 
         <!--image select-->
-        <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
+        <!-- <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
             <input class="typeahead cardEdit__imageId" type="text"
                    placeholder="имя картинки" value="{{imageName}}"
                    autocomplete="off" spellcheck="off"
                    data-min-length="0" data-limit="10"
                    data-source="images" data-select="imageSelected"/>
             <input type="hidden" name="imageId" value="{{imageId}}">
+        </div> -->
+
+        <!--image2 select-->
+        <div class="{{#if not itMustHaveImage }}hidden{{/if}}">
+            <input class="typeahead cardEdit__image2Id" type="text"
+                   placeholder="имя картинки" value="{{image2Name}}"
+                   autocomplete="off" spellcheck="off"
+                   data-min-length="0" data-limit="10"
+                   data-source="images2" data-select="image2Selected"/>
+            <input type="hidden" name="imageId2" value="{{imageId}}">
         </div>
 
         <div class="cardEdit__abilities-list">
@@ -73,7 +83,13 @@
 
         {{#if itMustHaveImage}}
             <div class="cardEdit__image-container">
-                <img class="cardEdit__image" src="{{image.url store='Images'}}"/>
+                {{#if image.link}}
+                    <img class="cardEdit__image" src="{{image.link}}"/>
+                {{/if}}
+
+                {{#if image.url}}
+                    <img class="cardEdit__image" src="{{image.url store='Images'}}"/>
+                {{/if}}
             </div>
         {{/if}}
     </form>

@@ -10,8 +10,14 @@ Template.soundsEdit.helpers({
     sounds: function() {
         return MeteorApp.Sounds.find({}, { sort: { 'original.name': 1 } });
     },
+    sounds2: function() {
+        return MeteorApp.Sounds2.find({});
+    },
     soundsList: function () {
         return MeteorApp.Sounds.find().map(i => ({id: i._id, value: i.original.name}));
+    },
+    soundsList2: function () {
+        return MeteorApp.Sounds2.find().map(i => ({id: i._id, value: i.name}));
     },
     soundPacks: function() {
         return MeteorApp.SoundPacks.find({}, { sort: { name: 1 } });
@@ -19,7 +25,12 @@ Template.soundsEdit.helpers({
 
     getSoundNameById: function(id) {
         if (id) {
-            const sound = MeteorApp.Sounds.findOne(id);
+            let sound = MeteorApp.Sounds2.findOne(id);
+            if (sound) {
+                return sound.name;
+            }
+
+            sound = MeteorApp.Sounds.findOne(id);
             if (sound) {
                 return sound.original.name;
             }
@@ -30,9 +41,13 @@ Template.soundsEdit.helpers({
 
     getSoundUlrById: function(id) {
         if (id) {
-            const sound = MeteorApp.Sounds.findOne(id);
+            let sound = MeteorApp.Sounds2.findOne(id);
             if (sound) {
-                
+                return sound.link();
+            }
+            
+            sound = MeteorApp.Sounds.findOne(id);
+            if (sound) {
                 return sound.url();
             }
             return '';
@@ -49,22 +64,42 @@ Template.soundsEdit.helpers({
             player.pause();
             player.load();
         }, 200);
-        
+    },
+
+    sound2Selected: function (e, suggestion) {
+        $(e.target).closest('.soundpack__sound').find('input[name="soundId"]').val(suggestion.id);
+        $(e.target).closest('.soundpack__form').submit();
+
+        setTimeout(() => {
+            const player = $(e.target).closest('.soundpack__sound').find('audio')[0];
+            player.pause();
+            player.load();
+        }, 200);
     }
 });
 
 
 Template.soundsEdit.events({
-    "click .delete-sound": function (e) {
+    "click .delete-sound": function (event) {
         if (confirm("Точно точно удалить?")) {
-            MeteorApp.Sounds.remove(this._id);
+            MeteorApp.Sounds2.remove(event.currentTarget.getAttribute("imageID"));
         }
     },
+    // 'change .sound-upload': function (event, template) {
+    //     FS.Utility.eachFile(event, function (file) {
+    //         MeteorApp.Sounds.insert(file, function (err, fileObj) {
+    //         }.bind(this));
+    //     }.bind(this));
+    // },
     'change .sound-upload': function (event, template) {
-        FS.Utility.eachFile(event, function (file) {
-            MeteorApp.Sounds.insert(file, function (err, fileObj) {
-            }.bind(this));
-        }.bind(this));
+        for (let file of event.currentTarget.files) {
+            const upload = MeteorApp.Sounds2.insert({
+                    file: file,
+                    chunkSize: 'dynamic'
+                }, false
+            );
+            upload.start();
+        }
     },
     'click .soundpack__btn_add': function (e) {
         const name = $('.soundpack__name-input').val();
