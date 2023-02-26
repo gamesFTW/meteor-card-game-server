@@ -16,5 +16,3 @@ start-vscale.bat
 
 id_rsa
 build/
-
-node_modules/
